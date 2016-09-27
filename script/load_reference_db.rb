@@ -117,7 +117,7 @@ end
 #script it will overite the excel file with the same name
 # sample command- ruby extract_detail.rb inputfile excelname
 folderName = ARGV[0]
-folderName = ARGV[1]
+excelFileName = ARGV[1]
 puts folderName + " "+ excelFileName
 
 obj = Extract_detail.new
