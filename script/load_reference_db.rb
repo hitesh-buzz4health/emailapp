@@ -7,7 +7,7 @@ require File.expand_path("../../config/environment", __FILE__)
 class Extract_detail 
   require 'spreadsheet' 
   
-  def extract_from_data (fileName, excelName)
+  def extract_from_data (folderName, excelName)
     puts "Deleting all mongo records"
     #Reference.all.delete
     book = Spreadsheet::Workbook.new
@@ -17,18 +17,15 @@ class Extract_detail
     row = sheet1.row(rowIterator)
     row.replace ["Email","Phones","ReferenceSpecialization","ReferenceEmail","ReferenceName","ReferenceId","Name","isRefDoctor"]
     rowIterator+=1; 
-    if fileName.eql? "all"
-      puts "getting file from currect dir"
-      allText = Dir["#{Dir.pwd}/db/*.txt"]
+    puts "getting file from currect dir"
+      allText = Dir["#{folderName}/**/*.txt"]
       puts allText
       allText.each do |textFile|
         puts textFile
         data = File.read(textFile)
         rowIterator=extract_from_String(data,sheet1,rowIterator)  
       end
-    else
-        data=File.read(fileName)
-    end
+    
     extract_from_String(data,sheet1,rowIterator)
     if excelName=~/\.xls$/
       book.write excelName 
@@ -119,12 +116,12 @@ end
 #give the string form which u want to extract the data, it will create a excel in same folder in which project is there with data, every time u run the
 #script it will overite the excel file with the same name
 # sample command- ruby extract_detail.rb inputfile excelname
-inputFileName = ARGV[0]
-excelFileName = ARGV[1]
-puts inputFileName + " "+ excelFileName
+folderName = ARGV[0]
+folderName = ARGV[1]
+puts folderName + " "+ excelFileName
 
 obj = Extract_detail.new
-obj.extract_from_data(inputFileName,excelFileName)
+obj.extract_from_data(folderName,excelFileName)
 
 
 # allText = Dir["#{Dir.pwd}/**/*00*.txt"]
