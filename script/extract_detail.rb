@@ -7,7 +7,7 @@ require File.expand_path("../../config/environment", __FILE__)
 class ExtractDetail 
   require 'spreadsheet' 
   
-  def extract_from_data (fileName, excelName)
+  def extract_from_data (folderName, excelName)
     book = Spreadsheet::Workbook.new
     @seenArray = Array.new
     rowIterator=0
@@ -15,18 +15,15 @@ class ExtractDetail
     row = sheet1.row(rowIterator)
     row.replace ["Email","Phones","ReferenceSpecialization","ReferenceEmail","ReferenceName","ReferenceId","Name","isRefDoctor"]
     rowIterator+=1; 
-    if fileName.eql? "all"
       puts "getting file from currect dir"
-      allText = Dir["#{Dir.pwd}/**/*.txt"]
+      allText = Dir["#{folderName}/**/*.txt"]
       puts allText
       allText.each do |textFile|
         puts textFile
         data = File.read(textFile)
         rowIterator=extract_from_String(data,sheet1,rowIterator)  
       end
-    else
-        data=File.read(fileName)
-    end
+    
     extract_from_String(data,sheet1,rowIterator)
     if excelName=~/\.xls$/
       book.write excelName 
@@ -110,7 +107,7 @@ excelFileName = ARGV[1]
 puts inputFileName + " "+ excelFileName
 
 obj = ExtractDetail.new
-obj.extract_from_data(inputFileName,excelFileName)
+obj.extract_from_data(folderName,excelFileName)
 
 
 # allText = Dir["#{Dir.pwd}/**/*00*.txt"]
