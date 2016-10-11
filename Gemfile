@@ -42,6 +42,11 @@ gem 'rails_12factor', group: :production
 
 gem 'mandrill-api'
 
+gem 'mongoid_fulltext'
+
+gem "twitter-bootstrap-rails"
+
+gem "haml"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

@@ -8,7 +8,7 @@ class Extract_detail
   require 'spreadsheet' 
   
   def extract_from_data (folderName, excelName)
-    puts "Deleting all mongo records"
+    #puts "Deleting all mongo records"
     #Reference.all.delete
     book = Spreadsheet::Workbook.new
     @seenArray = Array.new

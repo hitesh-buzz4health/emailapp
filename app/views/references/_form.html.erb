@@ -1,0 +1,90 @@
+<%= form_for @reference, :html => { :class => "form-horizontal reference" } do |f| %>
+
+  <% if @reference.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@reference.errors.count, "error") %> prohibited this reference from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @reference.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :emails, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :emails, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:emails) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :phones, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :phones, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:phones) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :ReferenceSpecialization, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :ReferenceSpecialization, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:ReferenceSpecialization) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :ReferenceName, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :ReferenceName, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:ReferenceName) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :ReferenceEmail, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :ReferenceEmail, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:ReferenceEmail) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :ReferenceId, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :ReferenceId, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:ReferenceId) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :Name, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :Name, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:Name) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :IsRefDoctor, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :IsRefDoctor, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:IsRefDoctor) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :unique_key, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :unique_key, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:unique_key) %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                references_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+
+<% end %>

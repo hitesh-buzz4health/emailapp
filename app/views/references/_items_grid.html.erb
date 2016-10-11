@@ -1,0 +1,29 @@
+
+
+<div class="container">
+  <h2>Results:</h2>
+  <p><strong><%= @references.count.to_int %> </strong> matching results found</p>            
+  <table class="table">
+    <thead>
+      <tr>
+      <th>Check</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Reference Name</th>
+        <th>Reference Specialization</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+     <%- @references.each do |ref| %> 
+      <tr>
+      <td><%= check_box_tag "ref_ids[]",ref.id , false%> </td>
+      <td><%= ref.Name %></td>
+      <td><%= ref.emails %></td>
+      <td><%= ref.ReferenceName %></td>
+      <td><%= ref.ReferenceSpecialization %></td>
+      </tr>
+     <%- end%> 
+    </tbody>
+  </table>
+</div>

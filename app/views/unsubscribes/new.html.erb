@@ -1,0 +1,17 @@
+ <h3>
+ Unsubscribe me:
+ </h3>
+ <form action="/unsubscribe/create", method="post">
+  Please confirm your email id:<br>
+  <input pattern=".{3,}" type="email" name="email"><br>
+  Please tell us what went wrong:<br>
+  <select name=reason>
+        <option name=one value=one> Please select a reason </option>
+  
+        <option name=one value=one> Dont remember subscribing to the the newsletter </option>
+        <option name=two value=two> The content on the updates wasnt relevant</option>
+        <option name=three value=three> The frequency of emails is too much </option>
+        </select>
+  
+  <input type="submit" value="Submit"></input>
+</form> 

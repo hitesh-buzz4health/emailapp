@@ -3,7 +3,20 @@ Emailapp::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'email#index'
+  post "/finish_campaign" => 'emails#finish_campaign'
+
+  get '/unsubscribe' => 'unsubscribes#new'
+  get '/unsubscribe/create' => 'unsubscribes#create', :method => :post
+  post "/search_by_email" => 'references#search'
+  post "/search_by_name" => 'references#search'
+  get "/send_email" => 'emails#send_email'
+
+
+  get "/filter_by_reference_specialization" => 'references#filter_by_reference_specialization'
+
+  get "/filter_by_type" => 'references#filter_by_reference_type'
+  resources :references 
+   root 'references#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

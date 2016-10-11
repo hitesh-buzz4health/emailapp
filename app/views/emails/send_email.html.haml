@@ -1,0 +1,52 @@
+You have selected #{@references.count.to_int}  records. 
+- $Users = @references
+.space-12
+%h2.Step 2. Now Send the campaign
+.space-12
+.row
+  .col-md-8.col-offset-4
+    %form{:action=> "finish_campaign", :method=>'post', :class => ''}
+      .form-group
+        .row
+          .col-xs-12
+            %input.form-control{name: "template_name",placeholder: "Email Template name", type: "text"}/
+            = hidden_field_tag :authenticity_token, form_authenticity_token
+        .space-12
+        .row
+          .col-xs-12
+            %input.form-control{name: "subject",placeholder: "Subject line", type: "text"}/
+        .space-12
+        .row
+          .col-xs-12
+            %input.form-control{name: "title",placeholder: "Email title...", type: "text"}/
+        .space-12
+        .row
+          .col-xs-12
+            %textarea{cols: "80", name: "description", placeholder: "Please enter email description", rows: "8", "data-validation"=> "length"}
+        .space-12
+        .row
+          .col-xs-12
+            %input.form-control{name: "image_url", placeholder: "Email image url...", type: "text"}/
+        .space-12
+        .row
+          .col-xs-12
+            %input.form-control{name: "action_url", placeholder: "Call to action URL", type: "text"}/
+
+      .space-12
+      .form-group.well#specializations
+        / .row
+        /   .col-xs-3  
+        /     = check_box_tag "Doctor", 1, true
+        /     = label_tag :student, "Doctor"
+        / .space-12
+        .row
+          .col-xs-12
+            %label
+              Select Specialization(s):
+       
+
+      .space-6
+      .form-group
+        %button#active_user_campaign.btn.btn-sm.btn-danger{type: "submit", :onclick => "return confirm('Are you really sure you want to send this out')"}
+          %i.icon-lightbulb
+          Send Me!

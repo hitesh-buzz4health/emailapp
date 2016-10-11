@@ -1,0 +1,63 @@
+
+
+<div class="container">
+  <h2>Set Filter criteria</h2>
+  <div class="row">
+
+
+  <div class="col-md-6">
+
+  Reference Type
+  </div>
+  <div class="col-md-6">Reference Spec</div>
+
+
+
+
+</div>
+
+
+  <div class="row">
+
+
+  <div class="col-md-6">
+  <ul>
+    <li>
+
+    <%= link_to "Doctor", :controller=> "references", :action=> "filter_by_reference_type", :ref_type => true, :remote => true %>
+
+    </li>
+    <li>
+
+    <%= link_to "Other", :controller=> "references", :action=> "filter_by_reference_type", :ref_type => false, :remote => true %>
+
+    </li>
+  </ul>
+
+  </div>
+
+
+
+
+
+ 
+  <div class="col-md-6">
+  <%- references = Reference.all.distinct(:ReferenceSpecialization)%>
+
+  <ul>
+  <%- references.each do |ref| %>
+  <li>
+  <%- if ref.length == 0 %>
+    <%= link_to "(None)", :controller=> "references", :action=> "filter_by_reference_specialization", :ref_spec => "", :remote => true %> 
+  <%- else %>
+  <%= link_to ref, :controller=> "references", :action=> "filter_by_reference_specialization", :ref_spec => ref, :remote => true %> 
+  <%- end%>   
+  </li>
+  <%- end %>
+  </ul>
+  </div>
+
+
+
+</div>
+</div>

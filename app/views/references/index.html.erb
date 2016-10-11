@@ -1,0 +1,42 @@
+
+<%= form_tag("/search_by_name", method: 'post', remote: 'true') do %>
+<div class = "col-md-6">
+<%= hidden_field_tag 'searchbyname', true %>
+<input class="form-control" name="search_value" placeholder="Search by Reference Name" type="text">
+</div>
+
+<div class = "col-md-3">
+
+<%= submit_tag( "Submit" ) %>
+</div>
+<%- end%>
+
+<br/>
+<br/>
+
+<%= form_tag("/search_by_email",  method: 'post', remote: 'true') do %>
+<div class = "col-md-6">
+<%= hidden_field_tag 'searchbyemail', 'true' %>
+<input class="form-control" name="search_value" placeholder="Search by Reference Email" type="text">
+</div>
+
+<div class = "col-md-3">
+
+<%= submit_tag( "Submit" ) %>
+</div>
+<%- end%>
+
+</p>
+<div class="grid">
+ 
+<%= render partial: 'filter_options' %>
+
+<form action="/send_email">
+
+<%= submit_tag( "Submit" ) %>
+<div id="replace"></div>
+</form>
+
+
+
+</div>
