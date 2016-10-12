@@ -57,11 +57,11 @@ end
 def search
 
   if params[:searchbyname].eql?("true")
-    @references = Reference.fulltext_search(params[:search_value], :index => 'ref_name_index').where(:emails => {"$exists" => true}, :emails.not => {"$size" => 0})
+    @references = Reference.fulltext_search(params[:search_value], :index => 'ref_name_index')
     
   end
   if params[:searchbyemail].eql?("true")
-        @references = Reference.fulltext_search(params[:search_value], :index => 'ref_email_index').where(:emails => {"$exists" => true}, :emails.not => {"$size" => 0})
+        @references = Reference.fulltext_search(params[:search_value], :index => 'ref_email_index')
       
   end
     respond_to do |format|
