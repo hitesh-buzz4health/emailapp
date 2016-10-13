@@ -1,6 +1,8 @@
 class History
-  include Mongoid::Timestamps
   include Mongoid::Document
+
+  include Mongoid::Timestamps
+
   field :list, type: Hash
   field :name, type: String
   field :subject, type: String
