@@ -3,7 +3,7 @@ class ReferencesController < ApplicationController
 
 def index
 
-@references = Reference.all
+@references = Reference.page(1)
 end
 
 

@@ -63,3 +63,8 @@
     -webkit-transform: scaleY(1.0);
   }
 }
+
+table, th, td {
+   border: 1px solid black;
+   width: 100%;
+}

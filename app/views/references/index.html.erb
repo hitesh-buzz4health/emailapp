@@ -30,10 +30,10 @@
 </div>
 <%- end%>
 <br/><br/><br/><br/><br/><br/>
-<button id = "check_all" type="submit"> Select All</button>
+<button class="btn-link" id = "check_all" type="submit"> Select All</button>
 <form action="/send_email" method="post">
-<%= submit_tag 'Select and Proceed' %>
-<%= submit_tag 'Delete Selected', name: 'delete_selected' %>
+<%= submit_tag 'Delete Selected', class: "btn-link", name: 'delete_selected' %>
+<%= submit_tag  'Select and Proceed',class:"btn-info pull-right" %>
 
 <div class="spinner">
   <div class="rect1"></div>
