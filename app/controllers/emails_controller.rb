@@ -39,7 +39,7 @@ def finish_campaign
    end
    h = History.new
    h.list = users
-   h.name = params[:template_name]
+   h.name = params[:profile_name]
    h.subject = params[:subject]
    h.cta = params[:action_url]
    h.count = $Users.count

@@ -35,7 +35,7 @@ You have selected #{@references.count.to_int}  records. Some of these may contai
       .space-12
       .row
         .col-xs-12
-          %input.form-control{name: "Profile Name", placeholder: "Name this list for future reuse", type: "text"}/
+          %input.form-control{name: "profile_name", placeholder: "Name this list for future reuse", type: "text"}/
 
       .form-group
         %button#active_user_campaign.btn.btn-sm.btn-danger{type: "submit", :onclick => "return confirm('Are you really sure you want to send this out')"}
