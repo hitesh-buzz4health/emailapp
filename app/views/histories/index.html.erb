@@ -17,6 +17,7 @@
   <tbody>
     <% @histories.each do |history| %>
       <tr>
+        <td><%= history.created_at %></td>
         <td><%= history.list %></td>
         <td><%= history.name %></td>
         <td><%= history.subject %></td>
