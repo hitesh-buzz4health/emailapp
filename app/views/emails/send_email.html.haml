@@ -1,4 +1,4 @@
-You have selected #{@references.count.to_int}  records. 
+You have selected #{@references.count.to_int}  records. Some of these may contain blank emails and will not be attempted
 - $Users = @references
 .space-12
 %h2.Step 2. Now Send the campaign
@@ -33,19 +33,10 @@ You have selected #{@references.count.to_int}  records.
             %input.form-control{name: "action_url", placeholder: "Call to action URL", type: "text"}/
 
       .space-12
-      .form-group.well#specializations
-        / .row
-        /   .col-xs-3  
-        /     = check_box_tag "Doctor", 1, true
-        /     = label_tag :student, "Doctor"
-        / .space-12
-        .row
-          .col-xs-12
-            %label
-              Select Specialization(s):
-       
+      .row
+        .col-xs-12
+          %input.form-control{name: "Profile Name", placeholder: "Name this list for future reuse", type: "text"}/
 
-      .space-6
       .form-group
         %button#active_user_campaign.btn.btn-sm.btn-danger{type: "submit", :onclick => "return confirm('Are you really sure you want to send this out')"}
           %i.icon-lightbulb
