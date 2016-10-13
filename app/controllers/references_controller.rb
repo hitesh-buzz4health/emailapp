@@ -6,6 +6,18 @@ def index
 @references = Reference.all
 end
 
+
+def update
+  @reference = Reference.find params[:id]
+  @reference.Name = params[:reference][:Name]
+  @reference.save
+  respond_to do |format|
+      format.html { redirect_to(@reference, :notice => 'User was successfully updated.') }
+      format.json { respond_with_bip(@reference) }
+  end
+end
+
+
 def filter_by_reference_name
 @references = Reference.where(:ReferenceName => params[:ref_name]).where(:emails => {"$exists" => true}, :emails.not => {"$size" => 0})
 
@@ -70,5 +82,16 @@ def search
 
 end
 
+def destroy
+    @reference = Reference.find(params[:id])
+    # $Saved.all.delete(@reference)
+    @references = $Saved
+
+    @reference.destroy
+
+    respond_to do |format|
+      format.js
+    end
+  end
 
 end

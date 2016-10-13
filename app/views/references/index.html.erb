@@ -32,8 +32,8 @@
 <br/><br/><br/><br/><br/><br/>
 <button id = "check_all" type="submit"> Select All</button>
 <form action="/send_email" method="post">
-<button type="submit"> Select and Send Email</button>
-
+<%= submit_tag 'Select and Proceed' %>
+<%= submit_tag 'Delete Selected', name: 'delete_selected' %>
 
 <div class="spinner">
   <div class="rect1"></div>

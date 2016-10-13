@@ -16,15 +16,29 @@ end
 
 
 def send_email
-	if params[:ref_ids]
-	       @references = Reference.find(params[:ref_ids])
-   respond_to do |format|
-        format.html
-        
-    end
 
-	 end
 
+  if params[:delete_selected]
+    
+    if params[:ref_ids]
+
+          @references = $Saved
+          @references.any_in(:_id => params[:ref_ids]).destroy_all
+
+
+     end
+      redirect_to "/references"
+
+  else
+  	if params[:ref_ids]
+  	       @references = Reference.find(params[:ref_ids])
+     respond_to do |format|
+          format.html
+          
+      end
+
+  	 end
+  end
 
 end
 

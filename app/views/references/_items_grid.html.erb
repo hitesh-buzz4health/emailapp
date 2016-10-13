@@ -1,3 +1,4 @@
+<%- $Saved = @references %>
 <br/>
 <p>
 <div class="container">
@@ -6,7 +7,8 @@
   <table class="table">
     <thead>
       <tr>
-      <th>Check</th>
+      <th>Erase</th>
+        <th>Check</th>
         <th>Name</th>
         <th>Email</th>
         <th>Reference Name</th>
@@ -19,9 +21,12 @@
     <tbody>
      <%- @references.each do |ref| %> 
       <tr>
+      <td> <%= link_to 'Erase', reference_path(ref),
+            data: {:confirm => 'Are you sure?'},:remote => :true, :method => :delete %></td>
       <td><%= check_box_tag "ref_ids[]",ref.id , false%> </td>
-      <td><%= ref.Name %></td>
-      <td><%= ref.emails %></td>
+      <td><%= best_in_place ref, :Name, tabindex: "1" %></td>
+      
+      <td><%= ref.emails[0] if ref.emails.size>0 %></td>
       <td><%= ref.ReferenceName %></td>
       <td><%= ref.ReferenceEmail %></td>
       <td><%= ref.ReferenceSpecialization %></td>
