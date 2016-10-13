@@ -57,6 +57,7 @@ def finish_campaign
    h.subject = params[:subject]
    h.cta = params[:action_url]
    h.count = $Users.count
+   h.created_at = Time.now
    h.save
 
 
