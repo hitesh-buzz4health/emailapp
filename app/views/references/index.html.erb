@@ -1,39 +1,47 @@
 
+
+
+<div class="grid">
+ 
+<%= render partial: 'filter_options' %>
+<p>
 <%= form_tag("/search_by_name", method: 'post', remote: 'true') do %>
-<div class = "col-md-6">
+<div class = "col-md-3">
 <%= hidden_field_tag 'searchbyname', true %>
 <input class="form-control" name="search_value" placeholder="Search by Reference Name" type="text">
 </div>
 
 <div class = "col-md-3">
 
-<%= submit_tag( "Submit" ) %>
 </div>
 <%- end%>
 
-<br/>
-<br/>
 
+<div class = "col-md-3">
 <%= form_tag("/search_by_email",  method: 'post', remote: 'true') do %>
-<div class = "col-md-6">
+
 <%= hidden_field_tag 'searchbyemail', 'true' %>
 <input class="form-control" name="search_value" placeholder="Search by Reference Email" type="text">
 </div>
-
+</p>
 <div class = "col-md-3">
 
-<%= submit_tag( "Submit" ) %>
+
 </div>
 <%- end%>
+<br/><br/><br/><br/><br/><br/>
+<button id = "check_all" type="submit"> Select All</button>
+<form action="/send_email" method="post">
+<button type="submit"> Select and Send Email</button>
 
-</p>
-<div class="grid">
- 
-<%= render partial: 'filter_options' %>
 
-<form action="/send_email">
-
-<%= submit_tag( "Submit" ) %>
+<div class="spinner">
+  <div class="rect1"></div>
+  <div class="rect2"></div>
+  <div class="rect3"></div>
+  <div class="rect4"></div>
+  <div class="rect5"></div>
+</div>
 <div id="replace"></div>
 </form>
 

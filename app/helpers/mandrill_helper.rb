@@ -20,6 +20,9 @@ def self.send_email_bulk(users, subject, template_name,
     recipients_temp = []
     merge_vars_arr = []
     users[(current_page * 200)..200].each do |user|
+      if user.emails.size > 0
+         next
+       end
 
       if !user.nil? 
         breakfree = false
@@ -27,6 +30,7 @@ def self.send_email_bulk(users, subject, template_name,
           if Unsubscribe.where(:email => email).first.nil? == false
               breakfree = true
           end
+
         end
         if breakfree
          next

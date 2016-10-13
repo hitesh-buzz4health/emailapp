@@ -1,5 +1,5 @@
-
-
+<br/>
+<p>
 <div class="container">
   <h2>Results:</h2>
   <p><strong><%= @references.count.to_int %> </strong> matching results found</p>            
@@ -10,10 +10,12 @@
         <th>Name</th>
         <th>Email</th>
         <th>Reference Name</th>
+        <th>Reference Email</th>
         <th>Reference Specialization</th>
         
       </tr>
     </thead>
+   
     <tbody>
      <%- @references.each do |ref| %> 
       <tr>
@@ -21,9 +23,11 @@
       <td><%= ref.Name %></td>
       <td><%= ref.emails %></td>
       <td><%= ref.ReferenceName %></td>
+      <td><%= ref.ReferenceEmail %></td>
       <td><%= ref.ReferenceSpecialization %></td>
       </tr>
      <%- end%> 
     </tbody>
   </table>
 </div>
+</p>

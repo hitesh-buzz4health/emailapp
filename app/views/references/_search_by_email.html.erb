@@ -1,0 +1,13 @@
+
+
+<%= form_tag("/search_by_email",  method: 'post', remote: 'true') do %>
+<div class = "col-md-6">
+<%= hidden_field_tag 'searchbyemail', 'true' %>
+<input class="form-control" name="search_value" placeholder="Search by Reference Email" type="text">
+</div>
+
+<div class = "col-md-3">
+
+<%= submit_tag( "Submit" ) %>
+</div>
+<%- end%>
