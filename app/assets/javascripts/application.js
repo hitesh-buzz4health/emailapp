@@ -25,7 +25,15 @@ $( document ).ready(function() {
 
   // hide spinner
   $(".spinner").hide();
+   // show spinner on AJAX start
+  $(document).ajaxStart(function(){
+    $(".spinner").show();
+  });
 
+  // hide spinner on AJAX stop
+  $(document).ajaxStop(function(){
+    $(".spinner").hide();
+  });
 
 $('#check_all').on("click", function(){
   var cbxs = $('input[type="checkbox"]');
