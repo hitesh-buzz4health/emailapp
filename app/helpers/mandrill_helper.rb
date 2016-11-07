@@ -7,6 +7,13 @@ def self.send_email_bulk(users, subject, template_name,
 
   #mandrill = Mandrill::API.new ENV["SMTP_LOGIN_PASSWORD"]
   mandrill = Mandrill::API.new "bDcc2lKvRAmoIctJMLle4g"
+  
+  #Following from DGD
+  #mandrill = Mandrill::API.new "WzZWJkSAhDBpgUjdeHjX4g"
+  
+
+  sender = "admin@doctorsgodigital.in"
+  from = "Doctor Neena"
 
   current_page = 0
   item_count = users.count
@@ -52,10 +59,10 @@ def self.send_email_bulk(users, subject, template_name,
       message = {
          #"subject"=> "#{name}, we missed you on Buzz4health",
          "subject"=>subject,
-         "from_email"=>"mailsupport@buzz4health.com",
-         "from_name"=> "Buzz4health",
+         "from_email"=>sender,
+         "from_name"=> from,
          "to"=> recipients_temp,
-         "headers"=>{"Reply-To"=>"mailsupport@buzz4health.com"},
+         "headers"=>{"Reply-To"=>sender},
          "merge"=>true,
          "preserve_recipients"=>false, 
          "merge_language"=>"mailchimp",
