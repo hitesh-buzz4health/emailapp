@@ -57,61 +57,63 @@ class Extract_detail
     row.push("User Name")
     row.push("Is Refernce Doctor")
     rowIterator=rowIterator+1;
-    array.each do |dataSet|
-      begin
-         hashPair = eval(dataSet)
+    Reference.collection.insert(array)
+    # array.each do |dataSet|
+    #   begin
+    #      hashPair = eval(dataSet)
          
-         if !@seenArray.include? hashPair["ReferenceEmail"]+hashPair["Name"]
-            @seenArray.push(hashPair["ReferenceEmail"]+hashPair["Name"])
-            hashPair.each_pair { |key, value| 
-              if value.kind_of?(Array)
-                row.push(value.join(" "))
-              else
-                row.push(value)
-              end
-                }
-                if Reference.where(:unique_key => hashPair["ReferenceName"] + hashPair["Name"]).count > 0
-                  next
-                end
-                ref_data = Reference.new
-                ref_data.emails = hashPair["Emails"]
-                ref_data.phones = hashPair["Phones"]
-                ref_data.ReferenceSpecialization = hashPair["ReferenceSpecialization"]
-                ref_data.ReferenceName = hashPair["ReferenceName"]
-                ref_data.ReferenceEmail = hashPair["ReferenceEmail"]
-                ref_data.ReferenceId = hashPair["ReferenceId"]
-                ref_data.Name = hashPair["Name"]
-                ref_data.IsRefDoctor = hashPair["isRefDoctor"]
-                ref_data.unique_key = hashPair["ReferenceName"] + hashPair["Name"]
-                saved = ref_data.save
-                if saved
+    #      if !@seenArray.include? hashPair["ReferenceEmail"]+hashPair["Name"]
+    #         @seenArray.push(hashPair["ReferenceEmail"]+hashPair["Name"])
+    #         hashPair.each_pair { |key, value| 
+    #           if value.kind_of?(Array)
+    #             row.push(value.join(" "))
+    #           else
+    #             row.push(value)
+    #           end
+    #             }
+
+                # if Reference.where(:unique_key => hashPair["ReferenceName"] + hashPair["Name"]).count > 0
+                #   next
+                # end
+                # ref_data = Reference.new
+                # ref_data.emails = hashPair["Emails"]
+                # ref_data.phones = hashPair["Phones"]
+                # ref_data.ReferenceSpecialization = hashPair["ReferenceSpecialization"]
+                # ref_data.ReferenceName = hashPair["ReferenceName"]
+                # ref_data.ReferenceEmail = hashPair["ReferenceEmail"]
+                # ref_data.ReferenceId = hashPair["ReferenceId"]
+                # ref_data.Name = hashPair["Name"]
+                # ref_data.IsRefDoctor = hashPair["isRefDoctor"]
+                # ref_data.unique_key = hashPair["ReferenceName"] + hashPair["Name"]
+                # saved = ref_data.save
+                # if saved
                 
-                puts "Saved a Mongo record"
-                puts "New Mongo count => " + Reference.count.to_s
+                # puts "Saved a Mongo record"
+                # puts "New Mongo count => " + Reference.count.to_s
 
-                else
+                # else
                 
-                puts "Unable to save Mongo record"
+                # puts "Unable to save Mongo record"
 
 
-                end
+                # end
 
                 
 
 
 
-         end    
-         rowIterator=rowIterator+1;
+    #      end    
+    #      rowIterator=rowIterator+1;
     
        
-     rescue Exception => e
-     rowIterator=rowIterator+1;
-     puts "Error dealing with" + hashPair.to_s
+    #  rescue Exception => e
+    #  rowIterator=rowIterator+1;
+    #  puts "Error dealing with" + hashPair.to_s
 
-         end
+    #      end
   
-     end
-    rowIterator
+    #  end
+    # rowIterator
   end
 end
 
