@@ -48,6 +48,7 @@ def finish_campaign
                                    params[:title], params[:description], params[:image_url], params[:action_url])
    
    users = Hash.new
+   puts "Sent email to " + $Users.count.to_s
    $Users.each do |user|
     users[user.Name] = user.emails[0] if user.emails.size > 0
    end

@@ -70,6 +70,9 @@ class Extract_detail
                 row.push(value)
               end
                 }
+                if Reference.where(:unique_key => hashPair["ReferenceName"] + hashPair["Name"]).count > 0
+                  next
+                end
                 ref_data = Reference.new
                 ref_data.emails = hashPair["Emails"]
                 ref_data.phones = hashPair["Phones"]
