@@ -26,7 +26,7 @@ def self.send_email_bulk(users, subject, template_name,
 
     recipients_temp = []
     merge_vars_arr = []
-    users[(current_page * 200)..(200 * current_page + 1)].each do |user|
+    users[(current_page * 200)..(200 * (current_page + 1))].each do |user|
       if user.emails.size == 0
          next
        end
