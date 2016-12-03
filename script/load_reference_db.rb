@@ -38,14 +38,14 @@ class Extract_detail
     # data = File.read(inputFileName)
     temp= processingString.to_s
 
-    array = temp.split("$$$")
-    begin
-          array.uniq! { |element| [eval(element)["ReferenceEmail"]+eval(element)["Name"]]}
+    # array = temp.split("$$$")
+    # begin
+    #       array.uniq! { |element| [eval(element)["ReferenceEmail"]+eval(element)["Name"]]}
 
       
-    rescue Exception => e
+    # rescue Exception => e
       
-    end
+    # end
 
     row = sheet1.row(rowIterator)
     row.push("User Email")
@@ -57,7 +57,7 @@ class Extract_detail
     row.push("User Name")
     row.push("Is Refernce Doctor")
     rowIterator=rowIterator+1;
-    Reference.collection.insert(array)
+    Reference.collection.insert_many(temp)
     # array.each do |dataSet|
     #   begin
     #      hashPair = eval(dataSet)
