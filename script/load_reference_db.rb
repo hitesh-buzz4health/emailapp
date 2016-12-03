@@ -47,16 +47,16 @@ class Extract_detail
       
     end
 
-    row = sheet1.row(rowIterator)
-    row.push("User Email")
-    row.push("Phones")
-    row.push("Reference Specialization")
-    row.push("Reference Email")
-    row.push("Reference Name")
-    row.push("Reference Id")
-    row.push("User Name")
-    row.push("Is Refernce Doctor")
-    rowIterator=rowIterator+1;
+    # row = sheet1.row(rowIterator)
+    # row.push("User Email")
+    # row.push("Phones")
+    # row.push("Reference Specialization")
+    # row.push("Reference Email")
+    # row.push("Reference Name")
+    # row.push("Reference Id")
+    # row.push("User Name")
+    # row.push("Is Refernce Doctor")
+    # rowIterator=rowIterator+1;
     array.each do |dataset|
 
     begin
