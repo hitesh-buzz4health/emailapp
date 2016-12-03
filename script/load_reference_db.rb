@@ -59,8 +59,8 @@ class Extract_detail
     rowIterator=rowIterator+1;
     array.each do |dataset|
 
-    
-      Reference.collection.insert_one(dataset)
+      
+      Reference.collection.insert_one(eval(dataset))
     end
     # array.each do |dataSet|
     #   begin
