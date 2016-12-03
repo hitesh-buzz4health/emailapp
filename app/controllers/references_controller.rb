@@ -30,8 +30,12 @@ end
 
 def filter_by_reference_specialization
 
-	@references = Reference.where(:ReferenceSpecialization => params[:ref_spec]).where(:emails => {"$exists" => true}, :emails.not => {"$size" => 0})
+	if params[:ref_spec].eql?("200000")
+     @references =  Reference.order(:created_at => 'asc').limit(200000)
 
+  else
+  @references = Reference.where(:ReferenceSpecialization => params[:ref_spec]).where(:emails => {"$exists" => true}, :emails.not => {"$size" => 0})
+  end
     respond_to do |format|
         format.js
     end

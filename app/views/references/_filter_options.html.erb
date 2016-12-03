@@ -21,8 +21,12 @@
 
  
   <div class="col-md-12">
-  <%- references = Reference.all.distinct(:ReferenceSpecialization)%>
+  <%= link_to ref, :controller=> "references", :action=> "filter_by_reference_specialization", :ref_spec => "200000", :remote => true %> 
 
+  <%- references = Reference.all.distinct(:ReferenceSpecialization)%>
+  
+  
+  
   <%- references.each do |ref| %>
   <%- if ref.length == 0 %>
     <%= link_to "(None)", :controller=> "references", :action=> "filter_by_reference_specialization", :ref_spec => "", :remote => true %> 
