@@ -36,9 +36,10 @@ def filter_by_reference_specialization
   else
   @references = Reference.where(:ReferenceSpecialization => params[:ref_spec]).where(:Emails => {"$exists" => true}, :Emails.not => {"$size" => 0})
   end
-    respond_to do |format|
-        format.js
-    end
+  
+  respond_to do |format|
+    format.js
+  end
 
 
 end
