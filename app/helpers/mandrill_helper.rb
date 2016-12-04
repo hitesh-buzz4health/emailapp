@@ -12,8 +12,8 @@ def self.send_email_bulk(users, subject, template_name,
   #mandrill = Mandrill::API.new "WzZWJkSAhDBpgUjdeHjX4g"
   
 
-  sender = "admin@doctorsgodigital.in"
-  from = "Doctor Neena"
+  sender = "hello@themedtape.com"
+  from = "Dr. Neha Sharma"
 
   current_page = 0
   item_count = users.count
