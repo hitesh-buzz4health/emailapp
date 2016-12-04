@@ -33,7 +33,7 @@ def self.send_email_bulk(users, subject, template_name,
 
       if !user.nil? 
         breakfree = false
-        user.emails.each do |email|
+        user.Emails.each do |email|
           if Unsubscribe.where(:email => email).first.nil? == false
               breakfree = true
           end
