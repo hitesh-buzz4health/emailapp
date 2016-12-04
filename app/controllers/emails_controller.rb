@@ -50,7 +50,7 @@ def finish_campaign
    users = Hash.new
    puts "Sent email to " + $Users.count.to_s
    $Users.each do |user|
-    users[user.Name] = user.emails[0] if user.emails.size > 0
+    users[user.Name] = user.Emails[0] if user.Emails.size > 0
    end
    h = History.new
    h.list = users

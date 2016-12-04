@@ -27,7 +27,7 @@ def self.send_email_bulk(users, subject, template_name,
     recipients_temp = []
     merge_vars_arr = []
     users[(current_page * 200)..(200 * (current_page + 1))].each do |user|
-      if user.emails.size == 0
+      if user.Emails.size == 0
          next
        end
 
@@ -43,8 +43,8 @@ def self.send_email_bulk(users, subject, template_name,
          next
         end
 
-        recipients_temp.push(MandrillHelper.getEmailReceipient(user.emails[0],user.Name))
-        merge_vars_arr.push({"rcpt"=>user.emails[0],"vars"=>[{"name" => "Title", "content" => title},
+        recipients_temp.push(MandrillHelper.getEmailReceipient(user.Emails[0],user.Name))
+        merge_vars_arr.push({"rcpt"=>user.Emails[0],"vars"=>[{"name" => "Title", "content" => title},
                              {"name" => "description", "content" => description},
                              {"name" => "ImageUrl", "content" => image_url},
                              {"name" => "FNAME", "content" => user.Name},
