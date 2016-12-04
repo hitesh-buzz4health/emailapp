@@ -12,7 +12,7 @@ def self.send_email_bulk(users, subject, template_name,
   #mandrill = Mandrill::API.new "WzZWJkSAhDBpgUjdeHjX4g"
   
 
-  sender = "hello@themedtape.com"
+  sender = "admin@doctorsgodigital.in"
   from = "Dr. Neha Sharma"
 
   current_page = 0
