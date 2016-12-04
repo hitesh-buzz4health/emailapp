@@ -45,8 +45,7 @@ end
 def finish_campaign
 	
    MandrillHelper.send_email_bulk($Users, params[:subject], params[:template_name],
-                                   params[:title], params[:description], params[:image_url], params[:action_url])
-   
+                                   params[:title], params[:description], params[:image_url], params[:action_url], params[:sender_domain])   
    users = Hash.new
    puts "Sent email to " + $Users.count.to_s
    $Users.each do |user|

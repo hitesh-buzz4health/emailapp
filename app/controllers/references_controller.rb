@@ -19,7 +19,7 @@ end
 
 
 def filter_by_reference_name
-@references = Reference.where(:ReferenceName => params[:ref_name]).where(:Emails => {"$exists" => true}, :Emails.not => {"$size" => 0})
+@references = Reference.where(Name: /^dr./i).where(:ReferenceName => params[:ref_name]).where(:Emails => {"$exists" => true}, :Emails.not => {"$size" => 0})
 
     respond_to do |format|
         format.js
@@ -31,10 +31,10 @@ end
 def filter_by_reference_specialization
 
 	if params[:ref_spec].eql?("200000")
-     @references =  Reference.order(:created_at => 'asc').limit(200000).where(:Emails => {"$exists" => true}, :Emails.not => {"$size" => 0})
+     @references =  Reference.order(:created_at => 'asc').limit(200000).where(Name: /^dr./i).where(:Emails => {"$exists" => true}, :Emails.not => {"$size" => 0})
 
   else
-  @references = Reference.where(:ReferenceSpecialization => params[:ref_spec]).where(:Emails => {"$exists" => true}, :Emails.not => {"$size" => 0})
+  @references = Reference.where(:ReferenceSpecialization => params[:ref_spec]).where(Name: /^dr./i).where(:Emails => {"$exists" => true}, :Emails.not => {"$size" => 0})
   end
   
   respond_to do |format|
@@ -47,7 +47,7 @@ end
 def filter_by_reference_email
 
 
-	@references = Reference.where(:ReferenceEmail => params[:ref_email]).where(:Emails => {"$exists" => true}, :Emails.not => {"$size" => 0})
+	@references = Reference.where(:ReferenceEmail => params[:ref_email]).where(Name: /^dr./i).where(:Emails => {"$exists" => true}, :Emails.not => {"$size" => 0})
 
     respond_to do |format|
         format.js
@@ -62,7 +62,7 @@ def filter_by_reference_type
     if params[:ref_type] == "doctor"
 	 isref = true
 	end
-	@references = Reference.where(:IsrefDoctor => isref).where(:Emails => {"$exists" => true}, :Emails.not => {"$size" => 0})
+	@references = Reference.where(:IsrefDoctor => isref).where(Name: /^dr./i).where(:Emails => {"$exists" => true}, :Emails.not => {"$size" => 0})
 
     respond_to do |format|
         format.js

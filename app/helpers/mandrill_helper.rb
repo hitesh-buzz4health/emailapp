@@ -3,7 +3,7 @@ module MandrillHelper
 
 
 def self.send_email_bulk(users, subject, template_name,
-                                   title, description, image_url, action_url)
+                                   title, description, image_url, action_url,sender_domain)
 
   #mandrill = Mandrill::API.new ENV["SMTP_LOGIN_PASSWORD"]
   mandrill = Mandrill::API.new "bDcc2lKvRAmoIctJMLle4g"
@@ -11,10 +11,23 @@ def self.send_email_bulk(users, subject, template_name,
   #Following from DGD
   #mandrill = Mandrill::API.new "WzZWJkSAhDBpgUjdeHjX4g"
   
+  sender = "unknown"
+  from = "unknown"
+  if sender_domain.eql? "medtape" 
+    sender = "hello@medtape.com"
+    from = "Dr. Neha Sharma"
+  end
+  if sender_domain.eql? "doctorsgodigital"
+    sender = "admin@doctorsgodigital.in"
+    from = "Dr. Neena Sharma"
+  end
+  if sender_domain.eql? "buzz4health" 
+    sender = "mailsupport@buzz4health.com"
+    from = "Expert Panel at Buzz4health"
 
-  sender = "admin@doctorsgodigital.in"
-  from = "Dr. Neha Sharma"
+  end
 
+  
   current_page = 0
   item_count = users.count
   puts "Starting to send email to " + item_count.to_s + " users"

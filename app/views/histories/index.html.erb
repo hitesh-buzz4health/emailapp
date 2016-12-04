@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th>Sent at</th>
-      <th>List</th>
+      
       <th>Name</th>
       <th>Subject</th>
       <th>Cta</th>
@@ -19,7 +19,6 @@
     <% @histories.each do |history| %>
       <tr>
         <td><%= history.created_at.to_formatted_s(:short)  %></td>
-        <td><%= history.list %></td>
         <td><%= history.name %></td>
         <td><%= history.subject %></td>
         <td><%= history.cta %></td>

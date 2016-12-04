@@ -7,6 +7,13 @@ You have selected #{@references.count.to_int}  records. Some of these may contai
   .col-md-8.col-offset-4
     %form{:action=> "finish_campaign", :method=>'post', :class => ''}
       .form-group
+        .space-12
+        .row
+          .col-xs-12
+            %select{:name => "sender_domain"}
+              %option{:value => "medtape"} MedTape
+              %option{:value => "doctorsgodigital"} DoctorsGoDigital
+              %option{:value => "buzz4health"} Buzz4health
         .row
           .col-xs-12
             %input.form-control{name: "template_name",placeholder: "Email Template name", type: "text"}/
