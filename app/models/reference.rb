@@ -4,14 +4,14 @@ class Reference
    include Mongoid::FullTextSearch
 
 
-  field                     :emails,      :type => Array,  :default => []
-  field                     :phones,      :type => Array,  :default => []
+  field                     :Emails,      :type => Array,  :default => []
+  field                     :Phones,      :type => Array,  :default => []
   field                     :ReferenceSpecialization,      :type => String, :default => ""
   field                     :ReferenceName,      :type => String, :default => ""
   field                     :ReferenceEmail,      :type => String, :default => ""
   field                     :ReferenceId,      :type => String, :default => ""
   field                     :Name,      :type => String, :default => ""
-  field                     :IsRefDoctor,      :type => String, :default => ""
+  field                     :isRefDoctor,      :type => String, :default => ""
   
 
  field :unique_key, type: String, :default => ""
