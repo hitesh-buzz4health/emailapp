@@ -52,8 +52,15 @@ gem "haml"
 
 gem 'best_in_place', '~> 3.0.1'
 
+gem 'google_drive'
 
+gem 'capybara'
 
+gem 'headless'
+
+gem 'selenium-webdriver'
+
+gem 'browserlog', '~> 0.0.2'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

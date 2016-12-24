@@ -7,9 +7,14 @@ Emailapp::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
+
+  mount Browserlog::Engine => '/logs'
+
   post "/finish_campaign" => 'emails#finish_campaign'
+  post "/post" => 'groups#post'
 
   get '/unsubscribe' => 'unsubscribes#new'
+  get '/groups' => 'groups#index'
   get '/unsubscribe/create' => 'unsubscribes#create', :method => :post
   post "/search_by_email" => 'references#search'
   post "/search_by_name" => 'references#search'
