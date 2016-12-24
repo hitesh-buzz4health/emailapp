@@ -12,8 +12,9 @@ end
 
 
 def post
-
-postMessageToGroups(params[:email],params[:password],params[:message])
+if params[:password].eql? "nopassword" == 0
+  postMessageToGroups(params[:email],params[:password],params[:message])
+end
 redirect_to "/groups"
 
 end

@@ -25,7 +25,7 @@ Emailapp::Application.routes.draw do
 
   get "/filter_by_type" => 'references#filter_by_reference_type'
   resources :references 
-   root 'references#index'
+   root 'groups#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
