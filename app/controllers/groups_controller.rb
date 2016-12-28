@@ -5,19 +5,22 @@ require 'headless'
 class GroupsController < ApplicationController
 
 
-def index
+  def index
+
+    # puts "press enter key "
+    # names = gets 
+    # render :text => names 
+
+  end
 
 
-end
+  def post
+  if params[:password].eql? "nopassword" 
+    postMessageToGroups(params[:email],params[:password],params[:message])
+  end
+  redirect_to "/groups"
 
-
-def post
-if params[:password].eql? "nopassword" 
-  postMessageToGroups(params[:email],params[:password],params[:message])
-end
-redirect_to "/groups"
-
-end
+  end
 
 def postMessageToGroups(email,password,message)
 
@@ -36,7 +39,7 @@ def postMessageToGroups(email,password,message)
   total_posts_in_this_session = 0
   puts "FBGR: Starting Fb autoposting for " + ws.length.to_s + " tabs(users).... " 
     begin
-      0.upto(ws.length) do |sheet_num|
+      1.upto(ws.length) do |sheet_num|
         total_posts_by_user = 0
          
         if ws[sheet_num][4,1].length == 0 || ws[sheet_num][4,2].length == 0
@@ -46,7 +49,7 @@ def postMessageToGroups(email,password,message)
         puts "FBGR: Starting a new session for " + ws[sheet_num][4,1]
 
         headless = Headless.new
-        headless.start
+        # headless.start
         session = Capybara::Session.new(:selenium) 
         session.visit "https://m.facebook.com"
         session.find("input[name='email'").set(ws[sheet_num][4,1])
@@ -64,15 +67,16 @@ def postMessageToGroups(email,password,message)
 
           begin
             session.visit "https://m.facebook.com/groups/" + groupid
-            sleep 12
-            session.find("textarea").set(message)
-            sleep 10
-            session.click_on("Post")
-            postSharingResult(output_spreadsheet,message ,ws[sheet_num][4,1],Time.new , groupid)
-            sleep 30
-            total_posts_by_user = total_posts_by_user + 1
-            total_posts_in_this_session  = total_posts_in_this_session  + 1
-            puts "FBGR: Posting successful, Total: " + total_posts_in_this_session.to_s + " By " +  ws[sheet_num][4,1] + ": " + total_posts_by_user.to_s
+            comment(session,groupid,ws[sheet_num][50 ,1],message)
+            # sleep 12
+            # session.find("textarea").set(message)
+            # sleep 10
+            # session.click_on("Post")
+            # postSharingResult(output_spreadsheet,message ,ws[sheet_num][4,1],Time.new , groupid)
+            # sleep 30
+            # total_posts_by_user = total_posts_by_user + 1
+            # total_posts_in_this_session  = total_posts_in_this_session  + 1
+            # puts "FBGR: Posting successful, Total: " + total_posts_in_this_session.to_s + " By " +  ws[sheet_num][4,1] + ": " + total_posts_by_user.to_s
           rescue Exception => e
             puts "FBGR: caught exception while Posting comment #{e}! ohnoes!"
           end  
@@ -108,7 +112,47 @@ end
               puts "FBGR: Posting result on the excel"
          
        
+
      end 
+
+     def comment(session,groupid,owner ,message)
+        
+        users = [owner]
+        hit = 0
+        count = 0
+        while hit < 1 && count < 5
+          puts "hit=" + hit.to_s
+          puts "count=" + count.to_s
+          session.find_all("div[role='article']").each do |article|
+            begin
+              if  users.any? { |word| article.text.include?(word) }
+                hit = hit + 1
+                puts "FBGR: Found a post by Buzz member" + session.find(:xpath, article.path + "/div[1]/div[1]/h3/strong/a").text
+                 begin
+                    session.find(:xpath, article.path + "/div[2]/div[2]/a[1]").click
+              rescue Exception => e
+                puts "FBGR: caught exception #{e}! ohnoes!"
+              end
+                 session.find("input[id='composerInput']").set(message)
+                 session.click_button("Comment")
+                 puts "Posted a comment.. Exiting"
+                 return
+              end
+        
+            rescue Exception => e
+            puts "FBGR: caught exception #{e}! ohnoes!"
+            end
+          end
+          session.click_link("See More Posts")
+          count = count + 1
+        end 
+         # # if name found in article
+         # # session.find(:xpath,"/html/body/div/div/div[2]/div/div[1]/div[4]/div[1]/div[1]/a[0]")
+         #                        /html/body/div/div/div[2]/div/div[1]/div[4]/div[1]/div[1]
+         # # click comment and do the thing
+
+     
+      end
 
 
 end
