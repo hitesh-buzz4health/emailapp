@@ -58,8 +58,8 @@ def postMessageToGroups(message ,  sharing_type )
         # headless.start
         session = Capybara::Session.new(:selenium) 
         session.visit "https://m.facebook.com"
-        session.find("input[name='email'").set("sonalchinioti@gmail.com")
-        session.find("input[name='pass'").set("bhagatsingh@123")
+        session.find("input[name='email'").set(ws[sheet_num][4,1])
+        session.find("input[name='pass'").set(ws[sheet_num][4,2])
         session.click_button("Log In")
         sleep 5
         puts "FBGR: Logged in for " + ws[sheet_num][4,1]
