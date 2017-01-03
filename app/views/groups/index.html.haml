@@ -10,27 +10,32 @@
   .row
     .col-xs-12{:style => "width:auto; float:left; margin:0 12px 12px 0;"}
       %input.form-control{:name => "link", :placeholder => "Enter link to be shared ", :type => "text"}/
-    .col-xs-12{:style => "float:rig;width:50%;display:inline-block;"}
+    .col-xs-12{:style => "float:left ;width:50%;display:inline-block;"}
       %input{:name => "bitly", :type => "checkbox"}>/
       opt for shorten link
       %br/
+    %h2
+    Enter Account details
   .space-12
   .row
-    .col-xs-12
+    .col-xs-12{:style => "width:auto; float:left; margin:0 12px 12px 0;"}
       %select{:name => "type_pos"}
         %option{:value => "share"} Share post
         %option{:value => "comment"} Comment  on post
+    .col-xs-12{:style => "float:right;width:50%;display:inline-block;"}
+      %input.form-control{:name => "facebook_email", :placeholder => "Enter Facebook Email or user id ", :type => "text"}/
   .space-12
   .row
-    .col-xs-12
+    .col-xs-12{:style => "width:200px; float:left; margin:0 12px 12px 0;"}
       %input.form-control{:name => "password", :placeholder => "Enter Password..", :type => "password"}/
+    .col-xs-12{:style => "float:right;width:50%;display:inline-block;"}
+      %input.form-control{:name => "facebook_password", :placeholder => "Enter  password ", :type => "password"}/
   .space-12
   .form-group
-    %button#active_user_campaign.btn.btn-sm.btn-danger{:onclick => "return confirm('Are you really sure you want to send this out')", :type => "submit"}
-      %i.icon-lightbulb
-      Post Message
-
-
+    %center
+      %button#active_user_campaign.btn.btn-sm.btn-danger{:onclick => "return confirm('Are you really sure you want to send this out')", :type => "submit"}
+        %i.icon-lightbulb
+        Post Message
 
 = render :partial => 'logview'
 

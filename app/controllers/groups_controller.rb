@@ -20,7 +20,8 @@ class GroupsController < ApplicationController
   if params[:password].eql? "nopassword" 
 
     sharing_message  = params[:message].to_s + "  " + shortening_url(params[:bitly] ,  params[:link]).to_s 
-    postMessageToGroups(sharing_message , params[:type_pos] )
+
+    postMessageToGroups(sharing_message   , params )
   end
  
 
@@ -28,34 +29,51 @@ class GroupsController < ApplicationController
 
   end
 
-def postMessageToGroups(message ,  sharing_type )
-
+def postMessageToGroups(message ,  params )
+ 
 
   session = GoogleDrive::Session.from_config("config.json")
   ws = session.spreadsheet_by_key("1-nVLOe1nU7P2XHVJ-sI9LB_AUp_YxhseIFaZtq46J2o").worksheets
   output_spreadsheet = session.spreadsheet_by_key("1wV5NKZmPUiCI-COHoKdwDnLy_pwvzIY57Eq2IXdmQ9M").worksheets[0]
-
+  @start_sheet_no = 1
+  @total_no_of_sheets = 0
   total_posts_in_this_session = 0
-
+  get_sheet_no(ws , params[:facebook_email])
   puts "FBGR: Starting Fb autoposting for " + ws.length.to_s + " tabs(users).... " 
     begin
-
-      1.upto(ws.length) do |sheet_num|
+      @start_sheet_no.upto(@total_no_of_sheets) do |sheet_num|
 
          total_posts_by_user = 0
            
           if ws[sheet_num][4,1].length == 0 || ws[sheet_num][4,2].length == 0
               puts "FBGR: Empty User found. Please enter user details at row 4 and col 1,2 "
               next
-          end
+          end 
+           
           puts "FBGR: Starting a new session for " + ws[sheet_num][4,1]
-          
+
+          if params[:facebook_email].present?
+
+            user_fb_email = params[:facebook_email]
+            user_fb_password = params[:facebook_password]
+            puts "FBGR: Starting a new session for " + user_fb_email.to_s
+
+
+          else
+              
+              user_fb_email = ws[sheet_num][4,1]
+              user_fb_password = ws[sheet_num][4,2]
+
+          end 
+
+          puts "FBGR: Starting a new session for " + "starting session"
+
           headless = Headless.new
           # headless.start
           session = Capybara::Session.new(:selenium) 
           session.visit "https://m.facebook.com"
-          session.find("input[name='email'").set(ws[sheet_num][4,1])
-          session.find("input[name='pass'").set(ws[sheet_num][4,2])
+          session.find("input[name='email'").set(user_fb_email)
+          session.find("input[name='pass'").set(user_fb_password)
           session.click_button("Log In")
           sleep 5
           puts "FBGR: Logged in for " + ws[sheet_num][4,1]
@@ -73,7 +91,7 @@ def postMessageToGroups(message ,  sharing_type )
 
                 session.visit "https://m.facebook.com/groups/" + groupid
 
-                    if sharing_type.eql? "comment"
+                    if  params[:type_pos].eql? "comment"
 
                            
                        comment(session,groupid,ws[sheet_num][50,1],message)
@@ -132,7 +150,7 @@ end
             sleep 5
             session.find("textarea").set(message)
             sleep 15
-            session.click_on("Post")
+            # session.click_on("Post")
             postSharingResult(output_spreadsheet,message ,ws[sheet_num][4,1],Time.new , groupid)
             sleep 30
           
@@ -209,6 +227,29 @@ end
       end 
 
 
+      def  get_sheet_no(ws , user_email)
+
+        if user_email.present?
+
+             0.upto(ws.length) do |sheet_num|
+
+                if user_email.eql? ws[sheet_num][4,1]
+
+                      @start_sheet_no = sheet_num
+                      @total_no_of_sheets = sheet_num
+                      return 
+                end
+
+             end 
+
+        else
+
+             @start_sheet_no = 1
+             @total_no_of_sheets = ws.length
+  
+        end 
+
+      end 
 
 
 end
