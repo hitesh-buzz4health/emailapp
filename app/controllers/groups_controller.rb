@@ -75,10 +75,10 @@ def postMessageToGroups(message ,  params )
           session.find("input[name='email'").set(user_fb_email)
           session.find("input[name='pass'").set(user_fb_password)
           session.click_button("Log In")
-          sleep 5
+          sleep 10
           puts "FBGR: Logged in for " + ws[sheet_num][4,1]
 
-        2.upto(15) do |i|
+        2.upto(25) do |i|
           
                 groupid = ws[sheet_num][i,4]  
 
@@ -150,7 +150,7 @@ end
             sleep 5
             session.find("textarea").set(message)
             sleep 15
-            # session.click_on("Post")
+            session.click_on("Post")
             postSharingResult(output_spreadsheet,message ,ws[sheet_num][4,1],Time.new , groupid)
             sleep 30
           
