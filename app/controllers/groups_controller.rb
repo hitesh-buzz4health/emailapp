@@ -1,7 +1,4 @@
-require "google_drive"
-require 'capybara'
-require 'headless'
-require  'bitly'
+
 
 class GroupsController < ApplicationController
 
@@ -17,27 +14,27 @@ class GroupsController < ApplicationController
 
   def post
 
-  if params[:password].eql? "nopassword" 
+    if params[:password].eql? "nopassword" 
 
-    sharing_message  = params[:message].to_s + "  " + shortening_url(params[:bitly] ,  params[:link]).to_s 
+      postMessageToGroups( params )
+    end
+   
 
-    postMessageToGroups(sharing_message   , params )
-  end
- 
-
-  redirect_to "/groups"
+    redirect_to "/groups"
 
   end
 
-def postMessageToGroups(message ,  params )
+def postMessageToGroups( params )
  
 
   session = GoogleDrive::Session.from_config("config.json")
-  ws = session.spreadsheet_by_key("1-nVLOe1nU7P2XHVJ-sI9LB_AUp_YxhseIFaZtq46J2o").worksheets
+  spreadsheet = session.spreadsheet_by_key("1-nVLOe1nU7P2XHVJ-sI9LB_AUp_YxhseIFaZtq46J2o") 
+  ws = spreadsheet.worksheets
   output_spreadsheet = session.spreadsheet_by_key("1wV5NKZmPUiCI-COHoKdwDnLy_pwvzIY57Eq2IXdmQ9M").worksheets[0]
   @start_sheet_no = 1
   @total_no_of_sheets = 0
   total_posts_in_this_session = 0
+  message = get_message(params , spreadsheet)
   get_sheet_no(ws , params[:facebook_email])
   puts "FBGR: Starting Fb autoposting for " + ws.length.to_s + " tabs(users).... " 
     begin
@@ -45,11 +42,17 @@ def postMessageToGroups(message ,  params )
 
          total_posts_by_user = 0
            
-          if ws[sheet_num][4,1].length == 0 || ws[sheet_num][4,2].length == 0
-              puts "FBGR: Empty User found. Please enter user details at row 4 and col 1,2 "
+            if ws[sheet_num][4,1].length == 0 || ws[sheet_num][4,2].length == 0 
+                puts "FBGR: Empty User found. Please enter user details at row 4 and col 1,2 "
+                next
+            end
+
+           if  ws[sheet_num].title.eql? "messages" 
+
+              puts "FBGR: Message worksheet found "
               next
-          end 
-           
+            end 
+
           puts "FBGR: Starting a new session for " + ws[sheet_num][4,1]
 
           if params[:facebook_email].present?
@@ -78,7 +81,7 @@ def postMessageToGroups(message ,  params )
           sleep 10
           puts "FBGR: Logged in for " + ws[sheet_num][4,1]
 
-        2.upto(25) do |i|
+        2.upto(30) do |i|
           
                 groupid = ws[sheet_num][i,4]  
 
@@ -250,6 +253,32 @@ end
         end 
 
       end 
+
+
+
+
+     def get_message ( params  , spreadsheet )
+
+
+          if !params[:message].eql? ""
+
+                 sharing_message  = params[:message].to_s + "  " + shortening_url(params[:bitly] ,  params[:link]).to_s 
+
+                 return sharing_message
+
+          else 
+                
+              message_worksheet = spreadsheet.worksheet_by_title("messages")
+              message_no  = 1 + Random.rand(message_worksheet.num_rows) 
+              message  = message_worksheet[1,message_no]          
+              sharing_message  = message.to_s + "  " + shortening_url(params[:bitly] ,  params[:link]).to_s 
+
+              return sharing_message
+             
+
+          end
+
+     end 
 
 
 end
