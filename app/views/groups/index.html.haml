@@ -22,6 +22,10 @@
       %select{:name => "type_pos"}
         %option{:value => "share"} Share post
         %option{:value => "comment"} Comment  on post
+    .col-xs-12{:style => "width:auto; float:left; margin:0 12px 12px 0;"}
+      %select{:name => "type_application"}
+        %option{:value => "Buzz4health"} Buzz4health Sharing
+        %option{:value => "Medtape"} MedTape Sharng
     .col-xs-12{:style => "float:right;width:50%;display:inline-block;"}
       %input.form-control{:name => "facebook_email", :placeholder => "Enter Facebook Email or user id ", :type => "text"}/
   .space-12
@@ -36,6 +40,7 @@
       %button#active_user_campaign.btn.btn-sm.btn-danger{:onclick => "return confirm('Are you really sure you want to send this out')", :type => "submit"}
         %i.icon-lightbulb
         Post Message
+
 
 = render :partial => 'logview'
 

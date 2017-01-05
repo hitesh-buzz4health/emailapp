@@ -15,7 +15,7 @@ class GroupsController < ApplicationController
   def post
 
     if params[:password].eql? "nopassword" 
-
+        
       postMessageToGroups( params )
     end
    
@@ -28,10 +28,20 @@ def postMessageToGroups( params )
  
 
   session = GoogleDrive::Session.from_config("config.json")
-  spreadsheet = session.spreadsheet_by_key("1-nVLOe1nU7P2XHVJ-sI9LB_AUp_YxhseIFaZtq46J2o") 
-  ws = spreadsheet.worksheets
-  output_spreadsheet = session.spreadsheet_by_key("1wV5NKZmPUiCI-COHoKdwDnLy_pwvzIY57Eq2IXdmQ9M").worksheets[0]
-  @start_sheet_no = 1
+   if params[:type_application].eql? "Buzz4health"
+
+      spreadsheet = session.spreadsheet_by_key("1-nVLOe1nU7P2XHVJ-sI9LB_AUp_YxhseIFaZtq46J2o") 
+      ws = spreadsheet.worksheets
+      output_spreadsheet = session.spreadsheet_by_key("1wV5NKZmPUiCI-COHoKdwDnLy_pwvzIY57Eq2IXdmQ9M").worksheets[0]
+
+   else 
+
+      spreadsheet = session.spreadsheet_by_key("1fAgWJ7UV9mSAmcZcMtF4pkcC_POUe-9afM_JOXL85XY") 
+      ws = spreadsheet.worksheets
+      output_spreadsheet = session.spreadsheet_by_key("14OvsKoviBz0dc7uDiMufG2H9Wgl64tKKLDGX_kiyr0c").worksheets[0]
+
+   end 
+  @start_sheet_no =  0
   @total_no_of_sheets = 0
   total_posts_in_this_session = 0
   message = get_message(params , spreadsheet)
