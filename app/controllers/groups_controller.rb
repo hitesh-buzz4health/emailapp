@@ -269,18 +269,16 @@ end
 
      def get_message ( params  , spreadsheet )
 
-
+        
           if !params[:message].eql? ""
-
                  sharing_message  = params[:message].to_s + "  " + shortening_url(params[:bitly] ,  params[:link]).to_s 
 
                  return sharing_message
 
           else 
-                
               message_worksheet = spreadsheet.worksheet_by_title("messages")
               message_no  = 1 + Random.rand(message_worksheet.num_rows) 
-              message  = message_worksheet[1,message_no]          
+              message  = message_worksheet[message_no , 1]          
               sharing_message  = message.to_s + "  " + shortening_url(params[:bitly] ,  params[:link]).to_s 
 
               return sharing_message
