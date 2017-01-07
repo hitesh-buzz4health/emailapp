@@ -44,7 +44,7 @@ class GroupsController < ApplicationController
        end 
 
       @start_sheet_no =  0
-      @total_no_of_sheets = ws.length
+      @total_no_of_sheets = ((ws.length)-1)
       total_posts_in_this_session = 0
       message = get_message(params , spreadsheet)
       get_sheet_no(ws , params[:facebook_email])
@@ -275,8 +275,8 @@ class GroupsController < ApplicationController
 
         if user_email.present?
 
-             0.upto(ws.length) do |sheet_num|
-
+             0.upto((ws.length) -1 ) do |sheet_num|
+                  
                 if user_email.eql? ws[sheet_num][4,1]
 
                       @start_sheet_no = sheet_num
