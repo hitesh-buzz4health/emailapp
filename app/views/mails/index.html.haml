@@ -1,6 +1,6 @@
 %h1
   %center Mail Sending Controller
-%form{:action => "post", :method => "post"}
+%form{:action => "mails/post", :method => "post"}
   .space-12
   .row
     %h2
@@ -9,7 +9,7 @@
   .row
     %center
       .col-xs-12{:style => "float:left;width:50%;"}
-        %input.form-control{:name => "google_email", :placeholder => "Enter Facebook Email or user id ", :type => "text"}/
+        %input.form-control{:name => "google_email", :placeholder => "Enter Email  ", :type => "text"}/
         %input#authenticity_token{:name => "authenticity_token", :type => "hidden", :value => "p0bvfNLYe+RzMZL89zAbDJyjRZXPMKY03cjbIXGXujM="}/
   .space-12
   .row

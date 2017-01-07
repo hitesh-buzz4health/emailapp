@@ -11,7 +11,8 @@ Emailapp::Application.routes.draw do
   mount Browserlog::Engine => '/logs'
 
   post "/finish_campaign" => 'emails#finish_campaign'
-  post "/post" => 'groups#post'
+  post "mails/post" => 'mails#post'
+  post "groups/post" => 'groups#post'
 
   get '/unsubscribe' => 'unsubscribes#new'
   get '/groups' => 'groups#index'
@@ -24,8 +25,11 @@ Emailapp::Application.routes.draw do
   get "/filter_by_reference_specialization" => 'references#filter_by_reference_specialization'
 
   get "/filter_by_type" => 'references#filter_by_reference_type'
+  get "/mails" => 'mails#index'
   resources :references 
    root 'groups#index'
+
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
