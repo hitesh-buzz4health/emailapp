@@ -41,6 +41,10 @@ GEM
     best_in_place (3.0.3)
       actionpack (>= 3.2)
       railties (>= 3.2)
+    bitly (1.0.2)
+      httparty (>= 0.7.6)
+      multi_json (~> 1.3)
+      oauth2 (>= 0.5.0, < 2.0)
     browserlog (0.0.2)
       jquery-rails (~> 3)
       rails (>= 3.2.18)
@@ -97,6 +101,8 @@ GEM
       tilt
     headless (2.3.1)
     hike (1.2.3)
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
     httpclient (2.8.3)
     hurley (0.2)
     i18n (0.7.0)
@@ -147,9 +153,16 @@ GEM
       mongoid-compatibility
       unicode_utils
     multi_json (1.12.1)
+    multi_xml (0.6.0)
     multipart-post (2.0.0)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
+    oauth2 (1.3.0)
+      faraday (>= 0.8, < 0.11)
+      jwt (~> 1.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 3)
     origin (2.2.0)
     os (0.9.6)
     phantomjs (2.1.1.0)
@@ -166,6 +179,9 @@ GEM
     rack (1.5.5)
     rack-test (0.6.3)
       rack (>= 1.0)
+    rack_session_access (0.1.1)
+      builder (>= 2.0.0)
+      rack (>= 1.0.0)
     rails (4.0.0)
       actionmailer (= 4.0.0)
       actionpack (= 4.0.0)
@@ -253,6 +269,7 @@ PLATFORMS
 
 DEPENDENCIES
   best_in_place (~> 3.0.1)
+  bitly
   browserlog (~> 0.0.2)
   bson_ext
   capybara
@@ -272,6 +289,7 @@ DEPENDENCIES
   phantomjs
   poltergeist
   pry
+  rack_session_access
   rails (= 4.0.0)
   rails_12factor
   sass-rails (~> 4.0.0)
@@ -283,4 +301,4 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
 
 BUNDLED WITH
-   1.13.1
+   1.13.2

@@ -1,25 +1,46 @@
 %h1
-  Facebook Groups Controller
-
-%form{:action=> "post", :method=>'post', :class => ''}
+  %center
+    Facebook Groups Controller
+%form{:action => "groups/post", :method => "post"}
   .form-group
     .space-12
-
-    %input.form-control{name: "message",placeholder: "Enter Your Message", type: "textarea", height: "200", pattern: ".{20,}"}/
-    = hidden_field_tag :authenticity_token, form_authenticity_token
+    %input.form-control{:height => "200", :name => "message", :pattern => ".{20,}", :placeholder => "Enter Your Message", :type => "textarea"}/
+    %input#authenticity_token{:name => "authenticity_token", :type => "hidden", :value => "p0bvfNLYe+RzMZL89zAbDJyjRZXPMKY03cjbIXGXujM="}/
   .space-12
   .row
-    .col-xs-12
-      %input.form-control{name: "email",placeholder: "Enter Facebook Email Id", type: "text"}/
+    .col-xs-12{:style => "width:auto; float:left; margin:0 12px 12px 0;"}
+      %input.form-control{:name => "link", :placeholder => "Enter link to be shared ", :type => "text"}/
+    .col-xs-12{:style => "float:left ;width:50%;display:inline-block;"}
+      %input{:name => "bitly", :type => "checkbox"}>/
+      opt for shorten link
+      %br/
+    %h2
+    Enter Account details
   .space-12
   .row
-    .col-xs-12
-      %input.form-control{name: "password",placeholder: "Enter Password..", type: "password"}/
+    .col-xs-12{:style => "width:auto; float:left; margin:0 12px 12px 0;"}
+      %select{:name => "type_pos"}
+        %option{:value => "share"} Share post
+        %option{:value => "comment"} Comment  on post
+    .col-xs-12{:style => "width:auto; float:left; margin:0 12px 12px 0;"}
+      %select{:name => "type_application"}
+        %option{:value => "Buzz4health"} Buzz4health Sharing
+        %option{:value => "Medtape"} MedTape Sharng
+    .col-xs-12{:style => "float:right;width:50%;display:inline-block;"}
+      %input.form-control{:name => "facebook_email", :placeholder => "Enter Facebook Email or user id ", :type => "text"}/
+  .space-12
+  .row
+    .col-xs-12{:style => "width:200px; float:left; margin:0 12px 12px 0;"}
+      %input.form-control{:name => "password", :placeholder => "Enter Password..", :type => "password"}/
+    .col-xs-12{:style => "float:right;width:50%;display:inline-block;"}
+      %input.form-control{:name => "facebook_password", :placeholder => "Enter  password ", :type => "password"}/
   .space-12
   .form-group
-    %button#active_user_campaign.btn.btn-sm.btn-danger{type: "submit", :onclick => "return confirm('Are you really sure you want to send this out')"}
-      %i.icon-lightbulb
-      Post Message
+    %center
+      %button#active_user_campaign.btn.btn-sm.btn-danger{:onclick => "return confirm('Are you really sure you want to send this out')", :type => "submit"}
+        %i.icon-lightbulb
+        Post Message
+
 
 = render :partial => 'logview'
 
