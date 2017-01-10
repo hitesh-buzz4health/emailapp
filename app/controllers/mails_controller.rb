@@ -28,7 +28,8 @@ end
 def sending_email(params)
 
   google_session = GoogleDrive::Session.from_config("config.json")
-  worksheet = google_session.spreadsheet_by_key("1ghnZv1CQPBIfGPaFvdNuGpsT_fP0CGUf0V_84_6Cc1I").worksheets[1]
+  goodle_spreadsheet = google_session.spreadsheet_by_url("https://docs.google.com/spreadsheets/d/1ghnZv1CQPBIfGPaFvdNuGpsT_fP0CGUf0V_84_6Cc1I/edit#gid=55910370")
+  worksheet  = goodle_spreadsheet.worksheets[1]
   session = Capybara::Session.new(:selenium) 
   session.visit "https://www.gmail.com/"
   session.find("input[name='Email']").set(params[:google_email])
@@ -37,14 +38,14 @@ def sending_email(params)
   session.find("input[name='signIn']").click()
   puts "GMES: logged in for" + params[:google_email].to_s
 
-  sleep 20
+  sleep 40
   total_no_of_mails_sent = 0 
   2.upto(worksheet.num_rows) do |number|
       begin
          
 
          session.visit "https://mail.google.com/mail/u/0/#inbox?compose=new"
-         sleep 10
+         sleep 15
         
          session.find("textarea[name='to']").set(worksheet[number,2])
          
