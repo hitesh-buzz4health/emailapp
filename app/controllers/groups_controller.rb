@@ -53,17 +53,20 @@ class GroupsController < ApplicationController
           @start_sheet_no.upto(@total_no_of_sheets) do |sheet_num|
 
              total_posts_by_user = 0
-               
-                if ws[sheet_num][4,1].length == 0 || ws[sheet_num][4,2].length == 0 
-                    puts "FBGR: Empty User found. Please enter user details at row 4 and col 1,2 "
-                    next
-                end
 
-               if  ws[sheet_num].title.eql? "messages" 
+             if  ws[sheet_num].title.eql? "messages" 
 
                   puts "FBGR: Message worksheet found "
                   next
                 end 
+               
+                 
+                if  !params[:facebook_email].present? && (ws[sheet_num][4,1].length == 0 || ws[sheet_num][4,2].length == 0) 
+                    puts "FBGR: Empty User found. Please enter user details at row 4 and col 1,2 "
+                    next
+                end
+
+               
 
               puts "FBGR: Starting a new session for " + ws[sheet_num][4,1]
 
