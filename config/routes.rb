@@ -10,6 +10,7 @@ Emailapp::Application.routes.draw do
 
   mount Browserlog::Engine => '/logs'
 
+  get "/radiopedia" => 'cases#radiopedia'
   post "/finish_campaign" => 'emails#finish_campaign'
   post "mails/post" => 'mails#post'
   post "groups/post" => 'groups#post'

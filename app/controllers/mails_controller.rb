@@ -38,19 +38,19 @@ def sending_email(params)
   session.find("input[name='signIn']").click()
   puts "GMES: logged in for" + params[:google_email].to_s
 
-  sleep 40
+  sleep 15
   total_no_of_mails_sent = 0 
   2.upto(worksheet.num_rows) do |number|
       begin
          
 
          session.visit "https://mail.google.com/mail/u/0/#inbox?compose=new"
-         sleep 15
+         sleep 5
         
-         session.find("textarea[name='to']").set(worksheet[number,2])
+         session.find("textarea[name='to']").set(worksheet[number,6])
          
-         subject = worksheet[number,3].gsub! '*|FNAME|*' , worksheet[number , 1].to_s
-
+         subject = worksheet[number,3].gsub! '*|FNAME|*' , worksheet[number , 5].to_s
+         puts "Setting Subject: " + subject
          session.find("input[name='subjectbox']").set(subject)
          template = worksheet[number,4]
          template.gsub! '*|FNAME|*' , worksheet[number ,5]
@@ -71,7 +71,7 @@ def sending_email(params)
           total_no_of_mails_sent = total_no_of_mails_sent + 1
           puts "GMES: no of current mail being send in this session " +total_no_of_mails_sent.to_s
 
-          sleep 20 
+          sleep 10
 
        
         rescue  Exception => e

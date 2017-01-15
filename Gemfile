@@ -72,6 +72,7 @@ gem 'poltergeist'
 
 gem 'launchy'
 
+require 'open-uri'
 # group :development
 #    gem 'sunspot_solr'
 # end
