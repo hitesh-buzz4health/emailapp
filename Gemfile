@@ -62,10 +62,30 @@ gem 'selenium-webdriver'
 
 gem 'browserlog', '~> 0.0.2'
 
+gem 'nokogiri'
+
+gem 'pry'
+
+gem 'phantomjs'
+
+gem 'poltergeist'
+
+gem 'launchy'
+
+# group :development
+#    gem 'sunspot_solr'
+# end
+
+
+gem 'faraday'
+# gem 'sunspot_rails'
+# gem 'sunspot_mongoid'
+
+
 
 gem  'bitly'
 
-gem 'faraday'
+gem 'rack_session_access'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
