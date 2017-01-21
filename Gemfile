@@ -76,6 +76,8 @@ gem 'launchy'
 #    gem 'sunspot_solr'
 # end
 
+
+gem 'faraday'
 # gem 'sunspot_rails'
 # gem 'sunspot_mongoid'
 

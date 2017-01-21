@@ -10,9 +10,11 @@ class Reference
   field                     :ReferenceName,      :type => String, :default => ""
   field                     :ReferenceEmail,      :type => String, :default => ""
   field                     :ReferenceId,      :type => String, :default => ""
-  field                     :Name,      :type => String, :default => ""
+  field                     :Name,              :type => String, :default => ""
   field                     :isRefDoctor,      :type => String, :default => ""
-  
+  field                     :PinCode ,          :type => String, :default => ""
+  field                     :Specialization  , :type => String , :default => ""
+  field                     :Address        ,   :type => String , :default => ""
 
  field :unique_key, type: String, :default => ""
 
