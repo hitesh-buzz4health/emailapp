@@ -9,7 +9,8 @@ Emailapp::Application.routes.draw do
   # You can have the root of your site routed with "root"
 
   mount Browserlog::Engine => '/logs'
-
+  get "/ultrasound_cases" => 'cases#ultrasoundcases'
+  get "/radiopedia_fast" => 'cases#radiopedia_fast' 
   get "/radiopedia" => 'cases#radiopedia'
   post "/finish_campaign" => 'emails#finish_campaign'
   post "mails/post" => 'mails#post'
