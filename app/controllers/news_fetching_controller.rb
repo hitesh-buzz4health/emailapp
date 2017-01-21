@@ -5,7 +5,7 @@ require 'open-uri'
 require "google_drive"
 
 
-class news_fetching_controller < ApplicationController
+class  NewsFetchingController < ApplicationController
 
  def index
  end 

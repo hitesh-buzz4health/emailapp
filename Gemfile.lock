@@ -253,6 +253,7 @@ DEPENDENCIES
   bson_ext
   capybara
   coffee-rails (~> 4.0.0)
+  faraday
   google_drive
   haml
   headless

@@ -65,7 +65,7 @@ gem 'browserlog', '~> 0.0.2'
 
 gem  'bitly'
 
-
+gem 'faraday'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
