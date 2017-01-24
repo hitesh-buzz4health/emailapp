@@ -12,7 +12,15 @@ class NewsFetchingController < ApplicationController
   
 
  def post
-	session = GoogleDrive::Session.from_config("/home/sonal/sonal/ruby/New folder/config.json")
+	 credentials = Google::Auth::UserRefreshCredentials.new(
+ client_id: "156404022533-kv0hntucj24bnhbderr5kstc195ihu2e.apps.googleusercontent.com",
+ client_secret: "rzi6_TO-iHJwvmZwjR_E-x1-",
+ scope: [
+   "https://www.googleapis.com/auth/drive",
+   "https://spreadsheets.google.com/feeds/",
+ ],
+ refresh_token: "1/BYLIVCaqF0YmO8ujY36tvzQMGzBI5fgxA0KF3BmkwnjFLV_ixSX3IDAxtS1GUta4")
+ session = GoogleDrive::Session.from_credentials(credentials);0
 	rss_spreadsheet = session.spreadsheet_by_key("1DlxONl2_wL6MCRVgwpEP4_T7HOEX3oJC-uEM5PuWFiQ").worksheets[0]
 	output_news_feed = session.spreadsheet_by_key("1Lt8r3_9Y64JRlUGri3gDyW8qTAigDBvtqB3uhTJbzrU").worksheets[0]
 

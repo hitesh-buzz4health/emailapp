@@ -3,7 +3,15 @@
 ENV['RAILS_ENV'] ||= ('development')
 
 require File.expand_path("../../config/environment", __FILE__)
-session = GoogleDrive::Session.from_config("config.json")
+ credentials = Google::Auth::UserRefreshCredentials.new(
+ client_id: "156404022533-kv0hntucj24bnhbderr5kstc195ihu2e.apps.googleusercontent.com",
+ client_secret: "rzi6_TO-iHJwvmZwjR_E-x1-",
+ scope: [
+   "https://www.googleapis.com/auth/drive",
+   "https://spreadsheets.google.com/feeds/",
+ ],
+ refresh_token: "1/BYLIVCaqF0YmO8ujY36tvzQMGzBI5fgxA0KF3BmkwnjFLV_ixSX3IDAxtS1GUta4")
+ session = GoogleDrive::Session.from_credentials(credentials);0
 spreadsheet = session.spreadsheet_by_key("1v6hKOYR3MI5Pv076cUwcbZtoA7uFJmWQRKUQlGlj9Z0") 
 ws = spreadsheet.worksheets
 File.open("master_radiopedia.txt","w") do |master_file|

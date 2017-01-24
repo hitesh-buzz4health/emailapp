@@ -21,10 +21,19 @@ skip_before_action :verify_authenticity_token
 
 
 
-
 def sending_email(params)
 
-  google_session = GoogleDrive::Session.from_config("config/config.json")
+ credentials = Google::Auth::UserRefreshCredentials.new(
+ client_id: "156404022533-kv0hntucj24bnhbderr5kstc195ihu2e.apps.googleusercontent.com",
+ client_secret: "rzi6_TO-iHJwvmZwjR_E-x1-",
+ scope: [
+   "https://www.googleapis.com/auth/drive",
+   "https://spreadsheets.google.com/feeds/",
+ ],
+ refresh_token: "1/BYLIVCaqF0YmO8ujY36tvzQMGzBI5fgxA0KF3BmkwnjFLV_ixSX3IDAxtS1GUta4")
+ google_session = GoogleDrive::Session.from_credentials(credentials)
+
+
   goodle_spreadsheet = google_session.spreadsheet_by_url("https://docs.google.com/spreadsheets/d/1ghnZv1CQPBIfGPaFvdNuGpsT_fP0CGUf0V_84_6Cc1I/edit#gid=55910370")
 
   ws = goodle_spreadsheet.worksheets

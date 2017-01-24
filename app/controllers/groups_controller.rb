@@ -35,7 +35,15 @@ class GroupsController < ApplicationController
     def postMessageToGroups( params )
      
 
-       session = GoogleDrive::Session.from_config("config.json")
+        credentials = Google::Auth::UserRefreshCredentials.new(
+ client_id: "156404022533-kv0hntucj24bnhbderr5kstc195ihu2e.apps.googleusercontent.com",
+ client_secret: "rzi6_TO-iHJwvmZwjR_E-x1-",
+ scope: [
+   "https://www.googleapis.com/auth/drive",
+   "https://spreadsheets.google.com/feeds/",
+ ],
+ refresh_token: "1/BYLIVCaqF0YmO8ujY36tvzQMGzBI5fgxA0KF3BmkwnjFLV_ixSX3IDAxtS1GUta4")
+ session = GoogleDrive::Session.from_credentials(credentials);0
 
        if params[:type_application].eql? "Buzz4health"
 
@@ -417,7 +425,15 @@ class GroupsController < ApplicationController
 
     def activity_facebook()
 
-        session = GoogleDrive::Session.from_config("config.json")
+         credentials = Google::Auth::UserRefreshCredentials.new(
+ client_id: "156404022533-kv0hntucj24bnhbderr5kstc195ihu2e.apps.googleusercontent.com",
+ client_secret: "rzi6_TO-iHJwvmZwjR_E-x1-",
+ scope: [
+   "https://www.googleapis.com/auth/drive",
+   "https://spreadsheets.google.com/feeds/",
+ ],
+ refresh_token: "1/BYLIVCaqF0YmO8ujY36tvzQMGzBI5fgxA0KF3BmkwnjFLV_ixSX3IDAxtS1GUta4")
+ session = GoogleDrive::Session.from_credentials(credentials);0
         puts "FBGR: Session for  script is created "
 
         facebook_info_sheet = session.spreadsheet_by_key("1z1XpwctUD1phYBUq2xoXaNsQ7TNmaWyZ-oLLcUEJ6kI").worksheets[0]
