@@ -24,7 +24,7 @@ skip_before_action :verify_authenticity_token
 
 def sending_email(params)
 
-  google_session = GoogleDrive::Session.from_config("config.json")
+  google_session = GoogleDrive::Session.from_config("config/config.json")
   goodle_spreadsheet = google_session.spreadsheet_by_url("https://docs.google.com/spreadsheets/d/1ghnZv1CQPBIfGPaFvdNuGpsT_fP0CGUf0V_84_6Cc1I/edit#gid=55910370")
 
   ws = goodle_spreadsheet.worksheets
