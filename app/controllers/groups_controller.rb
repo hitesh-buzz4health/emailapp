@@ -15,8 +15,16 @@ class GroupsController < ApplicationController
     def post
 
       if params[:password].eql? "nopassword" 
-          
-        postMessageToGroups( params )
+        
+           if  params[:type_pos].eql? "activity"
+                    
+                    activity_facebook()
+
+           else
+                    postMessageToGroups( params )
+
+           end 
+
       end
      
 
@@ -46,7 +54,6 @@ class GroupsController < ApplicationController
       @start_sheet_no =  0
       @total_no_of_sheets = ((ws.length)-1)
       total_posts_in_this_session = 0
-      message = get_message(params , spreadsheet)
       get_sheet_no(ws , params[:facebook_email])
       puts "FBGR: Starting Fb autoposting for " + ws.length.to_s + " tabs(users).... " 
         begin
@@ -93,11 +100,13 @@ class GroupsController < ApplicationController
               session.find("input[name='pass'").set(user_password)
               session.click_button("Log In")
               process_sheet(ws[sheet_num] , output_spreadsheet , Date.today)
+
               puts "FBGR: Logged in for " + ws[sheet_num][4,1]
 
             2.upto(ws[sheet_num].num_rows) do |i|
-              
-                           
+                        
+                   message = get_message(params , spreadsheet)
+                   
                     if ws[sheet_num][i ,5].eql? "cannot post"
                          
                          puts "FBGR: posting on this group for the day has already been done  " + ws[sheet_num][i,4].to_s
@@ -117,7 +126,7 @@ class GroupsController < ApplicationController
                     end
 
                   begin
-
+   
                     session.visit "https://m.facebook.com/groups/" + groupid
 
                         if  params[:type_pos].eql? "comment"
@@ -242,7 +251,27 @@ class GroupsController < ApplicationController
           end
           puts "about to click See more posts"
 
-          session.click_link("See More Posts")
+
+               if session.has_content?('See More Stories')
+
+                 session.click_link("See More Stories")
+                 puts "FBGR: Clicked on more stories"
+
+
+              elsif session.has_content?('See more stories')
+
+                 session.click_link("See more stories")
+                 puts "FBGR: Clicked on more stories"
+
+              else 
+
+
+                  puts "FBGR: no more stories found "
+
+              
+              end 
+
+
           sleep 5
           count = count + 1
         end 
@@ -384,6 +413,83 @@ class GroupsController < ApplicationController
         worksheet.save
 
     end 
+
+
+    def activity_facebook()
+
+        session = GoogleDrive::Session.from_config("config.json")
+        puts "FBGR: Session for  script is created "
+
+        facebook_info_sheet = session.spreadsheet_by_key("1z1XpwctUD1phYBUq2xoXaNsQ7TNmaWyZ-oLLcUEJ6kI").worksheets[0]
+
+
+    begin 
+        
+
+          2.upto(facebook_info_sheet.num_rows) do |item|
+              
+                pages_loaded = 0 
+                session = Capybara::Session.new(:selenium) 
+
+               if facebook_info_sheet[item , 2].length == 0 || facebook_info_sheet[item , 2].length == 0
+                      puts "FBGR: Empty User found. Please enter user details at row 4 and col 1,2 "
+                      next
+                  end 
+
+                session.visit "https://m.facebook.com"
+                session.find("input[name='email']").set(facebook_info_sheet[item ,2])
+                session.find("input[name='pass']").set(facebook_info_sheet[item ,3])
+                session.click_button("Log In")
+                puts "FBGR: User Logged In "
+
+                sleep 60
+               while pages_loaded < 5
+
+                  begin
+                      
+                      if session.has_content?('See More Stories')
+
+                         session.click_link("See More Stories")
+                         puts "FBGR: Clicked on more stories"
+
+
+                      elsif session.has_content?('See more stories')
+
+                         session.click_link("See more stories")
+                         puts "FBGR: Clicked on more stories"
+
+                      else 
+
+
+                          puts "FBGR: no more stories found "
+
+                      
+                      end 
+
+
+                  rescue Exception   => e
+                     puts "FBGR: caught exception #{e}! ohnoes!"
+                  end 
+
+                  sleep 80
+                  pages_loaded = pages_loaded + 1 
+               end
+
+                puts "FBGR: Session Finished #{pages_loaded}"
+
+                session.driver.quit;
+
+          end 
+        
+
+
+    rescue Exception   => e
+       puts "FBGR: caught exception #{e}! ohnoes!"
+    end 
+
+
+
+  end 
 
   
 end
