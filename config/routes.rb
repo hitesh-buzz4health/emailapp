@@ -3,6 +3,10 @@ Emailapp::Application.routes.draw do
 
   resources :reports
 
+
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -22,7 +26,7 @@ Emailapp::Application.routes.draw do
   post "/search_by_email" => 'references#search'
   post "/search_by_name" => 'references#search'
   post "/send_email" => 'emails#send_email'
-
+  post "/feeds" => 'feeds#create'
 
   get "/filter_by_reference_specialization" => 'references#filter_by_reference_specialization'
 
