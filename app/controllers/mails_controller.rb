@@ -21,32 +21,47 @@ skip_before_action :verify_authenticity_token
 
 
 
-
 def sending_email(params)
 
-  google_session = GoogleDrive::Session.from_config("config.json")
+ credentials = Google::Auth::UserRefreshCredentials.new(
+ client_id: "156404022533-kv0hntucj24bnhbderr5kstc195ihu2e.apps.googleusercontent.com",
+ client_secret: "rzi6_TO-iHJwvmZwjR_E-x1-",
+ scope: [
+   "https://www.googleapis.com/auth/drive",
+   "https://spreadsheets.google.com/feeds/",
+ ],
+ refresh_token: "1/BYLIVCaqF0YmO8ujY36tvzQMGzBI5fgxA0KF3BmkwnjFLV_ixSX3IDAxtS1GUta4")
+ google_session = GoogleDrive::Session.from_credentials(credentials)
+
+
   goodle_spreadsheet = google_session.spreadsheet_by_url("https://docs.google.com/spreadsheets/d/1ghnZv1CQPBIfGPaFvdNuGpsT_fP0CGUf0V_84_6Cc1I/edit#gid=55910370")
+
   ws = goodle_spreadsheet.worksheets
   start_sheet_no = 0
   end_sheet_no = ((ws.length)-1)
   start_sheet_no.upto(end_sheet_no) do |sheet_num|
 
                   worksheet  = ws[sheet_num]
-                  session = Capybara::Session.new(:selenium) 
+
+                  session = Capybara::Session.new(:selenium)
+                  headless = Headless.new
+                  headless.start 
                   session.visit "https://www.gmail.com/"
-                        if params[:google_email].present?  &&  params[:google_password].prsent?
+                        if params[:google_email].present?  &&  params[:google_password].present?
                             session.find("input[name='Email']").set(params[:google_email])
                             session.find("input[name='signIn']").click()
                             session.find("input[name='Passwd']").set(params[:google_password])
                             session.find("input[name='signIn']").click()
-                            puts "GMES: logged in for" + params[:google_email].to_s
+
+                            puts_log "GMES: logged in for" + params[:google_email].to_s
 
                         else 
                             session.find("input[name='Email']").set(worksheet[2,1])
                             session.find("input[name='signIn']").click()
                             session.find("input[name='Passwd']").set(worksheet[2,2])
                             session.find("input[name='signIn']").click()
-                            puts "GMES: logged in for" + worksheet[2,1].to_s
+
+                            puts_log "GMES: logged in for" + worksheet[2,1].to_s
 
                         end 
 
@@ -58,13 +73,14 @@ def sending_email(params)
                        
                           if worksheet[number , 11].eql? "sent"
 
-                          puts "GMES:mail to this user has already been sent " + number.to_s 
+
+                          puts_log "GMES:mail to this user has already been sent " + number.to_s 
                           next 
 
                          end 
 
                          if worksheet[number , 5].length == 0 || worksheet[number , 6].length == 0 
-                          puts "GMES:empty cells encountered  for line number " + number.to_s 
+                          puts_log "GMES:empty cells encountered  for line number " + number.to_s 
                           next 
                          end   
 
@@ -79,11 +95,14 @@ def sending_email(params)
                          session.find("input[name='subjectbox']").set(subject)
                          template = worksheet[2,4].clone
                          template.gsub! '*|FNAME|*' , worksheet[number ,5]
+
                          template.gsub! '*|Email|*' ,  worksheet[number ,6]
                          template.gsub! '*|Title|*' ,  worksheet[2,7]
                          template.gsub! '*|Description|*' ,  worksheet[2 ,8]
                          template.gsub! '*|ActionUrl|*' ,  worksheet[2 ,9]
                          template.gsub! '*|ImageUrl|*' ,  worksheet[2 ,10]
+
+                         puts_log template 
 
 
                          jsTORun = "document.getElementsByClassName(\"Am Al editable LW-avf\")[0].innerHTML= \"" +template+"\" ";
@@ -98,11 +117,12 @@ def sending_email(params)
                           
                           
                           total_no_of_mails_sent = total_no_of_mails_sent + 1
-                          puts "GMES: no of current mail being send in this session " +total_no_of_mails_sent.to_s
+
+                          puts_log "GMES: no of current mail being send in this session " +total_no_of_mails_sent.to_s
 
                           if total_no_of_mails_sent == 500
 
-                             puts "GMES: 500 mails have been sent ."
+                             puts_log "GMES: 500 mails have been sent ."
                              break 
 
                           end 
@@ -111,17 +131,19 @@ def sending_email(params)
 
                        
                         rescue  Exception => e
-                          puts "GMES: caught exception #{e}! ohnoes!"
 
                           worksheet[number,11] =  e.to_s
                           worksheet.save  
+                          puts_log "GMES: caught exception #{e}! ohnoes!"
                         end 
 
                   end 
                         
-                     puts "GMES: total no of mails sent in this session " +total_no_of_mails_sent.to_s
+
+                     puts_log "GMES: total no of mails sent in this session " +total_no_of_mails_sent.to_s
 
                      session.driver.quit;
+
 
 
         end 

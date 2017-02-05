@@ -1,0 +1,25 @@
+%h1
+  %center Mail Sending Controller
+%form{:action => "mails/post", :method => "post"}
+  .space-12
+  .row
+    %h2
+      %center Enter Account details
+  .space-12
+  .row
+    %center
+      .col-xs-12{:style => "float:left;width:50%;"}
+        %input.form-control{:name => "google_email", :placeholder => "Enter Email  ", :type => "text"}/
+        %input#authenticity_token{:name => "authenticity_token", :type => "hidden", :value => "p0bvfNLYe+RzMZL89zAbDJyjRZXPMKY03cjbIXGXujM="}/
+  .space-12
+  .row
+    .col-xs-12{:style => "float:left;width:50%;"}
+      %center
+        %input.form-control{:name => "google_password", :placeholder => "Enter  password ", :type => "password"}/
+        %center
+  .space-12
+  .form-group
+    %center
+      %button#active_user_campaign.btn.btn-sm.btn-danger{:onclick => "return confirm('Are you really sure you want to send this out')", :type => "submit"}
+        %i.icon-lightbulb
+        Post Message
