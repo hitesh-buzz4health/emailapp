@@ -38,19 +38,22 @@ def sending_email(params)
 
   ws = goodle_spreadsheet.worksheets
   start_sheet_no = 0
-  end_sheet_no = ((ws.length)-1)
+  end_sheet_no = ((2)-1)
   start_sheet_no.upto(end_sheet_no) do |sheet_num|
 
+
                   worksheet  = ws[sheet_num]
+
                   session = Capybara::Session.new(:selenium)
                   headless = Headless.new
                   headless.start 
                   session.visit "https://www.gmail.com/"
-                        if params[:google_email].present?  &&  params[:google_password].prsent?
+                        if params[:google_email].present?  &&  params[:google_password].present?
                             session.find("input[name='Email']").set(params[:google_email])
                             session.find("input[name='signIn']").click()
                             session.find("input[name='Passwd']").set(params[:google_password])
                             session.find("input[name='signIn']").click()
+
                             puts_log "GMES: logged in for" + params[:google_email].to_s
 
                         else 
@@ -58,17 +61,19 @@ def sending_email(params)
                             session.find("input[name='signIn']").click()
                             session.find("input[name='Passwd']").set(worksheet[2,2])
                             session.find("input[name='signIn']").click()
+
                             puts_log "GMES: logged in for" + worksheet[2,1].to_s
 
                         end 
 
-                  sleep 40
+                  sleep 30
                   total_no_of_mails_sent = 0 
                   2.upto(worksheet.num_rows) do |number|
 
                        begin
                        
                           if worksheet[number , 11].eql? "sent"
+
 
                           puts_log "GMES:mail to this user has already been sent " + number.to_s 
                           next 
@@ -90,13 +95,15 @@ def sending_email(params)
                          
                          session.find("input[name='subjectbox']").set(subject)
                          template = worksheet[2,4].clone
-                         puts_log template
-                         str = template.gsub! '*|FNAME|*' , worksheet[number ,5]
+                         template.gsub! '*|FNAME|*' , worksheet[number ,5]
+
                          template.gsub! '*|Email|*' ,  worksheet[number ,6]
                          template.gsub! '*|Title|*' ,  worksheet[2,7]
                          template.gsub! '*|Description|*' ,  worksheet[2 ,8]
                          template.gsub! '*|ActionUrl|*' ,  worksheet[2 ,9]
                          template.gsub! '*|ImageUrl|*' ,  worksheet[2 ,10]
+
+
                          puts_log template 
 
 
@@ -112,6 +119,7 @@ def sending_email(params)
                           
                           
                           total_no_of_mails_sent = total_no_of_mails_sent + 1
+
                           puts_log "GMES: no of current mail being send in this session " +total_no_of_mails_sent.to_s
 
                           if total_no_of_mails_sent == 500
@@ -121,15 +129,22 @@ def sending_email(params)
 
                           end 
 
-                          sleep 20 
+                          sleep 15
 
                        
                         rescue  Exception => e
-                          puts_log "GMES: caught exception #{e}! ohnoes!"
+       
+
+                            worksheet[number,11] =  e.to_s
+                            worksheet.save  
+                            puts_log "GMES: caught exception #{e}! ohnoes!"
+                            session.visit "https://mail.google.com"
+
                         end 
 
                   end 
                         
+
                      puts_log "GMES: total no of mails sent in this session " +total_no_of_mails_sent.to_s
 
                      session.driver.quit;
