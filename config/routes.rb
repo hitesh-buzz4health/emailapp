@@ -3,13 +3,19 @@ Emailapp::Application.routes.draw do
 
   resources :reports
 
+
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
 
   mount Browserlog::Engine => '/logs'
-
+  get "/ultrasound_cases" => 'cases#ultrasoundcases'
+  get "/radiopedia_fast" => 'cases#radiopedia_fast' 
+  get "/radiopedia" => 'cases#radiopedia'
   post "/finish_campaign" => 'emails#finish_campaign'
   post "mails/post" => 'mails#post'
   post "groups/post" => 'groups#post'
@@ -20,7 +26,7 @@ Emailapp::Application.routes.draw do
   post "/search_by_email" => 'references#search'
   post "/search_by_name" => 'references#search'
   post "/send_email" => 'emails#send_email'
-
+  post "/feeds" => 'feeds#create'
 
   get "/filter_by_reference_specialization" => 'references#filter_by_reference_specialization'
 
