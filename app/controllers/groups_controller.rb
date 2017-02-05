@@ -94,11 +94,43 @@ class GroupsController < ApplicationController
 
               headless = Headless.new
               # headless.start
+
+              #loading from cookies 
               session = Capybara::Session.new(:selenium) 
               session.visit "https://m.facebook.com"
-              session.find("input[name='email'").set(user_email)
-              session.find("input[name='pass'").set(user_password)
+              if File.exist?('./data/cookies_'+user_email.to_s + '.txt')
+              
+                puts "FBGR: about to wait "  
+                f = File.open('./data/cookies_'+user_email.to_s + '.txt')
+                s = f.gets
+                d = s.split("@_@")
+                d.each do |dd|
+
+                  temp_o = JSON.parse(dd)
+                  session.driver.browser.manage.add_cookie(:name => temp_o["name"], :value => temp_o["value"])
+              
+                end
+              puts "FBGR:cookies work finished"
+              session.visit "https://m.facebook.com"
+
+              else 
+               
+              session.find("input[name='email']").set(user_email)
+              session.find("input[name='pass']").set(user_password)
               session.click_button("Log In")
+              puts "FBGR: Logged in using facebook credentials"
+              sleep 10 
+
+              File.open('./data/cookies_'+user_email.to_s + '.txt', "wb") { |file| 
+                  session.driver.browser.manage.all_cookies.each do |cookie|
+                      file.write(cookie.to_json)
+                      file.write("@_@")
+                  end
+              }
+
+              puts "FBGR: Cookies for this session has been saved."
+              end 
+              
               process_sheet(ws[sheet_num] , output_spreadsheet , Date.today)
 
               puts "FBGR: Logged in for " + ws[sheet_num][4,1]
@@ -415,77 +447,77 @@ class GroupsController < ApplicationController
     end 
 
 
-    def activity_facebook()
-
+ def activity_facebook()
+         
         session = GoogleDrive::Session.from_config("config.json")
         puts "FBGR: Session for  script is created "
 
         facebook_info_sheet = session.spreadsheet_by_key("1z1XpwctUD1phYBUq2xoXaNsQ7TNmaWyZ-oLLcUEJ6kI").worksheets[0]
 
 
-    begin 
-        
-
-          2.upto(facebook_info_sheet.num_rows) do |item|
+          begin 
               
-                pages_loaded = 0 
-                session = Capybara::Session.new(:selenium) 
 
-               if facebook_info_sheet[item , 2].length == 0 || facebook_info_sheet[item , 2].length == 0
-                      puts "FBGR: Empty User found. Please enter user details at row 4 and col 1,2 "
-                      next
-                  end 
+                2.upto(facebook_info_sheet.num_rows) do |item|
+                    
+                      pages_loaded = 0 
+                      session = Capybara::Session.new(:selenium) 
 
-                session.visit "https://m.facebook.com"
-                session.find("input[name='email']").set(facebook_info_sheet[item ,2])
-                session.find("input[name='pass']").set(facebook_info_sheet[item ,3])
-                session.click_button("Log In")
-                puts "FBGR: User Logged In "
+                     if facebook_info_sheet[item , 2].length == 0 || facebook_info_sheet[item , 2].length == 0
+                            puts "FBGR: Empty User found. Please enter user details at row 4 and col 1,2 "
+                            next
+                        end 
 
-                sleep 60
-               while pages_loaded < 5
+                      session.visit "https://m.facebook.com"
+                      session.find("input[name='email']").set(facebook_info_sheet[item ,2])
+                      session.find("input[name='pass']").set(facebook_info_sheet[item ,3])
+                      session.click_button("Log In")
+                      puts "FBGR: User Logged In "
 
-                  begin
-                      
-                      if session.has_content?('See More Stories')
+                      sleep 60
+                     while pages_loaded < 5
 
-                         session.click_link("See More Stories")
-                         puts "FBGR: Clicked on more stories"
+                        begin
+                            
+                            if session.has_content?('See More Stories')
 
-
-                      elsif session.has_content?('See more stories')
-
-                         session.click_link("See more stories")
-                         puts "FBGR: Clicked on more stories"
-
-                      else 
+                               session.click_link("See More Stories")
+                               puts "FBGR: Clicked on more stories"
 
 
-                          puts "FBGR: no more stories found "
+                            elsif session.has_content?('See more stories')
 
-                      
-                      end 
+                               session.click_link("See more stories")
+                               puts "FBGR: Clicked on more stories"
+
+                            else 
 
 
-                  rescue Exception   => e
-                     puts "FBGR: caught exception #{e}! ohnoes!"
-                  end 
+                                puts "FBGR: no more stories found "
 
-                  sleep 80
-                  pages_loaded = pages_loaded + 1 
-               end
+                            
+                            end 
 
-                puts "FBGR: Session Finished #{pages_loaded}"
 
-                session.driver.quit;
+                        rescue Exception   => e
+                           puts "FBGR: caught exception #{e}! ohnoes!"
+                        end 
 
+                        sleep 80
+                        pages_loaded = pages_loaded + 1 
+                     end
+
+                      puts "FBGR: Session Finished #{pages_loaded}"
+
+                      session.driver.quit;
+
+                end 
+              
+
+
+          rescue Exception   => e
+             puts "FBGR: caught exception #{e}! ohnoes!"
           end 
-        
-
-
-    rescue Exception   => e
-       puts "FBGR: caught exception #{e}! ohnoes!"
-    end 
 
 
 

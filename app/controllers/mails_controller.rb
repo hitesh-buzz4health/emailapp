@@ -28,13 +28,13 @@ def sending_email(params)
   goodle_spreadsheet = google_session.spreadsheet_by_url("https://docs.google.com/spreadsheets/d/1ghnZv1CQPBIfGPaFvdNuGpsT_fP0CGUf0V_84_6Cc1I/edit#gid=55910370")
   ws = goodle_spreadsheet.worksheets
   start_sheet_no = 0
-  end_sheet_no = ((ws.length)-1)
+  end_sheet_no = ((2)-1)
   start_sheet_no.upto(end_sheet_no) do |sheet_num|
 
-                  worksheet  = ws[sheet_num]
+                  worksheet  = ws[sheet_num] ;0
                   session = Capybara::Session.new(:selenium) 
                   session.visit "https://www.gmail.com/"
-                        if params[:google_email].present?  &&  params[:google_password].prsent?
+                        if params[:google_email].present?  &&  params[:google_password].present?
                             session.find("input[name='Email']").set(params[:google_email])
                             session.find("input[name='signIn']").click()
                             session.find("input[name='Passwd']").set(params[:google_password])
@@ -50,7 +50,7 @@ def sending_email(params)
 
                         end 
 
-                  sleep 40
+                  sleep 30
                   total_no_of_mails_sent = 0 
                   2.upto(worksheet.num_rows) do |number|
 
@@ -77,15 +77,13 @@ def sending_email(params)
                          subject ="Video of the Day: Brain Strokes, Major lifestyle disorder by Dr. A N Jha"
                          
                          session.find("input[name='subjectbox']").set(subject)
-                         template = worksheet[2,4]
-                         puts template
+                         template = worksheet[2,4].clone
                          template.gsub! '*|FNAME|*' , worksheet[number ,5]
                          template.gsub! '*|Email|*' ,  worksheet[number ,6]
                          template.gsub! '*|Title|*' ,  worksheet[2,7]
                          template.gsub! '*|Description|*' ,  worksheet[2 ,8]
                          template.gsub! '*|ActionUrl|*' ,  worksheet[2 ,9]
                          template.gsub! '*|ImageUrl|*' ,  worksheet[2 ,10]
-                         puts template 
 
 
                          jsTORun = "document.getElementsByClassName(\"Am Al editable LW-avf\")[0].innerHTML= \"" +template+"\" ";
@@ -109,11 +107,16 @@ def sending_email(params)
 
                           end 
 
-                          sleep 20 
+                          sleep 15
 
                        
                         rescue  Exception => e
                           puts "GMES: caught exception #{e}! ohnoes!"
+                           
+                          worksheet[number,11] = "caught exception #{e}!"
+                          worksheet.save  
+                          session.visit "https://mail.google.com"
+                          
                         end 
 
                   end 
