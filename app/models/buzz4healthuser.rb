@@ -6,7 +6,7 @@ class Buzz4healthUser
 
   
 
-  field :name,                      :type => String, :limit => 100, :default => '', :null => true
+  field :name,                      :type => String,  :default => '', :null => true
   field :email,                     :type => String
   field :country_code,              :type => String
   field :country_name,              :type => String, :default => "unknown"
