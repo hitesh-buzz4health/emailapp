@@ -87,6 +87,8 @@ gem  'bitly'
 
 gem 'rack_session_access'
 
+gem  'gmail'
+
 #gem 'jsonapi-resources'
 
 # Use ActiveModel has_secure_password

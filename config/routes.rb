@@ -32,6 +32,8 @@ Emailapp::Application.routes.draw do
 
   get "/filter_by_type" => 'references#filter_by_reference_type'
   get "/mails" => 'mails#index'
+  get "/mails_using_gmail_api" => 'gmail_mailer#index'
+  post "/mails_using_gmail_api/post" => 'gmail_mailer#post' 
   resources :references 
    root 'groups#index'
 

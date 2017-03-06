@@ -1,0 +1,49 @@
+%h1
+  %center Mail Sending Controller
+%form{:action => "/mails_using_gmail_api/post", :method => "post"}
+  .space-12
+  %center
+    .row
+    .space-12
+    .row
+      .col-xs-12{:style => "float:left;width:50%;"}
+        %input.form-control{:name => "subject_email", :placeholder => "Enter Subject", :type => "text"}/
+        %input#authenticity_token{:name => "authenticity_token", :type => "hidden", :value => "p0bvfNLYe+RzMZL89zAbDJyjRZXPMKY03cjbIXGXujM="}/
+    .space-12
+    .row
+      .col-xs-12{:style => "float:left;width:50%;"}
+        %center
+          %label
+            Please Enter Html body:
+            %textarea{:cols => "70", :name => "html_body", :rows => "10"}
+          %center
+    .space-12
+    .row
+      .col-xs-12{:style => "float:left;width:50%;"}
+        %center
+          %input.form-control{:name => "main_title", :placeholder => "Enter Title", :type => "text"}/
+          %center
+    .space-12
+    .row
+      .col-xs-12{:style => "float:left;width:50%;"}
+        %center
+          %input.form-control{:name => "main_description", :placeholder => "Enter Description", :type => "text"}/
+          %center
+    .space-12
+    .row
+      .col-xs-12{:style => "float:left;width:50%;"}
+        %center
+          %input.form-control{:name => "Action_url", :placeholder => "Enter Action Url", :type => "text"}/
+          %center
+    .space-12
+    .row
+      .col-xs-12{:style => "float:left;width:50%;"}
+        %center
+          %input.form-control{:name => "Image_url", :placeholder => "Enter Image Url", :type => "text"}/
+          %center
+    .space-12
+    .form-group
+      %center
+        %button#active_user_campaign.btn.btn-sm.btn-danger{:onclick => "return confirm('Are you really sure you want to send this out')", :type => "submit"}
+          %i.icon-lightbulb
+          Post Message
