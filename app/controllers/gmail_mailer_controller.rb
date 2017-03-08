@@ -7,7 +7,7 @@ class GmailMailerController < ApplicationController
 	end 
 
     def post 
-    
+    	
     sending_mails    params 
     redirect_to "/mails_using_gmail_api"
 
@@ -25,43 +25,33 @@ class GmailMailerController < ApplicationController
 	                 refresh_token: "1/BYLIVCaqF0YmO8ujY36tvzQMGzBI5fgxA0KF3BmkwnjFLV_ixSX3IDAxtS1GUta4")
 	             google_session = GoogleDrive::Session.from_credentials(credentials)
 
-	              # OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
-	 
+	           
 			      google_spreadsheet = google_session.spreadsheet_by_url("https://docs.google.com/spreadsheets/d/1ghnZv1CQPBIfGPaFvdNuGpsT_fP0CGUf0V_84_6Cc1I/edit#gid=55910370")
 			      puts "GMES : Session of google sheet is created."
 			      ws = google_spreadsheet.worksheets
-			      start_sheet_no = 0
-			      end_sheet_no = 0
+			      email_sheets = ws[(ws.length)-1] 
+
+			     users_details =  Buzz4healthUser.where(:specializations.in => params[:specialization])
+
+
 			      gmail = nil 
 			      total_no_of_mails_for_the_day = 0
-			      start_sheet_no.upto(end_sheet_no) do |sheet_num|
 
-			              worksheet  = ws[3]
-			              email_sheets = ws[(ws.length)-1] 
-			 			  total_no_of_mails_for_this_user = 0	
-			 			  current_user = nil
-			 			  user_name = nil 
+			      total_no_of_mails_for_this_user = 0	
+			 	  current_user = nil
+			 	  user_name = nil 
 			            
 			    
-			              2.upto(worksheet.num_rows) do | number |
+			              users_details.each do | user |
 
 			                    begin       
 			 
-			          	             if worksheet[number , 11].eql? "sent"
-			                            puts  "GMES:mail to this user has already been sent " + number.to_s 
-			                            next 
 
-			                          end 
-
-			                          if worksheet[number , 5].length == 0 || worksheet[number , 6].length == 0 
-			                            puts  "GMES:empty cells encountered  for line number " + number.to_s 
-			                            next 
-			                          end 
 
 							           subject = params[:subject_email].clone
 							           if subject.include? "*|FNAME|*"
 
-							            subject.gsub! '*|FNAME|*' , worksheet[number , 5].to_s                              
+							            subject.gsub! '*|FNAME|*' , user.name                            
 							            
 							           end 
 
@@ -93,19 +83,19 @@ class GmailMailerController < ApplicationController
 			                             end 
 			                           template = params[:html_body].clone
 
-			                           template.gsub! '*|FNAME|*' , worksheet[number ,5]
+			                           template.gsub! '*|FNAME|*' , user.name 
 
-			                           template.gsub! '*|Email|*' ,  worksheet[number ,6]
+			                           template.gsub! '*|Email|*' ,  user.email
 			                           template.gsub! '*|Title|*' ,   params[:main_title] 
 			                           template.gsub! '*|Description|*' ,  params[:main_description]  
 			                           template.gsub! '*|ActionUrl|*' ,   params[:Action_url]   
 			                           template.gsub! '*|ImageUrl|*' , params[:Image_url]   
 			                           # removing new line if any exists.
 			                           template.delete!("\n")
-			                           puts "Gmes : mail is being sent to " +worksheet[number,6].to_s
+			                           puts "Gmes : mail is being sent to " + user.name + " " + user.email 
 			              
 										email = gmail.compose do
-										  to  worksheet[number,6].to_s
+										  to user.email
 										  from  user_name.to_s
 										  subject  subject.to_s
 						                  
@@ -124,19 +114,15 @@ class GmailMailerController < ApplicationController
 						                 total_no_of_mails_for_the_day = total_no_of_mails_for_the_day + 1 
 						                 puts "Gmes : no of mails sent for this user is " +total_no_of_mails_for_this_user.to_s
 						                 puts "Gmes : no of total  mails for this session " +total_no_of_mails_for_the_day.to_s
-						                 worksheet[number,11] = "sent"
-			                             worksheet.save  
-
+						                
 			                        rescue  Exception => e
-			                              worksheet[number,11] =  e.to_s
-			                              worksheet.save  
+			                              
 			                              puts  "GMES: caught exception #{e}! ohnoes!"
 			                        end 
 			                         
 
 			              end 
 
-			      end 
 
 
 
@@ -150,7 +136,7 @@ class GmailMailerController < ApplicationController
 
 			if !email_sheets[user_no , 5].eql? "used"
 		      user_info = Hash.new
-		      user_info[:name] = email_sheets[user_no , 1].to_s + "From Buzz4health" 
+		      user_info[:name] = email_sheets[user_no , 1].to_s + " From Buzz4health" 
 		      user_info[:email] = email_sheets[user_no,3]
 		      user_info[:password] = email_sheets[user_no , 4]
 		      return user_info
