@@ -30,18 +30,18 @@ class GmailMailerController < ApplicationController
 			      puts "GMES : Session of google sheet is created."
 			      ws = google_spreadsheet.worksheets
 			      email_sheets = ws[(ws.length)-1] 
-
-			     users_details =  Buzz4healthUser.where(:specializations.in => params[:specialization])
+                  @output_sheet = ws[0]
+			      users_details =  Buzz4healthUser.where(:specializations.in => params[:specialization])
 
 
 			      gmail = nil 
-			      total_no_of_mails_for_the_day = 0
-
+			      total_no_of_mails_for_the_day = 0 
 			      total_no_of_mails_for_this_user = 0	
 			 	  current_user = nil
 			 	  user_name = nil 
+			 	  @num_of_rows = @output_sheet.num_rows + 1
 			            
-			    
+			              
 			              users_details.each do | user |
 
 			                    begin       
@@ -63,9 +63,10 @@ class GmailMailerController < ApplicationController
 				                                email_sheets[current_user_row,5] = "used"
 				                                email_sheets[current_user_row,6] =  total_no_of_mails_for_this_user
 				                                email_sheets.save
+				                                @output_sheet.save
 				                                total_no_of_mails_for_this_user = 0
 				                                puts "Gmes:Logging out the current user."     
-
+                                                
 				                                gmail.logout
 
 			                                end
@@ -110,13 +111,14 @@ class GmailMailerController < ApplicationController
 						                 end
 						                 #delivering email
 						                 email.deliver!
+						                 post_output user_name , user.name , user.email , subject
 						                 total_no_of_mails_for_this_user = total_no_of_mails_for_this_user  + 1
 						                 total_no_of_mails_for_the_day = total_no_of_mails_for_the_day + 1 
 						                 puts "Gmes : no of mails sent for this user is " +total_no_of_mails_for_this_user.to_s
 						                 puts "Gmes : no of total  mails for this session " +total_no_of_mails_for_the_day.to_s
 						                
 			                        rescue  Exception => e
-			                              
+			                              @output_sheet.save
 			                              puts  "GMES: caught exception #{e}! ohnoes!"
 			                        end 
 			                         
@@ -155,6 +157,21 @@ class GmailMailerController < ApplicationController
 	  	 end 
 
 	  end 
+
+	end 
+
+
+
+	def post_output mailers_name , user_name , user_email , subject  
+       
+		@output_sheet[@num_of_rows, 1] = mailers_name
+		@output_sheet[@num_of_rows ,2] = user_name
+		@output_sheet[@num_of_rows , 3] = user_email
+		@output_sheet[@num_of_rows , 4] = subject
+		@output_sheet[@num_of_rows,5] = Time.now.strftime("%d/%m/%Y %H:%M")
+		@num_of_rows = @num_of_rows + 1 
+
+
 
 	end 
 
