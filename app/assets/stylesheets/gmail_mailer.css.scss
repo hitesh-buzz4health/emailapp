@@ -1,5 +1,45 @@
 // Place all the styles related to the gmail_mailer controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-input { margin-bottom: 25px;
+.form-control { margin-bottom: 25px;
         margin-left: 15px }
+
+ 
+textarea { margin-bottom: 25px;
+        margin-left: 15px }
+
+.multiselect {
+  width: 300px;
+   margin-bottom: 25px;
+   float: right;
+}
+
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
