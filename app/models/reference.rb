@@ -15,6 +15,7 @@ class Reference
   field                     :PinCode ,          :type => String, :default => ""
   field                     :Specialization  , :type => String , :default => ""
   field                     :Address        ,   :type => String , :default => ""
+  
 
  field :unique_key, type: String, :default => ""
 
@@ -26,6 +27,6 @@ class Reference
   fulltext_search_in :ReferenceEmail,  :index_name => 'ref_email_index'
   fulltext_search_in :ReferenceName,  :index_name => 'ref_name_index'
   fulltext_search_in :ReferenceSpecialization,  :index_name => 'ref_spec_index' 
-  index({ReferenceName: 1, Name: 1}, {unique: true, drop_dups: true, name: 'unique_refname'})
+  # index({ReferenceName: 1, Name: 1}, {unique: true, drop_dups: true, name: 'unique_refname'})
 
 end
