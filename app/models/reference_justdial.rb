@@ -17,11 +17,6 @@ class ReferenceJustdial
   field                     :ProfileLink    ,    :type => String  ,  :default => ""
   
 
- field :unique_key, type: String, :default => ""
-
-
-  validates_uniqueness_of :unique_key
-
   paginates_per 10000
   fulltext_search_in :Name, :index_name => 'name_index'
   fulltext_search_in :ReferenceName,  :index_name => 'ref_name_index'
