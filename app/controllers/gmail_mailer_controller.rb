@@ -31,8 +31,7 @@ class GmailMailerController < ApplicationController
 			      ws = google_spreadsheet.worksheets
 			      email_sheets = ws[(ws.length)-1] 
                   @output_sheet = ws[0]
-			      users_details =  Buzz4healthUser.where(:specializations.in => params[:specialization])
-
+			  
 
 			      gmail = nil 
 			      total_no_of_mails_for_the_day = 0 
@@ -40,18 +39,24 @@ class GmailMailerController < ApplicationController
 			 	  current_user = nil
 			 	  user_name = nil 
 			 	  @num_of_rows = @output_sheet.num_rows + 1
-			            
-			              
+			                   
+			              users_details   = get_model params[:type_database]  
 			              users_details.each do | user |
 
 			                    begin       
-			 
-
-
+			                           
+                                      
+                                      reciever_detials = get_recievers_details params[:type_database]  , user 
+                                      reciever_name = reciever_detials[["name"]]
+                                      reciever_email = recievers_detials["emails"]   
+                                      if reciever_email.length == 0
+                                      	puts "Gmes: this is not a proper email to send mails "
+                                      	next
+                                      end    
 							           subject = params[:subject_email].clone
 							           if subject.include? "*|FNAME|*"
 
-							            subject.gsub! '*|FNAME|*' , user.name                            
+							            subject.gsub! '*|FNAME|*' , reciever_name                          
 							            
 							           end 
 
@@ -84,20 +89,20 @@ class GmailMailerController < ApplicationController
 			                             end 
 			                           template = params[:html_body].clone
 
-			                           template.gsub! '*|FNAME|*' , user.name 
+			                           template.gsub! '*|FNAME|*' , reciever_name 
 
-			                           template.gsub! '*|Email|*' ,  user.email
+			                           template.gsub! '*|Email|*' ,  reciever_email
 			                           template.gsub! '*|Title|*' ,   params[:main_title] 
 			                           template.gsub! '*|Description|*' ,  params[:main_description]  
 			                           template.gsub! '*|ActionUrl|*' ,   params[:Action_url]   
 			                           template.gsub! '*|ImageUrl|*' , params[:Image_url]   
 			                           # removing new line if any exists.
 			                           template.delete!("\n")
-			                           puts "Gmes : mail is being sent to " + user.name + " " + user.email 
+			                           puts "Gmes : mail is being sent to " + reciever_name + " " +reciever_email 
 			              
 										email = gmail.compose do
-										  to user.email
-										  from  user_name.to_s
+										  to reciever_email
+										  from  reciever_name.to_s
 										  subject  subject.to_s
 						                  
 						                  #for adding html template 
@@ -111,7 +116,7 @@ class GmailMailerController < ApplicationController
 						                 end
 						                 #delivering email
 						                 email.deliver!
-						                 post_output user_name , user.name , user.email , subject
+						                 post_output user_name , reciever_name , reciever_email , subject
 						                 total_no_of_mails_for_this_user = total_no_of_mails_for_this_user  + 1
 						                 total_no_of_mails_for_the_day = total_no_of_mails_for_the_day + 1 
 						                 puts "Gmes : no of mails sent for this user is " +total_no_of_mails_for_this_user.to_s
@@ -130,6 +135,41 @@ class GmailMailerController < ApplicationController
 
 
 	end 
+    
+
+    def get_model model_type
+                if model_type.eql? "buzz4health"
+                  return  Buzz4healthUser.where(:specializations.in => params[:specialization])
+                elsif model_type.eql? "justdial" 
+			      return  ReferenceJustdial.where(:ReferenceName=>"Just Dial")
+			    else 
+                   return  Reference.all
+			    end 
+
+    end 
+
+
+    def get_recievers_details model_type , user 
+    	          recievers_detials = Hash.new
+    	        if model_type.eql? "buzz4health"
+
+                    recievers_detials["name"] = user.name
+                    recievers_detials ["emails"]  = user.email
+                    return recievers_detials
+
+                elsif model_type.eql? "justdial" 
+
+                     recievers_detials["name"] = user.Name
+                     recievers_detials ["emails"]  = user.Emails
+                     return recievers_detials
+			    else 
+                    recievers_detials["name"] = user.Name
+                    recievers_detials ["emails"]  = user.Emails
+                    return recievers_detials
+			    end 
+
+
+    end 
 
 
 	def change_user email_sheets 
