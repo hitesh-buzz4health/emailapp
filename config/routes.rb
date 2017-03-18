@@ -35,7 +35,7 @@ Emailapp::Application.routes.draw do
   get "/mails_using_gmail_api" => 'gmail_mailer#index'
   post "/mails_using_gmail_api/post" => 'gmail_mailer#post' 
   resources :references 
-   root 'groups#index'
+   root 'gmail_mailer#index'
 
 
 
