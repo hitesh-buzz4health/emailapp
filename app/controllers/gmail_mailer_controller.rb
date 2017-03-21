@@ -47,8 +47,9 @@ class GmailMailerController < ApplicationController
 			                           
                                       
                                       reciever_detials = get_recievers_details params[:type_database]  , user 
-                                      reciever_name = reciever_detials[["name"]]
-                                      reciever_email = recievers_detials["emails"]   
+                                      reciever_name = reciever_detials["name"]
+                                      reciever_email = reciever_detials["emails"] 
+                                     
                                       if reciever_email.length == 0
                                       	puts "Gmes: this is not a proper email to send mails "
                                       	next
@@ -87,22 +88,24 @@ class GmailMailerController < ApplicationController
 
 
 			                             end 
+			                           
 			                           template = params[:html_body].clone
 
-			                           template.gsub! '*|FNAME|*' , reciever_name 
+			                           template.gsub! '*|FNAME|*' , reciever_name.to_s 
 
-			                           template.gsub! '*|Email|*' ,  reciever_email
+			                           template.gsub! '*|Email|*' ,  reciever_email.to_s
 			                           template.gsub! '*|Title|*' ,   params[:main_title] 
 			                           template.gsub! '*|Description|*' ,  params[:main_description]  
 			                           template.gsub! '*|ActionUrl|*' ,   params[:Action_url]   
 			                           template.gsub! '*|ImageUrl|*' , params[:Image_url]   
 			                           # removing new line if any exists.
 			                           template.delete!("\n")
+			                          
 			                           puts "Gmes : mail is being sent to " + reciever_name + " " +reciever_email 
-			              
+			                           
 										email = gmail.compose do
 										  to reciever_email
-										  from  reciever_name.to_s
+										  from  user_name
 										  subject  subject.to_s
 						                  
 						                  #for adding html template 
@@ -138,6 +141,7 @@ class GmailMailerController < ApplicationController
     
 
     def get_model model_type
+    	        
                 if model_type.eql? "buzz4health"
                   return  Buzz4healthUser.where(:specializations.in => params[:specialization])
                 elsif model_type.eql? "justdial" 
