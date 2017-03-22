@@ -41,6 +41,7 @@ class GmailMailerController < ApplicationController
 			 	  @num_of_rows = @output_sheet.num_rows + 1
 			                   
 			              users_details   = get_model params[:type_database]  
+
 			              users_details.each do | user |
 
 			                    begin       
@@ -126,13 +127,20 @@ class GmailMailerController < ApplicationController
 						                 puts "Gmes : no of total  mails for this session " +total_no_of_mails_for_the_day.to_s
 						                
 			                        rescue  Exception => e
+			                        	
+			                        	if !gmail.nil?
+			                               gmail.logout
+			                            end 
 			                              @output_sheet.save
 			                              puts  "GMES: caught exception #{e}! ohnoes!"
 			                        end 
 			                         
 
 			              end 
-
+                   
+                #saving sheet in case when emails are less
+                @output_sheet.save
+                gmail.logout
 
 
 
@@ -164,11 +172,11 @@ class GmailMailerController < ApplicationController
                 elsif model_type.eql? "justdial" 
 
                      recievers_detials["name"] = user.Name
-                     recievers_detials ["emails"]  = user.Emails
+                     recievers_detials ["emails"]  = user.Emails[0]
                      return recievers_detials
 			    else 
                     recievers_detials["name"] = user.Name
-                    recievers_detials ["emails"]  = user.Emails
+                    recievers_detials ["emails"]  = user.Emails[0]
                     return recievers_detials
 			    end 
 
