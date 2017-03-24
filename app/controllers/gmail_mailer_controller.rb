@@ -71,10 +71,10 @@ class GmailMailerController < ApplicationController
                                       
                                       reciever_detials = get_recievers_details params[:type_database]  , user 
                                       reciever_name = reciever_detials["name"]
-                                      reciever_email = reciever_detials["emails"] 
+                                      reciever_email = reciever_detials["emails"] .to_s
                                      
                                       if reciever_email.length == 0
-                                      	puts "Gmes: this is not a proper email to send mails "
+                                      	puts "Gmes: this is not a proper email to send mails :-" +reciever_email
                                       	next
                                       end    
 							           subject = params[:subject_email].clone
@@ -145,7 +145,8 @@ class GmailMailerController < ApplicationController
 						                 end
 						                 #delivering email
 						                 email.deliver!
-
+						                 puts "Gmes : Putting thread to sleep."
+                                         sleep 4
 						                 total_no_of_mails_for_this_user = total_no_of_mails_for_this_user  + 1
 						                 total_no_of_mails_for_the_day = total_no_of_mails_for_the_day + 1 
 
@@ -165,6 +166,7 @@ class GmailMailerController < ApplicationController
 			                             rescue  Exception => e
 
                                             puts  "GMES: caught exception #{e}! ohnoes!"
+
 			                             end
 
 			                              puts  "GMES: caught exception #{e}! ohnoes!"
