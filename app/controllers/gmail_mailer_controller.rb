@@ -7,8 +7,15 @@ class GmailMailerController < ApplicationController
 	end 
 
     def post 
-    	
-    sending_mails    params 
+    
+
+    
+    # creating a worker thread 
+    worker = Workers::Worker.new	
+        worker.perform do
+          sending_mails    params 
+        end 
+    
     redirect_to "/mails_using_gmail_api"
 
     end 
@@ -41,6 +48,22 @@ class GmailMailerController < ApplicationController
 			 	  @num_of_rows = @output_sheet.num_rows + 1
 			                   
 			              users_details   = get_model params[:type_database]  
+                          
+                          if !params[:resume].nil?
+
+                            last_user =  @output_sheet[2 ,  8].to_i
+
+                            puts last_user
+
+                            if last_user.is_a? Integer
+	                            users_details = users_details[last_user..-1]
+                                total_no_of_mails_for_the_day  = last_user
+	                            puts users_details.count
+                        	end 
+
+                          end 
+
+
 			              users_details.each do | user |
 
 			                    begin       
@@ -55,6 +78,7 @@ class GmailMailerController < ApplicationController
                                       	next
                                       end    
 							           subject = params[:subject_email].clone
+							           
 							           if subject.include? "*|FNAME|*"
 
 							            subject.gsub! '*|FNAME|*' , reciever_name                          
@@ -84,7 +108,9 @@ class GmailMailerController < ApplicationController
 			                                user_name  = user_info[:name]
 			                                #capitalizing the first character of the name .
 			                                user_name[0] = user_name[0].capitalize
+			                                
 			                                puts "Gmes : current user for this instance." + current_user.to_s
+			                                 
 
 
 			                             end 
@@ -119,20 +145,37 @@ class GmailMailerController < ApplicationController
 						                 end
 						                 #delivering email
 						                 email.deliver!
-						                 post_output user_name , reciever_name , reciever_email , subject
+
 						                 total_no_of_mails_for_this_user = total_no_of_mails_for_this_user  + 1
 						                 total_no_of_mails_for_the_day = total_no_of_mails_for_the_day + 1 
+
+						                 post_output user_name , reciever_name , reciever_email , subject , total_no_of_mails_for_the_day
+						                 
 						                 puts "Gmes : no of mails sent for this user is " +total_no_of_mails_for_this_user.to_s
 						                 puts "Gmes : no of total  mails for this session " +total_no_of_mails_for_the_day.to_s
 						                
 			                        rescue  Exception => e
-			                              @output_sheet.save
+			                        	
+			                            begin
+
+                                          @output_sheet[@num_of_rows , 6] = e
+			                              @output_sheet.save 
+                                          
+
+			                             rescue  Exception => e
+
+                                            puts  "GMES: caught exception #{e}! ohnoes!"
+			                             end
+
 			                              puts  "GMES: caught exception #{e}! ohnoes!"
 			                        end 
 			                         
 
 			              end 
-
+                   
+                #saving sheet in case when emails are less
+                @output_sheet.save
+                gmail.logout
 
 
 
@@ -151,7 +194,7 @@ class GmailMailerController < ApplicationController
 			    end 
 
     end 
-
+ 
 
     def get_recievers_details model_type , user 
     	          recievers_detials = Hash.new
@@ -164,11 +207,11 @@ class GmailMailerController < ApplicationController
                 elsif model_type.eql? "justdial" 
 
                      recievers_detials["name"] = user.Name
-                     recievers_detials ["emails"]  = user.Emails
+                     recievers_detials ["emails"]  = user.Emails[0]
                      return recievers_detials
 			    else 
                     recievers_detials["name"] = user.Name
-                    recievers_detials ["emails"]  = user.Emails
+                    recievers_detials ["emails"]  = user.Emails[0]
                     return recievers_detials
 			    end 
 
@@ -206,18 +249,21 @@ class GmailMailerController < ApplicationController
 
 
 
-	def post_output mailers_name , user_name , user_email , subject  
+	def post_output mailers_name , user_name , user_email , subject  , total_no_of_mails_for_the_day
        
 		@output_sheet[@num_of_rows, 1] = mailers_name
 		@output_sheet[@num_of_rows ,2] = user_name
 		@output_sheet[@num_of_rows , 3] = user_email
 		@output_sheet[@num_of_rows , 4] = subject
 		@output_sheet[@num_of_rows,5] = Time.now.strftime("%d/%m/%Y %H:%M")
+		@output_sheet[2,  8] = total_no_of_mails_for_the_day
 		@num_of_rows = @num_of_rows + 1 
 
 
 
 	end 
+
+  	
 
 
 end
