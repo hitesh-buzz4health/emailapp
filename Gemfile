@@ -60,7 +60,7 @@ gem 'headless'
 
 gem 'selenium-webdriver'
 
-# gem 'browserlog', '~> 0.0.2'
+gem 'browserlog', '~> 0.0.2'
 
 gem 'nokogiri'
 
