@@ -1,0 +1,27 @@
+<% content_for :for_head do %>
+
+<!--  <meta http-equiv="refresh" content="5" />
+ -->
+
+<% end %>
+
+
+<pre ><%= @log %></pre>
+
+<script type="text/javascript">
+    //put this somewhere in "show.html"
+    //using window onload event to run function
+    //so function runs after all content has been loaded.
+    //After refresh this entire script will run again.
+    window.onload = function () {
+        'use strict';
+        var millisecondsBeforeRefresh = 10000; //Adjust time here
+        window.setTimeout(function () {
+            //refresh the entire document
+            document.location.reload();
+        }, millisecondsBeforeRefresh);
+    };
+
+    window.onload();
+</script>
+
