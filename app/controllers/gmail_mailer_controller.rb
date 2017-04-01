@@ -7,20 +7,28 @@ class GmailMailerController < ApplicationController
 	end 
 
     def post 
-    
-   
-    # creating a worker thread 
-    worker = Workers::Worker.new	
-        worker.perform do
 
-          sending_mails    params 
-        end 
-    
-    redirect_to "/mails_using_gmail_api"
+       if  params[:password].eql? "nopassword"
+
+	        # creating a worker thread 
+		    worker = Workers::Worker.new	
+		    worker.perform do
+
+		    sending_mails params 
+		    end 
+
+		    redirect_to "/mails_using_gmail_api"
+       end 
 
     end 
   
-	def sending_mails params 
+	def sending_mails params
+
+
+		          #creating logger file in ruby
+	              @logger = Logger.new('./log/google_script.log', 5, 1024000)
+	              @logger.level = Logger::INFO
+
 	             credentials = Google::Auth::UserRefreshCredentials.new(
 	                 client_id: "156404022533-kv0hntucj24bnhbderr5kstc195ihu2e.apps.googleusercontent.com",
 	                 client_secret: "rzi6_TO-iHJwvmZwjR_E-x1-",
@@ -32,7 +40,8 @@ class GmailMailerController < ApplicationController
 	             google_session = GoogleDrive::Session.from_credentials(credentials); nil
 
 
-	           
+	             
+
 			      google_spreadsheet = google_session.spreadsheet_by_url("https://docs.google.com/spreadsheets/d/1ghnZv1CQPBIfGPaFvdNuGpsT_fP0CGUf0V_84_6Cc1I/edit#gid=55910370"); nil
 			      post_logs "GMES : Session of google sheet is created."
 			      ws = google_spreadsheet.worksheets; nil
@@ -268,17 +277,16 @@ class GmailMailerController < ApplicationController
 
 
 	def post_logs logs
-      File.open("./log/google_scripts_log.log", 'a+') {|f| 
-      	f << logs
-      	f << "\n" 
-       }
-      puts  logs
+
+		@logger.info logs  
+		puts logs
+       
 	end 
    
 
 
 def log
-  @log = `tail -n 40 log/google_scripts_log.log`
+  @log = `tail -n 40 log/google_script.log`
 end 
   	
 

@@ -4,6 +4,8 @@
   %center Mail Sending Controller
 %form{:action => "/mails_using_gmail_api/post", :method => "post"}
   .space-12
+  .col-xs-12{:style => "float:right;width:25%;"}
+    %input.form-control{:name => "password", :placeholder => "Enter Password..", :type => "password"}/
   %select#lstFruits{:multiple => "multiple", :name => "specialization[]"}
     %option{:value => "Anaesthesiology"} Anaesthesiology
     %option{:value => "Anasthesia & Critical Care Medicine"} Anasthesia  Critical Care Medicine
@@ -106,11 +108,13 @@
     %option{:value => "Vascular Surgery"} Vascular Surgery
     %option{:value => "Virology"} Virology
     %option{:value => "testing"} testing
+  
   .col-xs-12{:style => "width:auto; float:right; margin:0 12px 12px 0;"}
     %select{:name => "type_database"}
       %option{:value => "justdial"} Just Dial
       %option{:value => "buzz4health"} Buzz4health User
       %option{:value => "reference"} Reference Database
+  
   %center
     .row
     .space-12
