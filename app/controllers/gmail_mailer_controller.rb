@@ -91,8 +91,8 @@ class GmailMailerController < ApplicationController
 				                                current_user_row =   get_user email_sheets , current_user
 				                                email_sheets[current_user_row,5] = "used"
 				                                email_sheets[current_user_row,6] =  total_no_of_mails_for_this_user
-				                                # email_sheets.save; nil
-				                                # @output_sheet.save; nil
+				                                email_sheets.save; nil
+				                                @output_sheet.save; nil
 				                                total_no_of_mails_for_this_user = 0
 				                                post_logs "Gmes:Logging out the current user."     
                                                 
@@ -142,9 +142,9 @@ class GmailMailerController < ApplicationController
 			                                     
 						                 end
 						                 #delivering email
-						                 # email.deliver!
+						                 email.deliver!
 						                 post_logs "Gmes : Putting thread to sleep."
-                                         # sleep 4
+                                         sleep 4
 						                 total_no_of_mails_for_this_user = total_no_of_mails_for_this_user  + 1
 						                 total_no_of_mails_for_the_day = total_no_of_mails_for_the_day + 1 
 
@@ -158,7 +158,7 @@ class GmailMailerController < ApplicationController
 			                            begin
 
                                           @output_sheet[@num_of_rows , 6] = e
-			                              # @output_sheet.save; nil 
+			                              @output_sheet.save; nil 
                                           
 
 			                             rescue  Exception => e
@@ -174,7 +174,7 @@ class GmailMailerController < ApplicationController
 			              end 
                    
                 #saving sheet in case when emails are less
-                # @output_sheet.save; nil
+                @output_sheet.save; nil
                 gmail.logout
 
 
