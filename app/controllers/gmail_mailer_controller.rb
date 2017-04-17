@@ -160,7 +160,8 @@ class GmailMailerController < ApplicationController
 						                 post_output user_name , reciever_name , reciever_email , subject , total_no_of_mails_for_the_day
 						                 
 						                 post_logs "Gmes : no of mails sent for this user is " +total_no_of_mails_for_this_user.to_s
-						                 post_logs "Gmes : no of total  mails for this session " +total_no_of_mails_for_the_day.to_s
+						                 post_logs "Gmes : no of total  mails for this session " +total_no_of_mails_for_the_day.to_s    
+						                 post_logs "Gmes : total no of mails for this session "  +users_details.count.to_s
 						                
 			                        rescue  Exception => e
 			                        	
