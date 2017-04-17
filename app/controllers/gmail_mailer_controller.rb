@@ -184,6 +184,7 @@ class GmailMailerController < ApplicationController
 			              end 
                    
                 #saving sheet in case when emails are less
+                post_logs "Gmes : finishing up the script" 
                 @output_sheet.save; nil
                 gmail.logout
 
