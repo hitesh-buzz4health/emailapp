@@ -50,7 +50,9 @@ class GmailMailerController < ApplicationController
 
 			      gmail = nil 
 			      total_no_of_mails_for_the_day = 0 
-			      total_no_of_mails_for_this_user = 0	
+			      total_no_of_mails_for_this_user = 0
+			      total_no_of_errors = 0 
+			      start_time = Time.now	
 			 	  current_user = nil
 			 	  user_name = nil 
 			 	  @num_of_rows = @output_sheet.num_rows + 1
@@ -71,7 +73,7 @@ class GmailMailerController < ApplicationController
 
                           end 
 
-
+                   
 			              users_details.each do | user |
 
 			                    begin       
@@ -153,7 +155,7 @@ class GmailMailerController < ApplicationController
 						                 #delivering email
 						                 email.deliver!
 						                 post_logs "Gmes : Putting thread to sleep."
-                                         sleep 4
+                                         sleep 2.5
 						                 total_no_of_mails_for_this_user = total_no_of_mails_for_this_user  + 1
 						                 total_no_of_mails_for_the_day = total_no_of_mails_for_the_day + 1 
 
@@ -162,14 +164,15 @@ class GmailMailerController < ApplicationController
 						                 post_logs "Gmes : no of mails sent for this user is " +total_no_of_mails_for_this_user.to_s
 						                 post_logs "Gmes : no of total  mails for this session " +total_no_of_mails_for_the_day.to_s    
 						                 post_logs "Gmes : total no of mails for this session "  +users_details.count.to_s
-						                
+						                 post_logs "Gmes : total no of errors for this session "  +total_no_of_errors.to_s
+
 			                        rescue  Exception => e
 			                        	
 			                            begin
-
+                                          total_no_of_errors = total_no_of_errors + 1 
                                           @output_sheet[@num_of_rows , 6] = e
 			                              @output_sheet.save; nil 
-                                          
+                                           
 
 			                             rescue  Exception => e
 
@@ -185,11 +188,36 @@ class GmailMailerController < ApplicationController
                    
                 #saving sheet in case when emails are less
                 post_logs "Gmes : finishing up the script" 
+                send_results(total_no_of_mails_for_the_day , users_details.count.to_s , start_time , params[:subject_email] ,  total_no_of_errors.to_s)
+                post_logs "Gmes : result has been sent."
                 @output_sheet.save; nil
                 gmail.logout
 
 
 
+
+	end 
+
+	def send_results(total_no_of_mails_for_the_day , total_no_of_mails_selected  , time , mails_subject  ,  total_no_of_errors)
+        gmail = Gmail.connect("drdeepikakapoor@buzz4health.com","whitebutter")
+        	email = gmail.compose do
+					to  ['sheerin@buzz4health.com' ,'hitesh.ganjoo@buzz4health.com' , 'sonal@buzz4health.com']
+					from  "Mails Campaign finished "
+				    subject  "Mail campaign for the day."
+				    body    "Stats for the mail Campaign send on #{Time.now} 
+				             \n 0.Subject for this campaign : #{mails_subject}
+				             \n 1.Total no of mail sent: #{total_no_of_mails_for_the_day} .
+				             \n 2.Total no of mails to be send : #{total_no_of_mails_selected} .
+				             \n 3.Total time taken  to send the campaign : #{Time.now - time} secs .
+				             \n 4.Total no error's occured: #{total_no_of_errors} .
+				             \n Regards : \n email app. "
+										     
+
+			                                     
+		    end
+
+          #delivering email
+        email.deliver!
 
 	end 
     
