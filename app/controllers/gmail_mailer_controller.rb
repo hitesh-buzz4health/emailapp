@@ -155,7 +155,7 @@ class GmailMailerController < ApplicationController
 						                 #delivering email
 						                 email.deliver!
 						                 post_logs "Gmes : Putting thread to sleep."
-                                         sleep 2.5
+                                         sleep 3
 						                 total_no_of_mails_for_this_user = total_no_of_mails_for_this_user  + 1
 						                 total_no_of_mails_for_the_day = total_no_of_mails_for_the_day + 1 
 
@@ -191,6 +191,9 @@ class GmailMailerController < ApplicationController
                 send_results(total_no_of_mails_for_the_day , users_details.count.to_s , start_time , params[:subject_email] ,  total_no_of_errors.to_s)
                 post_logs "Gmes : result has been sent."
                 @output_sheet.save; nil
+                email_sheets[current_user_row,5] = "used"
+				email_sheets[current_user_row,6] =  total_no_of_mails_for_this_user
+				email_sheets.save; nil
                 gmail.logout
 
 
