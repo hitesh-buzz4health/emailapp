@@ -156,7 +156,7 @@ class GmailMailerController < ApplicationController
 			                                     
 						                 end
 						                 #delivering email
-						                 # email.deliver!
+						                 email.deliver!
 						                 post_logs "Gmes : Putting thread to sleep."
                                          sleep 3
 						                 total_no_of_mails_for_this_user = total_no_of_mails_for_this_user  + 1
