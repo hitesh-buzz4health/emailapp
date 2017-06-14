@@ -56,8 +56,11 @@ class GmailMailerController < ApplicationController
 			 	  current_user = nil
 			 	  user_name = nil 
 			 	  @num_of_rows = @output_sheet.num_rows + 1
-			                   
-			              users_details   = get_model params[:type_database]  
+			               if  params[:type_country].eql?"India"   
+			                 users_details   = get_model params[:type_database]  
+			               else
+                              users_details = get_model_by_country params[:type_country]
+			               end 
                           
                           if !params[:resume].nil?
 
@@ -81,7 +84,7 @@ class GmailMailerController < ApplicationController
                                       
                                       reciever_detials = get_recievers_details params[:type_database]  , user 
                                       reciever_name = reciever_detials["name"]
-                                      reciever_email = reciever_detials["emails"] .to_s
+                                      reciever_email = reciever_detials["emails"].to_s
                                      
                                       if reciever_email.length == 0
                                       	post_logs "Gmes: this is not a proper email to send mails :-" +reciever_email
@@ -220,7 +223,7 @@ class GmailMailerController < ApplicationController
 		    end
 
           #delivering email
-        email.deliver!
+        # email.deliver!
 
 	end 
     
@@ -236,7 +239,21 @@ class GmailMailerController < ApplicationController
 			    end 
 
     end 
- 
+  
+  def get_model_by_country country 
+          if country.eql?"US"
+              return Buzz4healthUser.where(:country_code.in => ["US", "us", "Us"])
+          elsif country.eql?"UK"
+              return   Buzz4healthUser.where(:country_code.in => ["UK", "uk", "Uk"])
+          elsif country.eql?"CA"
+          	 return Buzz4healthUser.where(:country_code.in => ["CA", "ca", "Ca"])
+          else 
+              return Buzz4healthUser.where(:country_code.in => ["IN", "in", "In"])
+
+          end 
+
+
+  end 
 
     def get_recievers_details model_type , user 
     	          recievers_detials = Hash.new
