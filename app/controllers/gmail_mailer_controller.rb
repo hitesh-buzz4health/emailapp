@@ -56,8 +56,11 @@ class GmailMailerController < ApplicationController
 			 	  current_user = nil
 			 	  user_name = nil 
 			 	  @num_of_rows = @output_sheet.num_rows + 1
-			                   
-			              users_details   = get_model params[:type_database]  
+			               if  params[:type_country].eql?"India"   
+			                 users_details   = get_model params[:type_database]  
+			               else
+                              users_details = get_model_by_country params[:type_country]
+			               end 
                           
                           if !params[:resume].nil?
 
@@ -81,7 +84,7 @@ class GmailMailerController < ApplicationController
                                       
                                       reciever_detials = get_recievers_details params[:type_database]  , user 
                                       reciever_name = reciever_detials["name"]
-                                      reciever_email = reciever_detials["emails"] .to_s
+                                      reciever_email = reciever_detials["emails"].to_s
                                      
                                       if reciever_email.length == 0
                                       	post_logs "Gmes: this is not a proper email to send mails :-" +reciever_email
@@ -204,7 +207,7 @@ class GmailMailerController < ApplicationController
 	def send_results(total_no_of_mails_for_the_day , total_no_of_mails_selected  , time , mails_subject  ,  total_no_of_errors)
         gmail = Gmail.connect("drdeepikakapoor@buzz4health.com","whitebutter")
         	email = gmail.compose do
-					to  ['sheerin@buzz4health.com' ,'hitesh.ganjoo@buzz4health.com' , 'sonal@buzz4health.com']
+					to  ['sheerin@buzz4health.com' ,'hitesh.ganjoo@buzz4health.com' , 'sonal@buzz4health.com' , 'tushar.gupta@buzz4health.com' , 'lokesh.vaishnavi@buzz4health.com' ]
 					from  "Mails Campaign finished "
 				    subject  "Mail campaign for the day."
 				    body    "Stats for the mail Campaign send on #{Time.now} 
@@ -236,7 +239,21 @@ class GmailMailerController < ApplicationController
 			    end 
 
     end 
- 
+  
+  def get_model_by_country country 
+          if country.eql?"US"
+              return Buzz4healthUser.where(:country_code.in => ["US", "us", "Us"])
+          elsif country.eql?"UK"
+              return   Buzz4healthUser.where(:country_code.in => ["UK", "uk", "Uk"])
+          elsif country.eql?"CA"
+          	 return Buzz4healthUser.where(:country_code.in => ["CA", "ca", "Ca"])
+          else 
+              return Buzz4healthUser.where(:country_code.in => ["IN", "in", "In"])
+
+          end 
+
+
+  end 
 
     def get_recievers_details model_type , user 
     	          recievers_detials = Hash.new
