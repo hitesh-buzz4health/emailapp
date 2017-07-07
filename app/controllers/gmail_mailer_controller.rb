@@ -234,6 +234,8 @@ class GmailMailerController < ApplicationController
                   return  Buzz4healthUser.where(:specializations.in => params[:specialization])
                 elsif model_type.eql? "justdial" 
 			      return  ReferenceJustdial.where(:ReferenceName=>"Just Dial")
+			  elsif model_type.eql? "external"
+			      	return ExternalDbUser.all
 			    else 
                    return  Reference.all
 			    end 
@@ -267,6 +269,11 @@ class GmailMailerController < ApplicationController
 
                      recievers_detials["name"] = user.Name
                      recievers_detials ["emails"]  = user.Emails[0]
+                     return recievers_detials
+                     
+                elsif model_type.eql? "external" 
+                     recievers_detials["name"] = user.name
+                     recievers_detials ["emails"]  = user.email
                      return recievers_detials
 			    else 
                     recievers_detials["name"] = user.Name
