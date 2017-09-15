@@ -153,11 +153,11 @@ input[type="submit"],.w3l_header_left ul li a,.related-post-right h4 a,.comments
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
     background: none;
     color: #ee4f4f;
-    text-decoration: line-through;
+    /*text-decoration: line-through;*/
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
         color: #ee4f4f;
-    text-decoration: line-through;
+    /*text-decoration: line-through;*/
 }
 .navbar-nav > li > a {
     font-size: 14px;
@@ -190,7 +190,7 @@ input[type="submit"],.w3l_header_left ul li a,.related-post-right h4 a,.comments
     display: block;
     color: #56687b;
     line-height: 9px;
-    text-align: center;
+    text-align: left;
     letter-spacing: 5px;
     font-size: 12px;
 }
@@ -1297,10 +1297,10 @@ figure.effect-roxy:hover p {
     margin: 0 auto;
 }
 .test-review img {
-    border-radius: 50%;
+    /*border-radius: 50%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
+    -ms-border-radius: 50%;*/
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.41);
     -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.41);
     -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.41);
@@ -1425,7 +1425,7 @@ a.pa_italic:focus {
 
 .w3agile_footer_grid{
 	color:#999;
-	line-height:2em;
+	line-height:1em;
 }
 .w3agile_footer_grid h2{
 	margin:1em 0 0;
@@ -2423,3 +2423,93 @@ textarea:focus{
 		padding:6em 0 0;
 	}
 }
+
+/*Picked from Asentus*/
+.pricing {
+  padding: 70px 45px;
+  background: #fff;
+  margin-top: 50px;
+}
+
+@media (max-width: 768px) {
+  .pricing {
+    margin-top: 0;
+  }
+}
+
+.pricing.pricing-active {
+  padding-top: 110px;
+  padding-bottom: 110px;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .pricing.pricing-active {
+    margin-top: 0;
+  }
+}
+
+.pricing .pricing-icon {
+  display: block;
+  font-size: 30px;
+  color: #999caa;
+  margin-bottom: 30px;
+}
+
+.pricing .pricing-list-item {
+  position: relative;
+  font-size: 13px;
+  color: #81848f;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.pricing .pricing-list-item:before {
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 9px;
+  height: 2px;
+  background: #17bed2;
+  content: " ";
+  margin-right: 10px;
+}
+
+/*------------------------------------------------------------------
+    [Promo Section]
+------------------------------------------------------------------*/
+@media (max-width: 991px) {
+  .promo-section .promo-section-col {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+}
+
+@media (min-width: 992px) {
+  .promo-section {
+    position: relative;
+    height: 400px;
+  }
+  .promo-section .promo-section-col {
+    width: 45%;
+  }
+  .promo-section .promo-section-img-left {
+    position: absolute;
+    top: 0;
+    right: 50%;
+  }
+  .promo-section .promo-section-img-right {
+    position: absolute;
+    top: 0;
+    left: 50%;
+  }
+  .promo-section .ver-center {
+    display: table;
+    height: 400px;
+  }
+  .promo-section .ver-center-aligned {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+/*Picked from Asentus*/
