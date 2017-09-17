@@ -2512,4 +2512,8 @@ textarea:focus{
     vertical-align: middle;
   }
 }
-/*Picked from Asentus*/
+/*Events*/
+.Events h3{
+padding: 10px;
+font-weight: bolder;
+}
