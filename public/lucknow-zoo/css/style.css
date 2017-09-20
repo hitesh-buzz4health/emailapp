@@ -7,7 +7,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 html, body{
     font-size: 100%;
 	font-family: 'Open Sans', sans-serif;
-	background:#ffffff;
+	background: rgba(0,0,0,0);
+    background: url("../images/bodybg2.jpg") center center no-repeat;
+  background-size: cover;
 }
 p{
 	margin:0;
@@ -124,9 +126,49 @@ input[type="submit"],.w3l_header_left ul li a,.related-post-right h4 a,.comments
 .header {
     background:#168eea;
 }
-.navbar-default {
-    background: none;
+.topcontainer {
     border: none;
+    width: 100%;
+  height: 100%;
+  background: url("../images/header.png") center center no-repeat;
+  background-size: cover;
+}
+.topcontainerbgreen {
+    border: none;
+    width: 100%;
+  height: 100%;
+  background: url("../images/headerbgreen.png") center center no-repeat;
+  background-size: cover;
+}
+.topcontainerblue {
+    border: none;
+    width: 100%;
+  height: 100%;
+  background: url("../images/headerblue.png") center center no-repeat;
+  background-size: cover;
+}
+.topcontainerbrown {
+    border: none;
+    width: 100%;
+  height: 100%;
+  background: url("../images/headerbrown.png") center center no-repeat;
+  background-size: cover;
+}
+.topcontainergreen {
+    border: none;
+    width: 100%;
+  height: 100%;
+  background: url("../images/headergreen.png") center center no-repeat;
+  background-size: cover;
+}
+.navbar-default {
+    /*background: none;*/
+    border: none;
+    width: 100%;
+  height: 100%;
+  /*background: url("../images/header.png") center center no-repeat;*/
+  background: rgba(0,0,0,0);
+  background-size: cover;
 }
 .navbar {
     margin-bottom: 0;
@@ -148,21 +190,21 @@ input[type="submit"],.w3l_header_left ul li a,.related-post-right h4 a,.comments
 /*-- agileits --*/
 .navbar-brand span {
     display: inline-block;
-    color: #ee4f4f;
+    color: #fff;
 }
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
     background: none;
-    color: #ee4f4f;
+    color: #000;
     /*text-decoration: line-through;*/
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-        color: #ee4f4f;
+        color: #000;
     /*text-decoration: line-through;*/
 }
 .navbar-nav > li > a {
     font-size: 14px;
     text-transform: uppercase;
-    padding:19px 18px 0;
+    padding:35px 18px 0;
     font-weight: bold;
 	font-family: 'Open Sans', sans-serif;
 		 transition: 0.5s all;
@@ -176,7 +218,7 @@ input[type="submit"],.w3l_header_left ul li a,.related-post-right h4 a,.comments
     padding: 0.5em 0;
 }
 .navbar-default .navbar-nav > li > a {
-    color: #000;
+    color: #fff;
 }
 .navbar-brand {
     float: left;
@@ -188,7 +230,7 @@ input[type="submit"],.w3l_header_left ul li a,.related-post-right h4 a,.comments
 }
 .logo p {
     display: block;
-    color: #56687b;
+    color: #fff;
     line-height: 9px;
     text-align: left;
     letter-spacing: 5px;
@@ -1040,6 +1082,7 @@ h3.agile-tittle.two.gal {
     width: 90%;
     height: 85%;
     color: #fff;
+    margin-top: 100px;
     opacity: 0;
     filter: alpha(opacity=0);
     -webkit-transition: all 450ms ease-out 0s;
@@ -1224,6 +1267,7 @@ h3.tittle3 {
 figure.effect-roxy {
     background: #000;
 }
+
 
 figure.effect-roxy img {
 	max-width: none;
@@ -1412,8 +1456,10 @@ a.pa_italic:focus {
 }
 /*-- footer --*/
 .footer{
-    background: #171616;
-	padding:4em 0;
+    background: rgba(0,0,0,0);
+    background: url("../images/Footerbg.png") center center no-repeat;
+  background-size: cover;
+	padding:10em 0;
 }
 .w3agile_footer_grid h3{
     font-size: 1.2em;
@@ -1424,7 +1470,7 @@ a.pa_italic:focus {
 }
 
 .w3agile_footer_grid{
-	color:#999;
+	color:#fff;
 	line-height:1em;
 }
 .w3agile_footer_grid h2{
@@ -1432,7 +1478,7 @@ a.pa_italic:focus {
 }
 .w3agile_footer_grid h2 a{
 	font-size: 1em;
-    color: #168eea;
+    color: #fff;
     text-decoration: none;
     text-transform: uppercase;
     font-weight: 600;
@@ -1452,12 +1498,12 @@ a.pa_italic:focus {
 	margin-bottom:1em;
 }
 .w3agile_footer_grid ul li a{
-    color: #999;
+    color: #fff;
     text-decoration: none;
     font-size: 0.9em;
 }
 .w3agile_footer_grid ul li a:hover{
-	    color: #ee4f4f;
+	    color: #000;
 }
 
 .w3agile_footer_grid:nth-child(3) {
@@ -1691,7 +1737,7 @@ textarea:focus{
 		padding-bottom: 4em;
 	}
 	.welcome {
-		padding: 4em 0;
+		padding: 0em 0;
 	}
 }
 @media (max-width: 1366px){
