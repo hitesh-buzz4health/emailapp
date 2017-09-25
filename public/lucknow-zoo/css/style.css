@@ -1,4 +1,4 @@
-/*--
+--
 Author: W3layouts
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
@@ -42,12 +42,12 @@ input[type="submit"],.w3l_header_left ul li a,.related-post-right h4 a,.comments
     display: inline-block;
     font-size: 14px;
     color: #fff;
-  border-left: 1px ridge rgba(29, 98, 152, 0.53);
+  /*border-left: 1px ridge rgba(29, 98, 152, 0.53);*/
     padding: 9px 18px;
 	letter-spacing: 1px;
 }
 .w3l_header_left ul li:nth-child(3){
-	 border-right: 1px ridge rgba(29, 98, 152, 0.53);
+	 /*border-right: 1px ridge rgba(29, 98, 152, 0.53);*/
 }
 .w3l_header_left ul li span{
 	padding-right:1em;
@@ -124,7 +124,7 @@ input[type="submit"],.w3l_header_left ul li a,.related-post-right h4 a,.comments
 
 /*-- //nav-effect --*/
 .header {
-    background:#168eea;
+    background:#26a65b;
 }
 .topcontainer {
     border: none;
@@ -744,7 +744,7 @@ ul.about-agile li i {
     font-weight: bold;
     color: #1b1a1a;
     margin-bottom: 0.3em;
-    text-align: left;
+    text-align: center;
 }
 .wthree-text p{
 	    margin: 1em 0;
@@ -760,6 +760,8 @@ ul.about-agile li i {
 .w3-agile-top-info {
     margin-top: 4em;
 }
+
+
 .w3-welcome-left h5{
     color: #000000;
     font-size: 1em;
@@ -1074,7 +1076,7 @@ h3.agile-tittle.two.gal {
     line-height: 24px;
 }
 .overlay {
-      background: rgba(241, 49, 49, 0.82);
+      background: rgba(38, 165, 89, 0.82);
     text-align: center;
     position: absolute;
     left: 20px;
@@ -1082,7 +1084,7 @@ h3.agile-tittle.two.gal {
     width: 90%;
     height: 85%;
     color: #fff;
-    margin-top: 100px;
+    /*margin-top: 100px;*/
     opacity: 0;
     filter: alpha(opacity=0);
     -webkit-transition: all 450ms ease-out 0s;
@@ -1329,6 +1331,12 @@ figure.effect-roxy:hover p {
 .gallery-grid {
     padding: 0;
 }
+
+.ListAnimal {
+  margin: 20px;
+
+}
+
 /*-- //gallery --*/
 .test-review p {
     line-height:2.2em;
@@ -1924,7 +1932,7 @@ textarea:focus{
 		font-size: 0.85em;
 	}
 	.agileits_works-grid {
-		padding: 0;
+    padding: 0;
 		margin: 0 auto;
 		text-align: center;
 	}
@@ -2562,4 +2570,178 @@ textarea:focus{
 .Events h3{
 padding: 10px;
 font-weight: bolder;
+}
+
+ 
+
+/*New Nav*/
+/*body {
+    width:100%;
+    height:100%;
+    font-family:Arial;
+    font-size:14px;
+}
+header, footer {
+    min-height:50px;
+    position:relative;
+}
+[role="contents"] {
+    position:relative;
+}
+.mega-nav {
+    background:#2a8fcf;*/
+    /*border-radius:0;*/
+    /*margin-bottom:0;*/
+/*}*/
+/*.mega-nav.navbar-default .navbar-nav > li > a {
+    color:#fff;
+    transition: all 200ms ease-out;
+    -webkit-transition: all 200ms ease-out;
+    -ms-transition: all 200ms ease-out;
+}
+.mega-nav.navbar-default .navbar-nav > li > a:hover {
+    background:#0075b3;
+} 
+.mega-nav.navbar-default .navbar-nav > li.dropdown > a:hover,
+.mega-nav.navbar-default .navbar-nav > li.dropdown > a:focus,
+.mega-nav.navbar-default .navbar-nav > li.dropdown > a:active{
+    background:#0075b3;
+    color:#fff;
+} 
+
+
+.mega-nav.navbar-default .navbar-nav > li.menu-list .list-category a {
+    color:#333;
+}
+.darkness {
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;*/
+    /*z-index: 5;*/
+/*}*/
+/*// No need CSS for New Nav*/
+
+
+.aboutzoo p{
+  text-align: center;
+  font-size: 12px;
+}
+
+.ContainerListAnimal {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.GalleryAnimalList {
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  /*margin-top: 5%; */
+  padding-bottom: 1px;
+  
+}
+
+.GalleryAnimalListBox {
+  background-color: #fff; 
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); 
+  border: 1px white;
+  padding: 5px;
+}
+
+.GalleryAnimalListBox h3 {
+  font-size: 14px;
+  padding: 10%;
+}
+
+.BGListAnimalTitle {
+     border: none;
+    width: 700px;
+  height: auto;
+  background: url("../images/greenbg.png") left center no-repeat;
+  padding: 50px;
+  float: left;
+  /*background-size: cover;*/
+}
+
+.BGListAnimalTitle h3 {
+  padding-left: 10%;
+  color: white;
+
+}
+
+.BGListAnimalTitleCaptions h4 {
+  padding-left: 9%;
+  padding-bottom: 4px;
+  font-size: 20px;
+  font-weight: bolder;
+  color: #26a65b;
+}
+
+.BGListAnimalTitleCaptions h5 {
+  padding-left: 9%;
+  font-size: 16px;
+   font-weight: bolder;
+  color: #96281b;
+}
+
+.BGListAnimalTitleCaptions p {
+  padding-left: 9%;
+}
+
+/*Number List*/
+ol {
+  margin:0 0 1.5em;
+  padding-left:9%;
+  counter-reset:item;
+}
+ 
+ol>li {
+  margin:0;
+  padding:0 0 0 2em;
+  text-indent:-2em;
+  list-style-type:none;
+  counter-increment:item;
+}
+ 
+ol>li:before {
+  display:inline-block;
+  width:1.5em;
+  padding-right:0.5em;
+  font-weight:bold;
+  text-align:right;
+  content:counter(item) ".";
+}
+
+/*/Number List*/
+
+.GalleryAdjust {
+  padding-left: 9%
+}
+
+.GalleryAdjust img {
+  align-items: center;
+  padding: 5px;
+}
+
+.MapLink img {
+  max-width: 400px;
+}
+
+/*Table*/
+.TicketRatesTable {
+  text-align: center;
+  background-color: #e3ffd3;
+}
+
+.TicketRatesTable p {
+  margin-top: 1em;
+}
+
+.brownbg {
+  background-color: #331b0c;
+  color: white;
 }
