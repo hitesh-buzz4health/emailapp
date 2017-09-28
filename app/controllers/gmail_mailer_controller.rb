@@ -248,11 +248,11 @@ class GmailMailerController < ApplicationController
                      recievers_detials["name"] = user.Name
                      recievers_detials ["emails"]  = user.Emails[0]
                      return recievers_detials
-                elsif model_type.eql? "iactauser" || model_type.eql? "scauser" 
+                elsif (model_type.eql? "iactauser") || (model_type.eql? "scauser")
 
                      recievers_detials["name"] = user.name
                      recievers_detials ["emails"]  = user.email
-                     return recievers_detials     
+                     return recievers_detials          
 			    else 
                     recievers_detials["name"] = user.Name
                     recievers_detials ["emails"]  = user.Emails[0]
