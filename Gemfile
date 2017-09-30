@@ -89,6 +89,16 @@ gem 'rack_session_access'
 
 gem  'gmail'
 
+gem 'watir'
+
+gem 'watir-scroll'
+
+gem 'headless'
+
+gem 'ruby-progressbar'
+
+gem "chromedriver-helper"
+
 #gem 'jsonapi-resources'
 
 # Use ActiveModel has_secure_password

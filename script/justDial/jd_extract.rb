@@ -1,4 +1,22 @@
-require 'ruby-progressbar'
+#!/usr/bin/env ruby
+
+def ScrollBrowser(browser,num,delay)
+    for i in 1..num 
+        begin    
+            browser.scroll.to :bottom
+            puts "Scrolling for the " + i.to_s
+            sleep delay
+        
+        rescue Exception => ex
+        
+            puts "An error of type #{ex.class} happened, message is #{ex.message}"
+            #f << "\n"
+            #f << doc_name.to_s + "|" + mob_num.to_s + "|" + email_id.to_s + "|" +  business_name.to_s + "|" + address + "|" + area.to_s + "|" + city.to_s + "|" + pin.to_s + "|" + keywords.to_s + "|" + button.href.to_s
+            puts     "\n"
+        end
+    end
+end
+
 def load_spec(browser,f)
     count_docs = 0
 
@@ -18,11 +36,16 @@ def load_spec(browser,f)
             #button.click
             start = Time.now
             
-            profile = Selenium::WebDriver::Firefox::Profile.new
+            headless = Headless.new
+            puts "Child RattleHead..."
+            headless.start
+
+#Selenium::WebDriver::Firefox::Binary.path = "/home/bliss/Downloads/tor-browser_en-US/Browser/firefox"
+            #profile = Selenium::WebDriver::Firefox::Profile.new
             # profile.proxy = Selenium::WebDriver::Proxy.new :http => '46.101.129.227:3128', :ssl => '46.101.129.227:8080'
 
 
-            child_bs = Watir::Browser.new :firefox, :profile => profile 
+            child_bs = Watir::Browser.new :chrome 
 
             child_bs.goto button.attribute_value("data-href")
 
@@ -99,107 +122,114 @@ def load_spec(browser,f)
     end
    return count_docs
 end
+def loadCity(city_link)
+    #browser.input(:id => "bd_name")
+  
 
-#browser.input(:id => "bd_name")
-doc_link = ARGV[0]
+    require 'watir'
+    require 'watir-scroll'
+    require 'headless'
+    require 'date'
+    require 'ruby-progressbar'
+    begin
+        progress_slow = ProgressBar.create(:starting_at => 20, :total => nil)
+        puts "Opening Log X>!<!X"
+        File.open("MasterLog.txt", "w+") do |log|
+            begin
+            headless = Headless.new
+            puts "Initializing RattleHead..."
+            headless.start
 
-def ScrollBrowser(browser,num,delay)
-    for i in 1..num 
-        begin    
-            browser.scroll.to :bottom
-            puts "Scrolling for the " + i.to_s
-            sleep delay
-        
-        rescue Exception => ex
-        
-            puts "An error of type #{ex.class} happened, message is #{ex.message}"
-            #f << "\n"
-            #f << doc_name.to_s + "|" + mob_num.to_s + "|" + email_id.to_s + "|" +  business_name.to_s + "|" + address + "|" + area.to_s + "|" + city.to_s + "|" + pin.to_s + "|" + keywords.to_s + "|" + button.href.to_s
-            puts     "\n"
-        end
-    end
-end
-require 'watir-webdriver'
-require 'watir-scroll'
-require 'headless'
-require 'date'
 
-begin
-    progress_slow = ProgressBar.create(:starting_at => 20, :total => nil)
-    puts "Opening Log X>!<!X"
-    File.open("MasterLog.txt", "w+") do |log|
-        headless = Headless.new
-        puts "Initializing RattleHead..."
-        # headless.start
-        profile = Selenium::WebDriver::Firefox::Profile.new
-        # profile.proxy = Selenium::WebDriver::Proxy.new :http => '46.101.129.227:3128', :ssl => '46.101.129.227:8080'
+#Selenium::WebDriver::Firefox::Binary.path = "/home/bliss/Downloads/tor-browser_en-US/Browser/firefox"
+            #profile = Selenium::WebDriver::Chrome::Profile.new
+            #profile.proxy = Selenium::WebDriver::Proxy.new :http => '46.101.129.227:3128', :ssl => '46.101.129.227:8080'
 
-        browser = Watir::Browser.new :firefox, :profile => profile
-        browser.goto doc_link
-        sec = browser.section(:id => "best_deal_div").section(:class => "jpbg").span(:class => "jcl")
-        if sec.visible?
-            sec.click
-        end
-        source_links = []
-        source_links << doc_link
-        browser.ul(:class => "related-catg").wait_until_present
-        browser.ul(:class => "related-catg").lis.each do |link|
-            if link.text == "Also use Justdial for:"
-                break
-            end
-            source_links << link.a.href
-        end
-        count_links = 0
-        source_links.each do |source_link|
-            browser.goto source_link
+            browser = Watir::Browser.new :chrome
+            browser.goto city_link
+            
+            begin
             sec = browser.section(:id => "best_deal_div").section(:class => "jpbg").span(:class => "jcl")
             if sec.visible?
                 sec.click
             end
-
-            
-
-
-            pre_city = source_link.split("/")[source_link.split("/").size-3]
-            pre_spec = source_link.split("/")[source_link.split("/").size-2]
-            file_name =  pre_city + "_" + pre_spec
-            if File.exists?(file_name + ".csv") == true
-                next
+            rescue
             end
-            ScrollBrowser(browser,100,1)
-            items = browser.links(:text, "Edit").count/2
+            source_links = []
+            source_links << city_link
+            browser.ul(:class => "related-catg").wait_until_present
+            browser.ul(:class => "related-catg").lis.each do |link|
+                if link.text == "Also use Justdial for:"
+                    break
+                end
+                source_links << link.a.href
+            end
+            count_links = 0
+            source_links.each do |source_link|
+                browser.goto source_link
+                begin
+                sec = browser.section(:id => "best_deal_div").section(:class => "jpbg").span(:class => "jcl")
+                if sec.visible?
+                    sec.click
+                end
+                rescue
+                end
 
-            log << "Doctors Fetched from : " + pre_city + " With Specialization " + pre_spec + "=" + items.to_s
-            log << "\n"
-            puts  "Doctors Fetched from : " + pre_city + " With Specialization " + pre_spec + "=" + items.to_s
-            puts "\n"
+                
 
-            log << "Time: " + DateTime.now.to_s
-            log << "\n"
-            log << "Writing " + file_name
-            log << "\n"
-            puts "Writing " + file_name
-            puts "\n"
 
-            count_links = count_links + 1
-            File.open(file_name + ".csv","w+") do |f|
-                docs_written = load_spec(browser,f).to_s
-                f << "\n"   
-                log << docs_written.to_s + " Doctors written"
+                pre_city = source_link.split("/")[source_link.split("/").size-3]
+                pre_spec = source_link.split("/")[source_link.split("/").size-2]
+                file_name =  pre_city + "_" + pre_spec
+                if File.exists?(file_name + ".csv") == true
+                    next
+                end
+                ScrollBrowser(browser,100,1)
+                items = browser.links(:text, "Edit").count/2
+
+                log << "Doctors Fetched from : " + pre_city + " With Specialization " + pre_spec + "=" + items.to_s
                 log << "\n"
-                puts docs_written.to_s + " Doctors written"
+                puts  "Doctors Fetched from : " + pre_city + " With Specialization " + pre_spec + "=" + items.to_s
                 puts "\n"
-                 
-            end
-            progress_slow.increment
 
+                log << "Time: " + DateTime.now.to_s
+                log << "\n"
+                log << "Writing " + file_name
+                log << "\n"
+                puts "Writing " + file_name
+                puts "\n"
+
+                count_links = count_links + 1
+                File.open(file_name + ".csv","w+") do |f|
+                    begin
+                        docs_written = load_spec(browser,f).to_s
+                        f << "\n"   
+                        log << docs_written.to_s + " Doctors written"
+                        log << "\n"
+                        puts docs_written.to_s + " Doctors written"
+                        puts "\n"
+                    rescue
+                    end
+
+                end
+                progress_slow.increment
+
+            end
+            rescue
+            end
+
+            browser.close
+            headless.destroy
         end
 
-
-        browser.close
-        headless.destroy
+    rescue Exception => ex
+                 puts "An error of type #{ex.class} happened, message is #{ex.message}"
     end
+end
 
-rescue Exception => ex
-             puts "An error of type #{ex.class} happened, message is #{ex.message}"
+line_num = 0
+file = ARGV[0]
+File.open(file).each do |line|
+  puts "Loading City: #{line_num += 1} #{line}"
+  loadCity(line)
 end
