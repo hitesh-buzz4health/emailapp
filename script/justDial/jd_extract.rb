@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require'workers'
+
 def ScrollBrowser(browser,num,delay)
     for i in 1..num 
         begin    
@@ -45,7 +47,7 @@ def load_spec(browser,f)
             # profile.proxy = Selenium::WebDriver::Proxy.new :http => '46.101.129.227:3128', :ssl => '46.101.129.227:8080'
 
 
-            child_bs = Watir::Browser.new :chrome 
+            child_bs = Watir::Browser.new :firefox 
 
             child_bs.goto button.attribute_value("data-href")
 
@@ -145,7 +147,8 @@ def loadCity(city_link)
             #profile = Selenium::WebDriver::Chrome::Profile.new
             #profile.proxy = Selenium::WebDriver::Proxy.new :http => '46.101.129.227:3128', :ssl => '46.101.129.227:8080'
 
-            browser = Watir::Browser.new :chrome
+
+            browser = Watir::Browser.new :firefox
             browser.goto city_link
             
             begin
@@ -181,13 +184,15 @@ def loadCity(city_link)
                 pre_city = source_link.split("/")[source_link.split("/").size-3]
                 pre_spec = source_link.split("/")[source_link.split("/").size-2]
                 file_name =  pre_city + "_" + pre_spec
-                if File.exists?(file_name + ".csv") == true
+
+                if File.exists?('./data/just_dial/just_dial_data/'+file_name + ".csv") == true
                     next
                 end
                 ScrollBrowser(browser,100,1)
                 items = browser.links(:text, "Edit").count/2
 
                 log << "Doctors Fetched from : " + pre_city + " With Specialization " + pre_spec + "=" + items.to_s
+
                 log << "\n"
                 puts  "Doctors Fetched from : " + pre_city + " With Specialization " + pre_spec + "=" + items.to_s
                 puts "\n"
@@ -200,7 +205,7 @@ def loadCity(city_link)
                 puts "\n"
 
                 count_links = count_links + 1
-                File.open(file_name + ".csv","w+") do |f|
+                File.open('./data/just_dial/just_dial_data/'+file_name + ".csv","w+") do |f|
                     begin
                         docs_written = load_spec(browser,f).to_s
                         f << "\n"   
@@ -225,11 +230,31 @@ def loadCity(city_link)
     rescue Exception => ex
                  puts "An error of type #{ex.class} happened, message is #{ex.message}"
     end
+
 end
 
 line_num = 0
 file = ARGV[0]
+group = Workers::TaskGroup.new
+
 File.open(file).each do |line|
-  puts "Loading City: #{line_num += 1} #{line}"
-  loadCity(line)
+    
+     group.add(:max_tries => 10) do 
+      puts "Worker Thread #{Thread.current.object_id} is starting"
+      puts "Loading City: #{line_num += 1} #{line}"
+      loadCity(line)
+     end
 end
+
+group.run
+
+
+
+group.tasks.each do |t|
+  if t.failed? == true
+     puts "Task failed"
+     puts   t.exception  # The exception if one exists.
+  end
+end
+
+puts "Script finished."

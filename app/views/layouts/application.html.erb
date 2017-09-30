@@ -5,11 +5,26 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+
+   <% if content_for? :for_head %>
+    <%= yield :for_head %>
+  <% end %>
+
+
 </head>
 <body>
 <ul class="nav nav-tabs">
   <li role="presentation" class="active"><a href="/references">Home</a></li>
   <li role="presentation"><a href="/histories">Reports</a></li>
+  <li role="presentation"><a href="/mails_using_gmail_api">Mails sending through Gmail Api</a></li>
+  <li role="presentation"><a href="/groups">Facebook Sharing</a></li>
+  <li role="presentation"><a href="/mails">Mails sending though broswer </a></li>
+  <li role="presentation"><a href="/logs">Logs for Gmail</a></li>
+
+  
+
+
+
 </ul>
 <%= yield %>
 
