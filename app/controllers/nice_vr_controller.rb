@@ -6,7 +6,7 @@ def creating_nice_user
 
 
    user = NiceUser.find(:email => params[:email])
-   
+
  
  	if user.nil?
      
@@ -16,7 +16,12 @@ def creating_nice_user
        nice_user.phone   = params[:phone]
        nice_user.token   = params[:token]
        nice_user.platform = params[:platform]  
-       nice_user.friends_list   << params 
+
+       if !params[:friends_list].nil?
+
+       nice_user.friends_list   << params[:friends_list] 
+       
+       end 
        nice_user.token   = params[:token]
        nice_user.url = params[:url]  
        nice_user.uid = params[:uid]  
