@@ -93,6 +93,7 @@ gem 'watir'
 
 gem 'watir-scroll'
 
+gem 'headless'
 
 gem 'ruby-progressbar'
 

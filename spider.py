@@ -1,8 +1,11 @@
+#To run scrapy runspider spider.py > urls.out
+
 from scrapy.selector import HtmlXPathSelector
 from scrapy.spider import BaseSpider
 from scrapy.http import Request
+import re
 
-DOMAIN = 'lifeinthefastlane.com'
+DOMAIN = 'privatehealth.co.uk'
 URL = 'http://%s' % DOMAIN
 
 class MySpider(BaseSpider):
@@ -17,7 +20,10 @@ class MySpider(BaseSpider):
         for url in hxs.select('//a/@href').extract():
             if not ( url.startswith('http://') or url.startswith('https://') ):
                 url= URL + url 
-            if url.startswith('lifeinthefastlane.com/ecg-library/100-ecgs/'):
-                print url + "&Quizzed"
-            print url
+
+            matchObj = re.match( r'(.*)doctors-and-health-professionals(.*)', url, re.M|re.I)
+
+            if matchObj:
+               print url
+            #print url
             yield Request(url, callback=self.parse)

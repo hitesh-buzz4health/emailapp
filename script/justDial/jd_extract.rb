@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+
 require'workers'
 
 def ScrollBrowser(browser,num,delay)
@@ -146,6 +147,7 @@ def loadCity(city_link)
             #profile = Selenium::WebDriver::Chrome::Profile.new
             #profile.proxy = Selenium::WebDriver::Proxy.new :http => '46.101.129.227:3128', :ssl => '46.101.129.227:8080'
 
+
             browser = Watir::Browser.new :firefox
             browser.goto city_link
             
@@ -182,6 +184,7 @@ def loadCity(city_link)
                 pre_city = source_link.split("/")[source_link.split("/").size-3]
                 pre_spec = source_link.split("/")[source_link.split("/").size-2]
                 file_name =  pre_city + "_" + pre_spec
+
                 if File.exists?('./data/just_dial/just_dial_data/'+file_name + ".csv") == true
                     next
                 end
@@ -189,6 +192,7 @@ def loadCity(city_link)
                 items = browser.links(:text, "Edit").count/2
 
                 log << "Doctors Fetched from : " + pre_city + " With Specialization " + pre_spec + "=" + items.to_s
+
                 log << "\n"
                 puts  "Doctors Fetched from : " + pre_city + " With Specialization " + pre_spec + "=" + items.to_s
                 puts "\n"
@@ -226,6 +230,7 @@ def loadCity(city_link)
     rescue Exception => ex
                  puts "An error of type #{ex.class} happened, message is #{ex.message}"
     end
+
 end
 
 line_num = 0
