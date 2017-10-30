@@ -26,9 +26,27 @@ def creating_nice_user
        nice_user.save!	 
 
 
+
+             respond_to do |format|
+
+              format.json{
+               render :json =>{
+                              :success => true,
+                              :info => "New user has been created.",
+                              :user => nice_user.as_json } }
+              end 
+
 	else 
+          
 
+				 respond_to do |format|
 
+				              format.json{
+				               render :json =>{
+				                              :success => true,
+				                              :info => "the user already exists",
+				                              :user => nice_user.as_json } }
+				 end 
 	end 
 
 end 
