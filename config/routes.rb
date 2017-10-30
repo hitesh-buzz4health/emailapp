@@ -28,6 +28,8 @@ Emailapp::Application.routes.draw do
   post "/send_email" => 'emails#send_email'
   post "/feeds" => 'feeds#create'
 
+  post "/creating_nice_user" => 'nice_vr#creating_nice_user'
+
   get "/filter_by_reference_specialization" => 'references#filter_by_reference_specialization'
 
   get "/filter_by_type" => 'references#filter_by_reference_type'
