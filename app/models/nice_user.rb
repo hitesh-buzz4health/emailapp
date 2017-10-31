@@ -20,20 +20,13 @@ class NiceUser
 
  def as_json(options={}){
      
-     :_id => id.to_s,
+     :id => id.to_s,
      :name => name ,
      :email => email,
      :phone => phone,
-     :fb_token => fb_token,
-     :platform => platform,
-     :friends_list => friends_list,
-     :token => token,
      :url  => url ,
      :uid => uid,
-     :avatar => avatar,
-     :version_code => version_code,
-     :sdk_version => sdk_version,
-     :device_id => device_id	
+     :avatar => avatar
 
 
   }
