@@ -5,14 +5,14 @@ class  NiceVrController < ApplicationController
 def creating_nice_user
 
 
-   user = NiceUser.find(:email => params[:email])
+   user = NiceUser.where(:email => params[:email].downcase).first
 
  
  	if user.nil?
      
        nice_user = NiceUser.new
        nice_user.name   = params[:name]
-       nice_user.email   = params[:email]
+       nice_user.email   = params[:email].downcase
        nice_user.phone   = params[:phone]
        nice_user.fb_token   = params[:token]
        nice_user.platform = params[:platform]  
