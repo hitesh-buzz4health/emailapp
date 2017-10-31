@@ -14,7 +14,7 @@ def creating_nice_user
        nice_user.name   = params[:name]
        nice_user.email   = params[:email]
        nice_user.phone   = params[:phone]
-       nice_user.token   = params[:token]
+       nice_user.fb_token   = params[:token]
        nice_user.platform = params[:platform]  
 
        if !params[:friends_list].nil?
@@ -22,7 +22,6 @@ def creating_nice_user
        nice_user.friends_list   <<  params[:friends_list] 
 
        end 
-       nice_user.token   = params[:token]
        nice_user.url = params[:url]  
        nice_user.uid = params[:uid]  
        nice_user.avatar  = params[:avatar] 

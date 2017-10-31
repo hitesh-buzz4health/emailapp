@@ -8,7 +8,7 @@ class NiceUser
   field :token ,                    :type => String 
   field :platform,                  :type => String 
   field :friends_list ,             :type => Array 
-  field :token ,                    :type => String 
+  field :fb_token ,                 :type => String 
   field :url  ,                     :type => String 
   field :uid,                       :type => String 
   field :avatar,                    :type => String 
@@ -24,7 +24,7 @@ class NiceUser
      :name => name ,
      :email => email,
      :phone => phone,
-     :token => token,
+     :fb_token => fb_token,
      :platform => platform,
      :friends_list => friends_list,
      :token => token,
