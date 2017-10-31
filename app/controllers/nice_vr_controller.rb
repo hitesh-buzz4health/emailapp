@@ -50,7 +50,7 @@ def creating_nice_user
 				               render :json =>{
 				                              :success => true,
 				                              :info => "the user already exists",
-				                              :user => nice_user.as_json } }
+				                              :user => user.as_json } }
 				 end 
 	end 
 
