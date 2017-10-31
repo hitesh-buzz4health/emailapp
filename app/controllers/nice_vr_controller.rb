@@ -19,7 +19,7 @@ def creating_nice_user
 
        if !params[:friends_list].nil?
 
-       nice_user.friends_list   <<  params[:friends_list] 
+       nice_user.friends_list   =  params[:friends_list] 
 
        end 
        nice_user.url = params[:url]  
