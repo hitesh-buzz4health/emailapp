@@ -21,4 +21,8 @@ class ReferenceJustdial
   fulltext_search_in :Name, :index_name => 'name_index'
   fulltext_search_in :ReferenceName,  :index_name => 'ref_name_index'
 
+  def name
+    return self.Name
+  end
+
 end
