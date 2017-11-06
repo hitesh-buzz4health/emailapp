@@ -52,7 +52,7 @@ class GmailMailerController < ApplicationController
     current_user = nil
     user_name = nil 
     @num_of_rows = @output_sheet.num_rows + 1
-    if  !params[:type_country].nil?  && !params[:type_database].nil? && params[:type_database].eql? "buzz4health"
+    if  !params[:type_country].nil?  && !params[:type_database].nil? && params[:type_database].eql?("buzz4health")
       users_details = get_model_by_country params[:type_country]
     else
       users_details   = get_model params[:type_database]  
