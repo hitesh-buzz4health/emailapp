@@ -25,4 +25,8 @@ class ReferenceJustdial
     return self.Name
   end
 
+  def emails
+    return self.Emails
+  end
+
 end
