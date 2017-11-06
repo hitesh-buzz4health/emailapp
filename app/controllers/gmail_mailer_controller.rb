@@ -397,9 +397,14 @@ class GmailMailerController < ApplicationController
                     return recievers_detials
 
                 elsif model_type.eql? "justdial" 
-
+                     
                      recievers_detials["name"] = user.Name
-                     recievers_detials ["emails"]  = user.Emails[0]
+
+                     emails = user.Emails
+                     if emails.kind_of?(String)
+                      emails = emails.split(",").map{|e| e.strip}
+                     end
+                     recievers_detials ["emails"]  = emails[0]
                      return recievers_detials
 
                 elsif (model_type.eql? "iactauser") || (model_type.eql? "scauser")
