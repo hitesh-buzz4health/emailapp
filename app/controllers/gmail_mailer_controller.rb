@@ -52,10 +52,10 @@ class GmailMailerController < ApplicationController
     current_user = nil
     user_name = nil 
     @num_of_rows = @output_sheet.num_rows + 1
-    if  params[:type_country].eql?"India"   
-      users_details   = get_model params[:type_database]  
-    else
+    if  !params[:type_country].nil?  
       users_details = get_model_by_country params[:type_country]
+    else
+      users_details   = get_model params[:type_database]  
     end 
     if !params[:resume].nil?
       last_user =  @output_sheet[2 ,  8].to_i
@@ -397,9 +397,14 @@ class GmailMailerController < ApplicationController
                     return recievers_detials
 
                 elsif model_type.eql? "justdial" 
-
+                     
                      recievers_detials["name"] = user.Name
-                     recievers_detials ["emails"]  = user.Emails[0]
+
+                     emails = user.Emails
+                     if emails.kind_of?(String)
+                      emails = emails.split(",").map{|e| e.strip}
+                     end
+                     recievers_detials ["emails"]  = emails[0]
                      return recievers_detials
 
                 elsif (model_type.eql? "iactauser") || (model_type.eql? "scauser")
