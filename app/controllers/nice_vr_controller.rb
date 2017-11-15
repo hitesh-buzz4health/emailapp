@@ -69,7 +69,14 @@ def reaching_out
 user  = NiceUser.find(params[:id])
 send_results(user.name , user.email, params[:message])
 
+        respond_to do |format|
 
+                      format.json{
+                       render :json =>{
+                                      :success => true,
+                                      :info => "reach out is success"
+                                       } }
+         end 
 
 end 
 
@@ -78,8 +85,8 @@ def send_results(name , mail_id , message )
         gmail = Gmail.connect("drdeepikakapoor@buzz4health.com","whitebutter")
   email = gmail.compose do
           to  ['sheerin@buzz4health.com' ,'hitesh.ganjoo@buzz4health.com' , 'sonal@buzz4health.com'  ]
-          from  "Mails Campaign finished "
-            subject  "Mail campaign for the day."
+          from  "Reach out Nice Vr  "
+            subject  "Reach Out Nice Vr"
             body    "Stats for the mail Campaign send on #{Time.now} 
                      \n 0. name of the user: #{name}
                      \n 1. Mail id of the user : #{mail_id} .
