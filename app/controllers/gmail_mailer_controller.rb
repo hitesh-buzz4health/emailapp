@@ -102,7 +102,7 @@ class GmailMailerController < ApplicationController
                 post_logs "Gmes:Logging out the current user."     
                 gmail = nil 
                 post_logs "Gmes : Putting thread to sleep."
-                sleep 3
+                sleep 5
 
               end
               #getting a new user 
@@ -375,20 +375,20 @@ class GmailMailerController < ApplicationController
   
   def get_model_by_country country 
           if country.eql?"US"
-              return Buzz4healthUser.where(:country_code.in => ["US", "us", "Us"])
+              return Buzz4healthUser.where(:country_code.in => ["US", "us", "Us"], :specializations.in => params[:specialization])
           elsif country.eql?"UK"
-              return   Buzz4healthUser.where(:country_code.in => ["UK", "uk", "Uk"])
+              return   Buzz4healthUser.where(:country_code.in => ["UK", "uk", "Uk"] ,:specializations.in => params[:specialization])
           elsif country.eql?"CA"
-          	 return Buzz4healthUser.where(:country_code.in => ["CA", "ca", "Ca"])
+          	 return Buzz4healthUser.where(:country_code.in => ["CA", "ca", "Ca"] ,:specializations.in => params[:specialization])
           else 
-              return Buzz4healthUser.where(:country_code.in => ["IN", "in", "In"])
+              return Buzz4healthUser.where(:country_code.in => ["IN", "in", "In"],:specializations.in => params[:specialization])
 
           end 
 
 
   end 
 
-    def get_recievers_details model_type , user 
+  def get_recievers_details model_type , user 
     	          recievers_detials = Hash.new
     	        if model_type.eql? "buzz4health"
 
@@ -419,7 +419,7 @@ class GmailMailerController < ApplicationController
 			    end 
 
 
-    end 
+  end 
 
 
 	def change_user email_sheets 
