@@ -140,7 +140,7 @@ class GmailMailerController < ApplicationController
             total_no_of_mails_for_this_user = total_no_of_mails_for_this_user  + 1
             total_no_of_mails_for_the_day = total_no_of_mails_for_the_day + 1 
 
-            post_output user_name , reciever_name , reciever_email , subject , total_no_of_mails_for_the_day
+            # post_output user_name , reciever_name , reciever_email , subject , total_no_of_mails_for_the_day
 
             post_logs "Gmes : no of mails sent for this user is " +total_no_of_mails_for_this_user.to_s
             post_logs "Gmes : no of total  mails for this session " +total_no_of_mails_for_the_day.to_s    
@@ -254,7 +254,7 @@ class GmailMailerController < ApplicationController
                 post_logs "Gmes:Logging out the current user."     
                 gmail = nil 
                 post_logs "Gmes : Putting thread to sleep."
-                sleep 3
+                sleep 5
 
               end
               #getting a new user 
