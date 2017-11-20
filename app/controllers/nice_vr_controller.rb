@@ -38,6 +38,7 @@ def creating_nice_user
                render :json =>{
                               :success => true,
                               :info => "New user has been created.",
+                              :speaker_note => "rEwhKziHpuM",
                               :user => nice_user.as_json } }
               end 
 
@@ -50,6 +51,8 @@ def creating_nice_user
 				               render :json =>{
 				                              :success => true,
 				                              :info => "the user already exists",
+                                      :speaker_note => "rEwhKziHpuM",
+
 				                              :user => user.as_json } }
 				 end 
 	end 
