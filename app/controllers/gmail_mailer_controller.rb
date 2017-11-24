@@ -369,7 +369,10 @@ class GmailMailerController < ApplicationController
                 elsif model_type.eql? "iactauser" 
                   return  IactaUser.all
                 elsif model_type.eql? "scauser" 
-                  return  ScaUser.all  
+                  return  ScaUser.all 
+                elsif model_type.eql? "perfusionistuser" 
+                  return  PerfusionistUser.all   
+
 			    else 
                    return  Reference.all
 			    end 
@@ -410,7 +413,7 @@ class GmailMailerController < ApplicationController
                      recievers_detials ["emails"]  = emails[0]
                      return recievers_detials
 
-                elsif (model_type.eql? "iactauser") || (model_type.eql? "scauser")
+                elsif (model_type.eql? "iactauser") || (model_type.eql? "scauser") || (model_type.eql? "perfusionistuser") 
 
                      recievers_detials["name"] = user.name
                      recievers_detials ["emails"]  = user.email
