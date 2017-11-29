@@ -36,6 +36,8 @@ Emailapp::Application.routes.draw do
   get "/mails" => 'mails#index'
   get "/mails_using_gmail_api" => 'gmail_mailer#index'
   post "/mails_using_gmail_api/post" => 'gmail_mailer#post' 
+  
+  post "/reaching_out" => 'nice_vr#reaching_out'
 
   get "/logs" => "gmail_mailer#log"
   resources :references 
