@@ -349,10 +349,10 @@ class GmailMailerController < ApplicationController
 				             \n 4.Total no error's occured: #{total_no_of_errors} .
 				             \n Regards : \n email app. "
 										     
+           add_file "log/google_script.log"
 
 			                                     
 		    end
-
           #delivering email
         email.deliver!
 
