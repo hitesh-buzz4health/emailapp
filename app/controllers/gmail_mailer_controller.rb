@@ -186,8 +186,9 @@ class GmailMailerController < ApplicationController
   def send_email_to_bajaj(params, gmail)
     sender_email = "drdeepikakapoor@buzz4health.com"
     pass  = "whitebutter"
-    reciever_email = "tushar.gupta@buzz4health.com"
+    reciever_email = "akshay.bhujbal@bajajfinserv.in"
     reciever_name = "Akshay Bhujbal"
+    subject = params[:subject_email].clone    
     gmail = Gmail.connect(sender_email,pass)
 
     
