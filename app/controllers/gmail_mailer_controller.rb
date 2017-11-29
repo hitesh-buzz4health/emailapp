@@ -67,6 +67,12 @@ class GmailMailerController < ApplicationController
       end
     end
 
+    #for including baja in all emailers if applicable
+    if !params[:bajaj_notif].nil?
+      send_email_to_bajaj(params , gmail)
+    end
+
+
     current_page = 0
  
     item_count = users_details.count
@@ -176,6 +182,39 @@ class GmailMailerController < ApplicationController
     email_sheets.save; nil
     gmail.logout
   end 
+
+  def send_email_to_bajaj(params, gmail)
+    sender_email = "drdeepikakapoor@buzz4health.com"
+    pass  = "whitebutter"
+    reciever_email = "tushar.gupta@buzz4health.com"
+    reciever_name = "Akshay Bhujbal"
+    gmail = Gmail.connect(sender_email,pass)
+
+    
+    post_logs "Gmes : current user for this instance." + sender_email.to_s
+    template = params[:html_body].clone
+    template.gsub! '*|FNAME|*' , reciever_name
+    template.gsub! '*|Email|*' ,  reciever_email
+    template.gsub! '*|Title|*' ,   params[:main_title] 
+    template.gsub! '*|Description|*' ,  params[:main_description]  
+    template.gsub! '*|ActionUrl|*' ,   params[:Action_url]   
+    template.gsub! '*|ImageUrl|*' , params[:Image_url]   
+    # removing new line if any exists.
+    template.delete!("\n")
+    post_logs "Gmes : mail is being sent to " + reciever_name + " " +reciever_email 
+    email = gmail.compose do
+      to reciever_email
+      from  "Sheerin from Buzz4health"
+      subject  subject.to_s
+        #for adding html template 
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body  template.to_s
+      end                              
+    end
+    #delivering email
+    email.deliver!
+  end
   
 	# def sending_mails params
  #    #creating logger file in ruby
