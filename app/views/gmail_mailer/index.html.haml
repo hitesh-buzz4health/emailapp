@@ -11,7 +11,7 @@
   .col-xs-12{:style => "float:right;width:25%;"}
     %input.form-control{:name => "password", :placeholder => "Enter Password..", :type => "password"}/
   %select#lstFruits{:multiple => "multiple", :name => "specialization[]"}
-    - specializations.all.each do |spe|
+    - specializations.each do |spe|
       %option{:value => "#{spe}"}
         = spe
   
@@ -23,6 +23,7 @@
       %option{:value => "iactauser"} IACTA User
       %option{:value => "scauser"} SCA User
       %option{:value => "perfusionistuser"} Perfusionist User
+      %option{:value => "iadvl"} IADVL User
   .col-xs-12{:style => "width:auto; float:right; margin:0 12px 12px 0;"}
     %select{:name => "type_country"}
       %option{:value => "India"}India

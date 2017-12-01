@@ -400,23 +400,21 @@ class GmailMailerController < ApplicationController
     
 
     def get_model model_type
-    	        
-                if model_type.eql? "buzz4health"
-                  return  Buzz4healthUser.where(:specializations.in => params[:specialization])
-                elsif model_type.eql? "justdial" 
-
-			            return  ReferenceJustdial.where(:ReferenceName=>"Just Dial")
-                elsif model_type.eql? "iactauser" 
-                  return  IactaUser.all
-                elsif model_type.eql? "scauser" 
-                  return  ScaUser.all 
-                elsif model_type.eql? "perfusionistuser" 
-                  return  PerfusionistUser.all   
-
-			    else 
-                   return  Reference.all
-			    end 
-
+      if model_type.eql? "buzz4health"
+        return  Buzz4healthUser.where(:specializations.in => params[:specialization])
+      elsif model_type.eql? "justdial" 
+        return  ReferenceJustdial.where(:ReferenceName=>"Just Dial")
+      elsif model_type.eql? "iactauser" 
+        return  IactaUser.all
+      elsif model_type.eql? "scauser" 
+        return  ScaUser.all 
+      elsif model_type.eql? "perfusionistuser" 
+        return  PerfusionistUser.all
+      elsif model_type.eql? "iadvl" 
+        return  IadvlUser.all
+      else 
+        return  Reference.all
+      end
     end 
   
   def get_model_by_country country 
