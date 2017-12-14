@@ -100,6 +100,31 @@ def send_results(name , mail_id , message )
   end 
     
 
+def testing 
+
+       send_result
+        respond_to do |format|
+
+                      format.json{
+                       render :json =>{
+                                      :success => true,
+                                      :info => "reach out is success"
+                                       } }
+         end 
+
+end 
+
+def send_result
+  gmail = Gmail.connect("drdeepikakapoor@buzz4health.com","whitebutter")
+  email = gmail.compose do
+          to  [ 'sonal@buzz4health.com'  ]
+          from  "Reach out Nice Vr "
+            subject  "Reach Out Nice Vr"
+            body    "Stats for the mail Campaign send on #{Time.now} "
+                                                               
+        end
+        email.deliver!
+  end 
 
 end 
 
