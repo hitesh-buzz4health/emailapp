@@ -38,8 +38,13 @@ Emailapp::Application.routes.draw do
   post "/mails_using_gmail_api/post" => 'gmail_mailer#post' 
   
   post "/reaching_out" => 'nice_vr#reaching_out'
+  get "/test" => 'nice_vr#testing'
+
 
   get "/logs" => "gmail_mailer#log"
+
+        # match '/tracker', :to =>"third_party_visitors#track_visitor"
+
   resources :references 
    root 'gmail_mailer#index'
 
