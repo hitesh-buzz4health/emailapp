@@ -150,7 +150,7 @@ class GmailMailerController < ApplicationController
               template.gsub! '*|ImageUrl|*' , @Image_url
               # removing new line if any exists.
               template.delete!("\n")
-              post_logs "Gmes : mail is being sent to " + reciever_name + " " +reciever_email 
+              post_logs "Gmes : mail is being sent to " + reciever_name + " " +reciever_email + " : " + @type_database
               email = gmail.compose do
                 to reciever_email
                 from  user_name
@@ -193,7 +193,7 @@ class GmailMailerController < ApplicationController
         current_page+=1
       end
     else
-      post_logs "No Sufficient email accounts avalable for this campaign"
+      post_logs "No Sufficient email accounts available for this campaign"
     end
      #saving sheet in case when emails are less
     post_logs "Gmes : finishing up the script" 
