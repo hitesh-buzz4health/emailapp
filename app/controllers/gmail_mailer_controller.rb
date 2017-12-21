@@ -406,7 +406,7 @@ class GmailMailerController < ApplicationController
 	def send_results(total_no_of_mails_for_the_day , total_no_of_mails_selected  , time , mails_subject  ,  total_no_of_errors)
         gmail = Gmail.connect("drdeepikakapoor@buzz4health.com","whitebutter")
         	email = gmail.compose do
-					to  ['sheerin@buzz4health.com' ,'hitesh.ganjoo@buzz4health.com' , 'sonal@buzz4health.com' , 'tushar.gupta@buzz4health.com' , 'lokesh.vaishnavi@buzz4health.com' ]
+					to  ['sheerin@buzz4health.com' ,'hitesh.ganjoo@buzz4health.com' , 'sonal@buzz4health.com' , 'tushar.gupta@buzz4health.com' , 'neha@buzz4health.com' ]
 					from  "Mails Campaign finished "
 				    subject  "Mail campaign for the day."
 				    body    "Stats for the mail Campaign send on #{Time.now} 
