@@ -26,6 +26,14 @@ class GmailMailerController < ApplicationController
     #creating logger file in ruby
     @logger = Logger.new('./log/google_script.log', 5, 1024000)
     @logger.level = Logger::INFO
+    @type_database = params[:type_database]
+    @type_country = params[:type_country]
+    @html_body    = params[:html_body].clone
+    @main_title   = params[:main_title]
+    @main_description = params[:main_description]
+    @Action_url       = params[:Action_url]
+    @Image_url        = params[:Image_url]
+    @subject_email    = params[:subject_email].clone
 
     credentials = Google::Auth::UserRefreshCredentials.new(
        client_id: "156404022533-kv0hntucj24bnhbderr5kstc195ihu2e.apps.googleusercontent.com",
@@ -52,10 +60,10 @@ class GmailMailerController < ApplicationController
     current_user = nil
     user_name = nil 
     @num_of_rows = @output_sheet.num_rows + 1
-    if  !params[:type_country].nil?  && !params[:type_database].nil? && params[:type_database].eql?("buzz4health")
-      users_details = get_model_by_country params[:type_country]
+    if  !@type_country.nil?  && !@type_database.nil? && @type_database.eql?("buzz4health")
+      users_details = get_model_by_country @type_country
     else
-      users_details   = get_model params[:type_database]  
+      users_details   = get_model @type_database
     end 
     if !params[:resume].nil?
       last_user =  @output_sheet[2 ,  8].to_i
@@ -88,14 +96,14 @@ class GmailMailerController < ApplicationController
           if !user.nil?
             begin
               post_logs "Sending email to user : " + user.name.to_s
-              reciever_detials = get_recievers_details params[:type_database]  , user 
+              reciever_detials = get_recievers_details @type_database  , user 
               reciever_name = reciever_detials["name"]
               reciever_email = reciever_detials["emails"].to_s                 
               if reciever_email.length == 0
                 post_logs "Gmes: Receiver email length is 0" 
                 next
               end    
-              subject = params[:subject_email].clone             
+              subject = @subject_email            
               if subject.include? "*|FNAME|*"
 
               subject.gsub! '*|FNAME|*' , reciever_name                          
@@ -133,13 +141,13 @@ class GmailMailerController < ApplicationController
                 
                 post_logs "Gmes : current user for this instance." + current_user.to_s
               end 
-              template = params[:html_body].clone
+              template = @html_body
               template.gsub! '*|FNAME|*' , reciever_name.to_s 
               template.gsub! '*|Email|*' ,  reciever_email.to_s
-              template.gsub! '*|Title|*' ,   params[:main_title] 
-              template.gsub! '*|Description|*' ,  params[:main_description]  
-              template.gsub! '*|ActionUrl|*' ,   params[:Action_url]   
-              template.gsub! '*|ImageUrl|*' , params[:Image_url]   
+              template.gsub! '*|Title|*' ,   @main_title
+              template.gsub! '*|Description|*' ,  @main_description
+              template.gsub! '*|ActionUrl|*' ,   @Action_url
+              template.gsub! '*|ImageUrl|*' , @Image_url
               # removing new line if any exists.
               template.delete!("\n")
               post_logs "Gmes : mail is being sent to " + reciever_name + " " +reciever_email 
@@ -189,7 +197,7 @@ class GmailMailerController < ApplicationController
     end
      #saving sheet in case when emails are less
     post_logs "Gmes : finishing up the script" 
-    send_results(total_no_of_mails_for_the_day , users_details.count.to_s , start_time , params[:subject_email] ,  total_no_of_errors.to_s)
+    send_results(total_no_of_mails_for_the_day , users_details.count.to_s , start_time , @subject_email ,  total_no_of_errors.to_s)
     post_logs "Gmes : result has been sent."
     @output_sheet.save; nil
     #email_sheets[current_user_row,5] = "used"
@@ -206,18 +214,18 @@ class GmailMailerController < ApplicationController
     pass  = "whitebutter"
     reciever_email = "akshay.bhujbal@bajajfinserv.in"
     reciever_name = "Akshay Bhujbal"
-    subject = params[:subject_email].clone    
+    subject = @subject_email 
     gmail = Gmail.connect(sender_email,pass)
 
     
     post_logs "Gmes : current user for this instance." + sender_email.to_s
-    template = params[:html_body].clone
+    template = @html_body
     template.gsub! '*|FNAME|*' , reciever_name
     template.gsub! '*|Email|*' ,  reciever_email
-    template.gsub! '*|Title|*' ,   params[:main_title] 
-    template.gsub! '*|Description|*' ,  params[:main_description]  
-    template.gsub! '*|ActionUrl|*' ,   params[:Action_url]   
-    template.gsub! '*|ImageUrl|*' , params[:Image_url]   
+    template.gsub! '*|Title|*' ,   @main_title
+    template.gsub! '*|Description|*' ,  @main_description
+    template.gsub! '*|ActionUrl|*' ,   @Action_url
+    template.gsub! '*|ImageUrl|*' , @Image_url
     # removing new line if any exists.
     template.delete!("\n")
     post_logs "Gmes : mail is being sent to " + reciever_name + " " +reciever_email 
