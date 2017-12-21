@@ -88,7 +88,12 @@ class GmailMailerController < ApplicationController
     @gmail_acct_batch = GmailAccount.where(:status => "unused").limit(email_accts_required)
 
     if Array(@gmail_acct_batch).length >= email_accts_required
-      @gmail_acct_batch.update_all(status: "inuse")
+      #Mark accts in use
+      @gmail_acct_batch.each do |acct|
+        acct.status = "inuse"
+        acct.save!
+      end
+      
       current_sender_acct_index = 0
       post_logs "User count: " + item_count.to_s
       while item_count > 0
