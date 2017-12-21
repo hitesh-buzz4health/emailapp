@@ -119,6 +119,7 @@ class GmailMailerController < ApplicationController
                   #email_sheets.save; nil
                   gmail_acct_batch[current_sender_acct_index].total_emails_sent = 1500
                   gmail_acct_batch[current_sender_acct_index].status = 'used'
+                  gmail_acct_batch[current_sender_acct_index].activity_at = Time.now
                   gmail_acct_batch[current_sender_acct_index].save!
                   current_sender_acct_index = current_sender_acct_index + 1
                   @output_sheet.save; nil
@@ -205,6 +206,7 @@ class GmailMailerController < ApplicationController
     #email_sheets.save; nil
     gmail_acct_batch[current_sender_acct_index].total_emails_sent = 1500
     gmail_acct_batch[current_sender_acct_index].status = 'used'
+    gmail_acct_batch[current_sender_acct_index].activity_at = Time.now
     gmail_acct_batch[current_sender_acct_index].save!
     gmail.logout
   end 
