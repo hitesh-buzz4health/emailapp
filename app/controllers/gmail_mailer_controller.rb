@@ -93,7 +93,7 @@ class GmailMailerController < ApplicationController
         acct.status = "inuse"
         acct.save!
       end
-      
+
       current_sender_acct_index = 0
       post_logs "User count: " + item_count.to_s
       while item_count > 0
@@ -122,10 +122,10 @@ class GmailMailerController < ApplicationController
                   #email_sheets[current_user_row,5] = "used"
                   #email_sheets[current_user_row,6] =  total_no_of_mails_for_this_user
                   #email_sheets.save; nil
-                  gmail_acct_batch[current_sender_acct_index].total_emails_sent = 1500
-                  gmail_acct_batch[current_sender_acct_index].status = 'used'
-                  gmail_acct_batch[current_sender_acct_index].activity_at = Time.now
-                  gmail_acct_batch[current_sender_acct_index].save!
+                  @gmail_acct_batch[current_sender_acct_index].total_emails_sent = 1500
+                  @gmail_acct_batch[current_sender_acct_index].status = 'used'
+                  @gmail_acct_batch[current_sender_acct_index].activity_at = Time.now
+                  @gmail_acct_batch[current_sender_acct_index].save!
                   current_sender_acct_index = current_sender_acct_index + 1
                   @output_sheet.save; nil
                   total_no_of_mails_for_this_user = 0
@@ -198,6 +198,10 @@ class GmailMailerController < ApplicationController
         item_count-=900
         current_page+=1
       end
+      @gmail_acct_batch[current_sender_acct_index].total_emails_sent = 1500
+      @gmail_acct_batch[current_sender_acct_index].status = 'used'
+      @gmail_acct_batch[current_sender_acct_index].activity_at = Time.now
+      @gmail_acct_batch[current_sender_acct_index].save!
     else
       post_logs "No Sufficient email accounts available for this campaign"
     end
@@ -209,10 +213,6 @@ class GmailMailerController < ApplicationController
     #email_sheets[current_user_row,5] = "used"
     #email_sheets[current_user_row,6] =  total_no_of_mails_for_this_user
     #email_sheets.save; nil
-    gmail_acct_batch[current_sender_acct_index].total_emails_sent = 1500
-    gmail_acct_batch[current_sender_acct_index].status = 'used'
-    gmail_acct_batch[current_sender_acct_index].activity_at = Time.now
-    gmail_acct_batch[current_sender_acct_index].save!
     gmail.logout
   end 
 
