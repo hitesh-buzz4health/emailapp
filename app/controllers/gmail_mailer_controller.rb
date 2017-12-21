@@ -84,7 +84,7 @@ class GmailMailerController < ApplicationController
     current_page = 0
  
     item_count = users_details.count
-    email_accts_required = item_count/1500 + 1
+    email_accts_required = (item_count/1500 + 1).floor
     @gmail_acct_batch = GmailAccount.where(:status => "unused").limit(email_accts_required)
 
     if Array(@gmail_acct_batch).length >= email_accts_required
@@ -198,7 +198,7 @@ class GmailMailerController < ApplicationController
     end
      #saving sheet in case when emails are less
     post_logs "Gmes : finishing up the script" 
-    send_results(total_no_of_mails_for_the_day , users_details.count.to_s , start_time , @subject_email ,  total_no_of_errors.to_s)
+    send_results(total_no_of_mails_for_the_day , users_details.count.to_s , start_time , @subject_email ,  total_no_of_errors.to_s, @type_database)
     post_logs "Gmes : result has been sent."
     @output_sheet.save; nil
     #email_sheets[current_user_row,5] = "used"
@@ -403,7 +403,7 @@ class GmailMailerController < ApplicationController
  #    gmail.logout
 	# end 
 
-	def send_results(total_no_of_mails_for_the_day , total_no_of_mails_selected  , time , mails_subject  ,  total_no_of_errors)
+	def send_results(total_no_of_mails_for_the_day , total_no_of_mails_selected  , time , mails_subject  ,  total_no_of_errors, db_used)
         gmail = Gmail.connect("drdeepikakapoor@buzz4health.com","whitebutter")
         	email = gmail.compose do
 					to  ['sheerin@buzz4health.com' ,'hitesh.ganjoo@buzz4health.com' , 'sonal@buzz4health.com' , 'tushar.gupta@buzz4health.com' , 'neha@buzz4health.com' ]
@@ -415,6 +415,7 @@ class GmailMailerController < ApplicationController
 				             \n 2.Total no of mails to be send : #{total_no_of_mails_selected} .
 				             \n 3.Total time taken  to send the campaign : #{Time.now - time} secs .
 				             \n 4.Total no error's occured: #{total_no_of_errors} .
+                     \n 5. Database used: #{db_used}.
 				             \n Regards : \n email app. "
 										     
            add_file "log/google_script.log"
