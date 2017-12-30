@@ -238,7 +238,7 @@ class GmailMailerController < ApplicationController
     post_logs "Gmes : mail is being sent to " + reciever_name + " " +reciever_email 
     email = gmail.compose do
       to reciever_email
-      from  "Sheerin from Buzz4health"
+      from  "Dr Deepika Kapoor"
       subject  subject.to_s
         #for adding html template 
       html_part do
@@ -412,8 +412,8 @@ class GmailMailerController < ApplicationController
         gmail = Gmail.connect("drdeepikakapoor@buzz4health.com","whitebutter")
         	email = gmail.compose do
 					to  ['sheerin@buzz4health.com' ,'hitesh.ganjoo@buzz4health.com' , 'sonal@buzz4health.com' , 'tushar.gupta@buzz4health.com' , 'neha@buzz4health.com' ]
-					from  "Mails Campaign finished "
-				    subject  "Mail campaign for the day."
+					from  "Dr Deepika Kapoor"
+				    subject  "Mails Campaign finished : Mail campaign for the day."
 				    body    "Stats for the mail Campaign send on #{Time.now} 
 				             \n 0.Subject for this campaign : #{mails_subject}
 				             \n 1.Total no of mail sent: #{total_no_of_mails_for_the_day} .
