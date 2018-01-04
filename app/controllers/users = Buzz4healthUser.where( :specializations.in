@@ -1,0 +1,7 @@
+users = Buzz4healthUser.where( :specializations.in => "testing")
+users.each do |user|
+
+user.country_code   = "IN"
+user.save!
+
+end 
