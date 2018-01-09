@@ -149,7 +149,7 @@ class GmailMailerController < ApplicationController
                 post_logs "Gmes : current user for this instance." + current_user.to_s
               end 
               pixel_url = creating_pixel reciever_email.to_s
-              template = @html_body
+              template = @html_body.clone
               template.gsub! '*|FNAME|*' , reciever_name.to_s 
               template.gsub! '*|Email|*' ,  reciever_email.to_s
               template.gsub! '*|Title|*' ,   @main_title
