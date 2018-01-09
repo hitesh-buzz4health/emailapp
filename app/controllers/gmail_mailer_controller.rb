@@ -34,7 +34,6 @@ class GmailMailerController < ApplicationController
     @Action_url       = params[:Action_url]
     @Image_url        = params[:Image_url]
     @subject_email    = params[:subject_email].clone
-    @campaign_id = creating_campaign params[:subject_email].clone
 
     credentials = Google::Auth::UserRefreshCredentials.new(
        client_id: "156404022533-kv0hntucj24bnhbderr5kstc195ihu2e.apps.googleusercontent.com",
@@ -85,6 +84,8 @@ class GmailMailerController < ApplicationController
     current_page = 0
  
     item_count = users_details.count
+    @campaign_id = creating_campaign params[:subject_email].clone , item_count
+
     email_accts_required = (item_count/1500 + 1).floor
     @gmail_acct_batch = GmailAccount.where(:status => "unused").limit(email_accts_required)
 
@@ -566,10 +567,11 @@ class GmailMailerController < ApplicationController
   end 
 
 
-  def creating_campaign subject  
+  def creating_campaign subject  , emails
      campaign = Campaign.new 
      campaign.name = subject 
      campaign.time = Time.now
+     campaign.total_no_of_mails = emails
      campaign.save!
      return campaign.id.to_s
   end 
