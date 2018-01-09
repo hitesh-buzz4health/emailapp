@@ -34,6 +34,7 @@ class GmailMailerController < ApplicationController
     @Action_url       = params[:Action_url]
     @Image_url        = params[:Image_url]
     @subject_email    = params[:subject_email].clone
+    @campaign_id = creating_campaign params[:subject_email].clone
 
     credentials = Google::Auth::UserRefreshCredentials.new(
        client_id: "156404022533-kv0hntucj24bnhbderr5kstc195ihu2e.apps.googleusercontent.com",
@@ -147,6 +148,7 @@ class GmailMailerController < ApplicationController
                 
                 post_logs "Gmes : current user for this instance." + current_user.to_s
               end 
+              pixel_url = creating_pixel reciever_email.to_s
               template = @html_body
               template.gsub! '*|FNAME|*' , reciever_name.to_s 
               template.gsub! '*|Email|*' ,  reciever_email.to_s
@@ -154,6 +156,8 @@ class GmailMailerController < ApplicationController
               template.gsub! '*|Description|*' ,  @main_description
               template.gsub! '*|ActionUrl|*' ,   @Action_url
               template.gsub! '*|ImageUrl|*' , @Image_url
+              template.gsub! '*|PixelImage|*' , pixel_url
+
               # removing new line if any exists.
               template.delete!("\n")
               post_logs "Gmes : mail is being sent to " + reciever_name + " " +reciever_email + " : " + @type_database
@@ -544,7 +548,6 @@ class GmailMailerController < ApplicationController
 		@num_of_rows = @num_of_rows + 1 
 
 
-
 	end 
 
 
@@ -556,10 +559,24 @@ class GmailMailerController < ApplicationController
 	end 
    
 
+  def creating_pixel email  
+     pixel_image = "http://aardvark.emailapp.c66.me/tracker?vid=#{email}&cid=#{@campaign_id}"
+     return pixel_image
+  end 
 
-def log
-  @log = `tail -n 40 log/google_script.log`
-end 
+
+  def creating_campaign subject  
+     campaign = Campaign.new 
+     campaign.name = subject 
+     campaign.time = Time.now
+     campaign.save!
+     return campaign.id.to_s
+  end 
+
+  def log
+
+    @log = `tail -n 40 log/google_script.log`
+  end 
   	
 
 

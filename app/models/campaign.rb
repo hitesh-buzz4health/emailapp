@@ -5,9 +5,9 @@ class Campaign
 
 
   field :name, 			 :type => String 
-  belongs_to :customer,  :class_name => 'Customer'
+  field :time,           :type =>  String
+
   has_many :third_party_visitors, :class_name =>'ThirdPartyVisitor' 
 
-  has_and_belongs_to_many :participants, :class_name =>'User'
  
  end 

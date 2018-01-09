@@ -35,14 +35,13 @@ def track_visitor
   	  @visitor.count = @visitor.count + 1
       if !params[:cc].nil? && @visitor.country_code.nil?
         @visitor.country_code = params[:cc]
-      end  
+      end 
+      @visitor.save! 
     else	
   	  @visitor = ThirdPartyVisitor.create(:visitor_id => params[:vid],:campaign_id => params[:cid],:country_code => params[:cc])
+      @visitor.save!
   	end
-  else
-  	@visitor = ThirdPartyVisitor.create(:campaign_id => params[:cid],:country_code => params[:cc])
   end
-  @visitor.save!
   # Now send a blank image back.
   send_blank_gif
 end

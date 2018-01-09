@@ -43,7 +43,7 @@ Emailapp::Application.routes.draw do
 
   get "/logs" => "gmail_mailer#log"
 
-        # match '/tracker', :to =>"third_party_visitors#track_visitor"
+  get '/tracker', :to =>"third_party_visitors#track_visitor"
 
   resources :references 
    root 'gmail_mailer#index'
