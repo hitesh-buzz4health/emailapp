@@ -561,6 +561,7 @@ class GmailMailerController < ApplicationController
 
   def creating_pixel email  
      pixel_image = "http://aardvark.emailapp.c66.me/tracker?vid=#{email}&cid=#{@campaign_id}"
+     post_logs pixel_image
      return pixel_image
   end 
 
