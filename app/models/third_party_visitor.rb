@@ -9,6 +9,6 @@ class ThirdPartyVisitor
   field :page_name ,	    :type => String
   field :country_code ,	    :type => String
 
-  belongs_to :campaign,  :class_name => 'Campaign'
+  has_many  :campaign,  :class_name => 'Campaign'
 
  end 
